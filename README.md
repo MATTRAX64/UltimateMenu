@@ -15,7 +15,7 @@
 
 </div>
 
-[image of the menu](image.png)
+![image of the menu](image.png)
 
 > Ce projet n'est pas affilié à Another Axiom ni à Gorilla Tag.
 
