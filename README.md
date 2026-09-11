@@ -17,7 +17,7 @@
 
 > Ce projet n'est pas affilié à Another Axiom ni à Gorilla Tag.
 
-Contacter moi pour des idées Updates / Optimisations
+### Contacter moi pour des idées Updates / Optimisations
 ---
 
 ## 📋 Table des matières
