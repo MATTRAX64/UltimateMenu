@@ -22,7 +22,7 @@
 ## 📋 Table des matières
 
 - [Interface](#-interface)
-- [Nouveautés V1.4](#-nouveautés-v14)
+- [Nouveautés V1.5](#-nouveautés-v14)
 - [Liste des mods](#-liste-des-mods)
 - [Mods annexes](#-mods-annexes)
 - [Traductions](#-traductions--translations)
@@ -39,7 +39,7 @@ Le mod menu est organisé en 3 pages :
 | 🧩 **Mods** | Liste de tous les mods, active/désactive chacun individuellement |
 | ⚙️ **Page de mod** | Accès aux paramètres spécifiques du mod sélectionné |
 
-## 🆕 Nouveautés V1.4
+## 🆕 Nouveautés V1.5
 
 - Nouvelle interface style **"Round"**
 - Simplification des mods
@@ -85,7 +85,7 @@ Le mod menu est organisé en 3 pages :
 - 🧩 **Mods** — Toggle each mod individually
 - ⚙️ **Mod page** — Settings specific to the selected mod
 
-### What's new in V1.4
+### What's new in V1.5
 - New **"Round"** style interface
 - Simplified mods
 - Import all files directly into the mod folder
@@ -123,7 +123,7 @@ Le mod menu est organisé en 3 pages :
 - 🧩 **Mods** — Activa/desactiva cada mod individualmente
 - ⚙️ **Página del mod** — Ajustes específicos del mod seleccionado
 
-### Novedades V1.4
+### Novedades V1.5
 - Nueva interfaz estilo **"Round"**
 - Simplificación de los mods
 - Importa archivos directamente en la carpeta del mod
@@ -161,7 +161,7 @@ Le mod menu est organisé en 3 pages :
 - 🧩 **Mods** — Jeden Mod einzeln aktivieren/deaktivieren
 - ⚙️ **Mod-Seite** — Spezifische Einstellungen des gewählten Mods
 
-### Neuerungen V1.4
+### Neuerungen V1.5
 - Neue **"Round"**-Oberfläche
 - Vereinfachung der Mods
 - Dateien direkt in den Mod-Ordner importieren
@@ -199,7 +199,7 @@ Le mod menu est organisé en 3 pages :
 - 🧩 **Моды** — Включение/выключение по отдельности
 - ⚙️ **Страница мода** — Настройки выбранного мода
 
-### Новое в V1.4
+### Новое в V1.5
 - Новый интерфейс **"Round"**
 - Упрощение модов
 - Импорт файлов прямо в папку мода
@@ -237,7 +237,7 @@ Le mod menu est organisé en 3 pages :
 - 🧩 **Mods** — 個別に有効/無効化
 - ⚙️ **Mod ページ** — 選択した mod 専用の設定
 
-### V1.4 の新機能
+### V1.5 の新機能
 - 新しい **"Round"** スタイル
 - mod の簡略化
 - ファイルを mod フォルダに直接インポート
