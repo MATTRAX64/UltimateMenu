@@ -6,7 +6,9 @@
 
 ## Français
 
-**Base légale : GNU GPL-3.0** (texte complet : https://www.gnu.org/licenses/gpl-3.0.fr.html), avec les règles supplémentaires suivantes.
+**Base légale : inspirée de la GNU GPL-3.0** (texte complet : https://www.gnu.org/licenses/gpl-3.0.fr.html), avec les règles supplémentaires suivantes.
+
+⚠️ Ceci n'est **pas** une GPL-3.0 standard : les règles ci-dessous ajoutent des restrictions (notamment sur la revente et les forks complets) qui s'écartent des libertés habituelles de la GPL. **En cas de conflit entre le texte de la GPL-3.0 et les règles ci-dessous, ces dernières prévalent.**
 
 **Disclaimer :** ce projet n'est pas affilié à Another Axiom ni à Gorilla Tag.
 
@@ -16,6 +18,7 @@
 3. Revente / usage commercial (du mod, d'un extrait, ou d'un fork) : **autorisation écrite préalable requise**.
 4. Se faire passer pour moi ou prétendre vendre "l'original" : **interdit, sans exception**.
 5. Toute version modifiée distribuée publiquement doit préciser : *"Version modifiée non-officielle, non affiliée à l'auteur original."*
+6. **Another Axiom**, en tant que propriétaire de Gorilla Tag, conserve un droit total d'utilisation, de modification, de distribution ou toute autre exploitation de ce logiciel en lien avec Gorilla Tag, sans avoir besoin de demander d'autorisation préalable.
 
 Pour toute demande d'autorisation : contact dans le README du dépôt.
 
@@ -23,7 +26,9 @@ Pour toute demande d'autorisation : contact dans le README du dépôt.
 
 ## English
 
-**Legal basis: GNU GPL-3.0** (full text: https://www.gnu.org/licenses/gpl-3.0.en.html), with the following additional rules.
+**Legal basis: inspired by GNU GPL-3.0** (full text: https://www.gnu.org/licenses/gpl-3.0.en.html), with the following additional rules.
+
+⚠️ This is **not** a standard GPL-3.0 license: the rules below add restrictions (notably on resale and full forks) that depart from the usual GPL freedoms. **In case of conflict between the GPL-3.0 text and the rules below, the rules below take precedence.**
 
 **Disclaimer:** this project is not affiliated with Another Axiom or Gorilla Tag.
 
@@ -33,6 +38,7 @@ Pour toute demande d'autorisation : contact dans le README du dépôt.
 3. Resale / commercial use (of the mod, a snippet, or a fork): **prior written permission required**.
 4. Impersonating me or claiming to sell "the original": **forbidden, no exceptions**.
 5. Any modified version distributed publicly must state: *"Unofficial modified version, not affiliated with the original author."*
+6. **Another Axiom**, as the owner of Gorilla Tag, retains full rights to use, modify, distribute, or otherwise deal with this software in connection with Gorilla Tag, without needing prior authorization.
 
 For permission requests: see contact in the repository's README.
 
@@ -40,7 +46,9 @@ For permission requests: see contact in the repository's README.
 
 ## Español
 
-**Base legal: GNU GPL-3.0** (texto completo: https://www.gnu.org/licenses/gpl-3.0.html), con las siguientes reglas adicionales.
+**Base legal: inspirada en GNU GPL-3.0** (texto completo: https://www.gnu.org/licenses/gpl-3.0.html), con las siguientes reglas adicionales.
+
+⚠️ Esto **no** es una GPL-3.0 estándar: las reglas siguientes añaden restricciones (en particular sobre la reventa y los forks completos) que se apartan de las libertades habituales de la GPL. **En caso de conflicto entre el texto de la GPL-3.0 y las reglas siguientes, estas últimas prevalecen.**
 
 **Aviso:** este proyecto no está afiliado a Another Axiom ni a Gorilla Tag.
 
@@ -50,6 +58,7 @@ For permission requests: see contact in the repository's README.
 3. Reventa / uso comercial (del mod, un fragmento, o un fork): **requiere permiso escrito previo**.
 4. Hacerse pasar por mí o afirmar vender "el original": **prohibido, sin excepciones**.
 5. Toda versión modificada distribuida públicamente debe indicar: *"Versión modificada no oficial, no afiliada al autor original."*
+6. **Another Axiom**, como propietario de Gorilla Tag, conserva el derecho total de usar, modificar, distribuir o explotar de cualquier otra forma este software en relación con Gorilla Tag, sin necesidad de autorización previa.
 
 Para solicitar permiso: contacto en el README del repositorio.
 
@@ -57,7 +66,9 @@ Para solicitar permiso: contacto en el README del repositorio.
 
 ## Deutsch
 
-**Rechtsgrundlage: GNU GPL-3.0** (vollständiger Text: https://www.gnu.org/licenses/gpl-3.0.de.html), mit folgenden zusätzlichen Regeln.
+**Rechtsgrundlage: inspiriert von GNU GPL-3.0** (vollständiger Text: https://www.gnu.org/licenses/gpl-3.0.de.html), mit folgenden zusätzlichen Regeln.
+
+⚠️ Dies ist **keine** standardmäßige GPL-3.0-Lizenz: Die untenstehenden Regeln fügen Einschränkungen hinzu (insbesondere bezüglich Weiterverkauf und vollständiger Forks), die von den üblichen GPL-Freiheiten abweichen. **Bei Widersprüchen zwischen dem GPL-3.0-Text und den untenstehenden Regeln haben Letztere Vorrang.**
 
 **Haftungsausschluss:** Dieses Projekt steht in keiner Verbindung zu Another Axiom oder Gorilla Tag.
 
@@ -67,6 +78,7 @@ Para solicitar permiso: contacto en el README del repositorio.
 3. Weiterverkauf / kommerzielle Nutzung (des Mods, eines Ausschnitts oder eines Forks): **vorherige schriftliche Genehmigung erforderlich**.
 4. Sich als mich ausgeben oder behaupten, "das Original" zu verkaufen: **verboten, ohne Ausnahme**.
 5. Jede öffentlich verbreitete modifizierte Version muss angeben: *"Inoffizielle modifizierte Version, nicht mit dem Originalautor verbunden."*
+6. **Another Axiom**, als Eigentümer von Gorilla Tag, behält das uneingeschränkte Recht, diese Software im Zusammenhang mit Gorilla Tag zu nutzen, zu verändern, zu verbreiten oder anderweitig zu verwerten, ohne vorherige Genehmigung einholen zu müssen.
 
 Für Genehmigungsanfragen: Kontakt siehe README des Repositorys.
 
@@ -74,7 +86,9 @@ Für Genehmigungsanfragen: Kontakt siehe README des Repositorys.
 
 ## Русский
 
-**Правовая основа: GNU GPL-3.0** (полный текст: https://www.gnu.org/licenses/gpl-3.0.html), с дополнительными правилами ниже.
+**Правовая основа: основана на GNU GPL-3.0** (полный текст: https://www.gnu.org/licenses/gpl-3.0.html), с дополнительными правилами ниже.
+
+⚠️ Это **не** стандартная лицензия GPL-3.0: правила ниже добавляют ограничения (в частности, на перепродажу и полные форки), которые отступают от обычных свобод GPL. **В случае противоречия между текстом GPL-3.0 и правилами ниже, правила ниже имеют приоритет.**
 
 **Отказ от ответственности:** этот проект не связан с Another Axiom или Gorilla Tag.
 
@@ -84,6 +98,7 @@ Für Genehmigungsanfragen: Kontakt siehe README des Repositorys.
 3. Перепродажа / коммерческое использование (мода, фрагмента или форка): **требуется предварительное письменное разрешение**.
 4. Выдавать себя за меня или заявлять о продаже "оригинала": **запрещено без исключений**.
 5. Любая публично распространяемая изменённая версия должна указывать: *"Неофициальная изменённая версия, не связанная с оригинальным автором."*
+6. **Another Axiom**, как владелец Gorilla Tag, сохраняет полное право использовать, изменять, распространять или иным образом распоряжаться этим программным обеспечением в связи с Gorilla Tag без необходимости получения предварительного разрешения.
 
 По вопросам разрешения: контакты в README репозитория.
 
@@ -91,7 +106,9 @@ Für Genehmigungsanfragen: Kontakt siehe README des Repositorys.
 
 ## 日本語
 
-**法的根拠：GNU GPL-3.0**（全文：https://www.gnu.org/licenses/gpl-3.0.html）に加え、以下の追加ルールを適用します。
+**法的根拠：GNU GPL-3.0 を参考にしたもの**（全文：https://www.gnu.org/licenses/gpl-3.0.html）に加え、以下の追加ルールを適用します。
+
+⚠️ これは標準の GPL-3.0 ではありません。以下のルールは、再販や完全なフォークに関する制限など、通常の GPL の自由から逸脱する制限を追加しています。**GPL-3.0 の本文と以下のルールが矛盾する場合、以下のルールが優先されます。**
 
 **免責事項：** 本プロジェクトは Another Axiom および Gorilla Tag とは一切関係ありません。
 
@@ -101,6 +118,7 @@ Für Genehmigungsanfragen: Kontakt siehe README des Repositorys.
 3. 転売・商用利用（mod 全体、一部、またはフォーク）には**事前の書面による許可が必要**です。
 4. 作者本人になりすます、または「オリジナル」として販売することは**例外なく禁止**です。
 5. 公開配布される改変版には、必ず次のように明記してください：*「非公式の改変版であり、オリジナル作者とは関係ありません。」*
+6. **Another Axiom** は Gorilla Tag の所有者として、本ソフトウェアを Gorilla Tag に関連して使用、改変、配布、またはその他の方法で扱う完全な権利を、事前の許可なく保持します。
 
 許可の申請については、リポジトリの README に記載の連絡先へ。
 
