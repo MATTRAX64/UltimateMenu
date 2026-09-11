@@ -9,7 +9,7 @@
 [![Release](https://img.shields.io/github/v/release/MATTRAX64/UltimateMenu?style=flat-square&color=6c5ce7)](https://github.com/MATTRAX64/UltimateMenu/releases)
 [![Downloads](https://img.shields.io/github/downloads/MATTRAX64/UltimateMenu/total?style=flat-square&color=6c5ce7)](https://github.com/MATTRAX64/UltimateMenu/releases)
 [![Stars](https://img.shields.io/github/stars/MATTRAX64/UltimateMenu?style=flat-square&color=6c5ce7)](https://github.com/MATTRAX64/UltimateMenu/stargazers)
-[![License](https://img.shields.io/badge/price-free-brightgreen?style=flat-square)](#)
+[![License](https://img.shields.io/badge/license-custom-6c5ce7?style=flat-square)](LICENSE.md)
 
 [Download](https://github.com/MATTRAX64/UltimateMenu/releases) · [Report Bug](https://github.com/MATTRAX64/UltimateMenu/issues) · [Request Feature](https://github.com/MATTRAX64/UltimateMenu/issues)
 
