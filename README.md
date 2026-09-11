@@ -20,7 +20,7 @@
 
 ### - Contacter moi pour des idées Updates / Optimisations ❇️
 
-> téléchargeable sur Github, nexusmods, gamebanana, Thunderstore, Excalibur Launcher, Patreon
+> téléchargeable sur Github✅, nexusmods✅, gamebanana ❎, Thunderstore✅, Excalibur Launcher✅, Patreon✅
 ---
 
 ## 📋 Table des matières
