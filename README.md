@@ -19,6 +19,8 @@
 > Ce projet n'est pas affilié à Another Axiom ni à Gorilla Tag.
 
 ### - Contacter moi pour des idées Updates / Optimisations ❇️
+
+> téléchargeable sur Github, nexusmods, gamebanana, Thunderstore, Excalibur Launcher, Patreon
 ---
 
 ## 📋 Table des matières
