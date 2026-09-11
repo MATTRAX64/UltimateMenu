@@ -13,9 +13,8 @@
 
 [Download](https://github.com/MATTRAX64/UltimateMenu/releases) · [Report Bug](https://github.com/MATTRAX64/UltimateMenu/issues) · [Request Feature](https://github.com/MATTRAX64/UltimateMenu/issues)
 
-</div>
-
 ![image of the menu](image.png)
+</div>
 
 > Ce projet n'est pas affilié à Another Axiom ni à Gorilla Tag.
 
