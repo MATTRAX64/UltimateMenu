@@ -18,8 +18,7 @@
 
 > Ce projet n'est pas affilié à Another Axiom ni à Gorilla Tag.
 
-### - Contacter moi pour des idées Updates / Optimisations ❇️
-[Links](https://mattraxer64xp.page.gd)
+### - [Contacter moi](https://mattraxer64xp.page.gd) pour des idées Updates / Optimisations / problème ❇️
 
 > téléchargeable sur Github✅, nexusmods✅, gamebanana ❎, Thunderstore✅, Excalibur Launcher✅, Patreon✅
 ---
