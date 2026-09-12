@@ -1,5 +1,7 @@
 # License / Licence
 
+### - 12/09/2026
+
 [Français](#français) | [English](#english) | [Español](#español) | [Deutsch](#deutsch) | [Русский](#русский) | [日本語](#日本語)
 
 ---
