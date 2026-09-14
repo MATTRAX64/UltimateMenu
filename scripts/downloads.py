@@ -1,3 +1,4 @@
+```python
 import json
 import os
 import requests
@@ -50,7 +51,9 @@ def gamebanana_downloads():
     params = {
         "itemtype": "Mod",
         "itemid": GAMEBANANA_ID,
-        "fields": "name,Downloads"
+        "fields": "downloads",
+        "return_keys": "true",
+        "format": "json",
     }
 
     response = requests.get(
@@ -62,19 +65,27 @@ def gamebanana_downloads():
 
     data = response.json()
 
-    # GameBanana peut retourner les données sous différentes formes.
-    if isinstance(data, dict):
-        for key in ("Downloads", "_nDownloadCount", "download_count"):
-            if key in data:
-                return int(data[key])
+    print(f"GameBanana API: {data}")
 
+    # Avec return_keys=true, on attend :
+    # {"downloads": 5}
+    if isinstance(data, dict):
+        value = data.get("downloads")
+
+        if value is not None:
+            return int(value)
+
+    # Sécurité si l'API retourne une liste
     if isinstance(data, list):
-        for value in data:
-            if isinstance(value, (int, float)):
+        if len(data) > 0 and isinstance(data[0], dict):
+            value = data[0].get("downloads")
+
+            if value is not None:
                 return int(value)
 
-    print("GameBanana: compteur non trouvé.")
-    return 0
+    raise RuntimeError(
+        f"Impossible de trouver le compteur GameBanana dans : {data}"
+    )
 
 
 def nexus_downloads():
@@ -150,3 +161,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+```
