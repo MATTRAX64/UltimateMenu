@@ -7,7 +7,6 @@
 **A mod menu for Gorilla Tag**
 
 [![Release](https://img.shields.io/github/v/release/MATTRAX64/UltimateMenu?style=flat-square&color=6c5ce7)](https://github.com/MATTRAX64/UltimateMenu/releases)
-[![Total Downloads](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/MATTRAX64/UltimateMenu/main/downloads-badge.json&style=flat-square)](#-downloads)
 [![Stars](https://img.shields.io/github/stars/MATTRAX64/UltimateMenu?style=flat-square&color=6c5ce7)](https://github.com/MATTRAX64/UltimateMenu/stargazers)
 [![License](https://img.shields.io/badge/license-custom-6c5ce7?style=flat-square)](LICENSE.md)
 
@@ -20,9 +19,10 @@
 
 ### - [Contacter moi](https://mattraxer64xp.page.gd) pour des idées Updates / Optimisations / problèmes ❇️
 
+[📊 Voir les téléchargements](https://github.com/MATTRAX64/UltimateMenu/blob/main/scripts/downloads.json)
 > téléchargeable sur Github✅, nexusmods✅, gamebanana ✅, Thunderstore✅, Excalibur Launcher✅, Patreon✅
-
 ### 250 Téléchargement en moins de 4 jour !
+
 ---
 
 ## 📋 Table des matières
