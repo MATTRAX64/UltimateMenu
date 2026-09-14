@@ -21,6 +21,8 @@
 ### - [Contacter moi](https://mattraxer64xp.page.gd) pour des idées Updates / Optimisations / problèmes ❇️
 
 > téléchargeable sur Github✅, nexusmods✅, gamebanana ❎, Thunderstore✅, Excalibur Launcher✅, Patreon✅
+
+### 250 Téléchargement en moins de 4 jour !
 ---
 
 ## 📋 Table des matières
