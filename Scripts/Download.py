@@ -3,12 +3,7 @@ import os
 import requests
 
 GITHUB_REPO = "MATTRAX64/UltimateMenu"
-
-THUNDERSTORE_URL = (
-    "https://thunderstore.io/c/gorilla-tag/api/v1/package/"
-    "MATTRAX/UltimateMenu/"
-)
-
+THUNDERSTORE_URL = "https://thunderstore.io/c/gorilla-tag/api/v1/package/MATTRAX/UltimateMenu/"
 GAMEBANANA_ID = "716098"
 NEXUS_MOD_ID = "1330"
 
@@ -33,7 +28,6 @@ def thunderstore_downloads():
 
     data = response.json()
 
-    # Thunderstore package metadata contains version metrics.
     return sum(
         version.get("downloads", 0)
         for version in data.get("versions", [])
@@ -41,31 +35,51 @@ def thunderstore_downloads():
 
 
 def gamebanana_downloads():
-    # GameBanana API endpoint for a mod.
     url = f"https://gamebanana.com/apiv11/Mod/{GAMEBANANA_ID}"
     response = requests.get(url, timeout=30)
     response.raise_for_status()
 
     data = response.json()
 
-    return int(data.get("_sProfileUrl", 0) or 0)
+    # GameBanana peut changer la structure de son API.
+    # On cherche les champs de téléchargement connus.
+    possible_fields = [
+        "_nDownloadCount",
+        "_nDownloads",
+        "download_count",
+        "downloads",
+    ]
+
+    for field in possible_fields:
+        value = data.get(field)
+        if isinstance(value, (int, float)):
+            return int(value)
+
+    print("GameBanana: compteur introuvable dans la réponse API.")
+    return 0
 
 
 def nexus_downloads():
     api_key = os.environ.get("NEXUS_API_KEY")
 
     if not api_key:
-        print("NEXUS_API_KEY missing")
-        return 0
+        raise RuntimeError("NEXUS_API_KEY est manquant.")
 
-    url = f"https://api.nexusmods.com/v1/games/gorillatag/mods/{NEXUS_MOD_ID}.json"
+    url = (
+        f"https://api.nexusmods.com/v1/games/"
+        f"gorillatag/mods/{NEXUS_MOD_ID}.json"
+    )
 
     headers = {
         "apikey": api_key,
         "accept": "application/json",
     }
 
-    response = requests.get(url, headers=headers, timeout=30)
+    response = requests.get(
+        url,
+        headers=headers,
+        timeout=30
+    )
     response.raise_for_status()
 
     data = response.json()
@@ -85,6 +99,7 @@ data = {
     "label": "Total Downloads",
     "message": f"{total:,}",
     "color": "6c5ce7",
+
     "github": github,
     "thunderstore": thunderstore,
     "gamebanana": gamebanana,
@@ -95,4 +110,12 @@ data = {
 with open("downloads-badge.json", "w", encoding="utf-8") as file:
     json.dump(data, file, indent=2)
 
-print(json.dumps(data, indent=2))
+print()
+print("========== DOWNLOADS ==========")
+print(f"GitHub:       {github:,}")
+print(f"Thunderstore: {thunderstore:,}")
+print(f"GameBanana:   {gamebanana:,}")
+print(f"Nexus Mods:   {nexus:,}")
+print("--------------------------------")
+print(f"TOTAL:        {total:,}")
+print("================================")
