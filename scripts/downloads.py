@@ -1,35 +1,31 @@
 import json
 import os
+from pathlib import Path
+
 import requests
 
+
 GITHUB_REPO = "MATTRAX64/UltimateMenu"
-
-THUNDERSTORE_URL = (
-    "https://thunderstore.io/api/v1/package-metrics/"
-    "MATTRAX/UltimateMenu/"
-)
-
+THUNDERSTORE_URL = "https://thunderstore.io/api/v1/package-metrics/MATTRAX/UltimateMenu/"
 GAMEBANANA_ID = "716098"
 NEXUS_MOD_ID = "1330"
 
+OUTPUT_FILE = Path(__file__).parent / "downloads.json"
+
 
 def github_downloads():
-    url = f"https://api.github.com/repos/{GITHUB_REPO}/releases"
-
     response = requests.get(
-        url,
+        f"https://api.github.com/repos/{GITHUB_REPO}/releases",
         headers={"Accept": "application/vnd.github+json"},
         timeout=30
     )
     response.raise_for_status()
 
-    total = 0
-
-    for release in response.json():
-        for asset in release.get("assets", []):
-            total += asset.get("download_count", 0)
-
-    return total
+    return sum(
+        asset.get("download_count", 0)
+        for release in response.json()
+        for asset in release.get("assets", [])
+    )
 
 
 def thunderstore_downloads():
@@ -39,84 +35,54 @@ def thunderstore_downloads():
     )
     response.raise_for_status()
 
-    data = response.json()
-
-    return int(data.get("downloads", 0))
+    return int(response.json().get("downloads", 0))
 
 
 def gamebanana_downloads():
-    url = "https://api.gamebanana.com/Core/Item/Data"
-
-    params = {
-        "itemtype": "Mod",
-        "itemid": GAMEBANANA_ID,
-        "fields": "downloads",
-        "return_keys": "true",
-        "format": "json",
-    }
-
     response = requests.get(
-        url,
-        params=params,
+        "https://api.gamebanana.com/Core/Item/Data",
+        params={
+            "itemtype": "Mod",
+            "itemid": GAMEBANANA_ID,
+            "fields": "downloads",
+            "return_keys": "true",
+            "format": "json"
+        },
         timeout=30
     )
     response.raise_for_status()
 
     data = response.json()
 
-    print(f"GameBanana API: {data}")
+    if isinstance(data, dict) and data.get("downloads") is not None:
+        return int(data["downloads"])
 
-    # Avec return_keys=true, on attend :
-    # {"downloads": 5}
-    if isinstance(data, dict):
-        value = data.get("downloads")
+    if isinstance(data, list) and data:
+        if isinstance(data[0], dict) and data[0].get("downloads") is not None:
+            return int(data[0]["downloads"])
 
-        if value is not None:
-            return int(value)
-
-    # Sécurité si l'API retourne une liste
-    if isinstance(data, list):
-        if len(data) > 0 and isinstance(data[0], dict):
-            value = data[0].get("downloads")
-
-            if value is not None:
-                return int(value)
-
-    raise RuntimeError(
-        f"Impossible de trouver le compteur GameBanana dans : {data}"
-    )
+    raise RuntimeError("Impossible de récupérer les téléchargements GameBanana.")
 
 
 def nexus_downloads():
     api_key = os.environ.get("NEXUS_API_KEY")
 
     if not api_key:
-        raise RuntimeError(
-            "NEXUS_API_KEY est manquant dans GitHub Secrets."
-        )
-
-    url = (
-        "https://api.nexusmods.com/v1/games/"
-        f"gorillatag/mods/{NEXUS_MOD_ID}.json"
-    )
-
-    headers = {
-        "apikey": api_key,
-        "accept": "application/json",
-        "Application-Name": "UltimateMenu-DownloadCounter",
-        "Application-Version": "1.0",
-    }
+        raise RuntimeError("NEXUS_API_KEY est manquant dans GitHub Secrets.")
 
     response = requests.get(
-        url,
-        headers=headers,
+        f"https://api.nexusmods.com/v1/games/gorillatag/mods/{NEXUS_MOD_ID}.json",
+        headers={
+            "apikey": api_key,
+            "accept": "application/json",
+            "Application-Name": "UltimateMenu-DownloadCounter",
+            "Application-Version": "1.0"
+        },
         timeout=30
     )
     response.raise_for_status()
 
-    data = response.json()
-
-    return int(data.get("mod_downloads", 0))
+    return int(response.json().get("mod_downloads", 0))
 
 
 def main():
@@ -125,37 +91,18 @@ def main():
     gamebanana = gamebanana_downloads()
     nexus = nexus_downloads()
 
-    total = github + thunderstore + gamebanana + nexus
-
-    data = {
-        "schemaVersion": 1,
-        "label": "Total Downloads",
-        "message": f"{total:,}",
-        "color": "6c5ce7",
-
+    downloads = {
         "github": github,
         "thunderstore": thunderstore,
         "gamebanana": gamebanana,
         "nexus": nexus,
-        "total": total,
+        "total": github + thunderstore + gamebanana + nexus
     }
 
-    with open(
-        "downloads-badge.json",
-        "w",
+    OUTPUT_FILE.write_text(
+        json.dumps(downloads, indent=2),
         encoding="utf-8"
-    ) as file:
-        json.dump(data, file, indent=2)
-
-    print()
-    print("========== DOWNLOADS ==========")
-    print(f"GitHub:       {github:,}")
-    print(f"Thunderstore: {thunderstore:,}")
-    print(f"GameBanana:   {gamebanana:,}")
-    print(f"Nexus Mods:   {nexus:,}")
-    print("--------------------------------")
-    print(f"TOTAL:        {total:,}")
-    print("================================")
+    )
 
 
 if __name__ == "__main__":
