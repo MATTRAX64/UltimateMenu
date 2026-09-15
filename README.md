@@ -19,7 +19,7 @@
 
 ### - [Contacter moi](https://mattraxer64xp.page.gd) pour des idées Updates / Optimisations / problèmes ❇️
 
-[📊 Voir les téléchargements](https://github.com/MATTRAX64/UltimateMenu/blob/main/scripts/downloads.json)
+[📊 Voir les téléchargements 7/7j](https://github.com/MATTRAX64/UltimateMenu/blob/main/scripts/downloads.json)
 > téléchargeable sur Github✅, nexusmods✅, gamebanana ✅, Thunderstore✅, Excalibur Launcher✅, Patreon✅
 ### 250 Téléchargement en moins de 4 jour !
 
