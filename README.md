@@ -4,7 +4,8 @@
 
 # UltimateMenu v1.6.0
 
-**A mod menu for Gorilla Tag**
+**A mod menu for Gorilla Tag Creator**
+**6 languages Fr En Es De Ru Ja**
 
 [![Release](https://img.shields.io/github/v/release/MATTRAX64/UltimateMenu?style=flat-square\&color=6c5ce7)](https://github.com/MATTRAX64/UltimateMenu/releases)
 [![Stars](https://img.shields.io/github/stars/MATTRAX64/UltimateMenu?style=flat-square\&color=6c5ce7)](https://github.com/MATTRAX64/UltimateMenu/stargazers)
