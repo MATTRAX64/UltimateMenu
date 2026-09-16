@@ -21,7 +21,7 @@
 
 [📊 Voir les téléchargements 7/7j](https://github.com/MATTRAX64/UltimateMenu/blob/main/scripts/downloads.json)
 > téléchargeable sur Github✅, nexusmods✅, gamebanana ✅, Thunderstore✅, Excalibur Launcher✅, Patreon✅
-### 350 Téléchargement en moins de 1 semaine !
+### 400 Téléchargement en moins de 1 semaine !
 
 ---
 
