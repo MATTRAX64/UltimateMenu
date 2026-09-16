@@ -2,77 +2,107 @@
 
 <img src="https://img.shields.io/badge/-%3C%2F%3E%20Script.cs-6c5ce7?style=for-the-badge&logoColor=white" alt="Script.cs" />
 
-# UltimateMenu
+# UltimateMenu v1.6.0
 
 **A mod menu for Gorilla Tag**
 
-[![Release](https://img.shields.io/github/v/release/MATTRAX64/UltimateMenu?style=flat-square&color=6c5ce7)](https://github.com/MATTRAX64/UltimateMenu/releases)
-[![Stars](https://img.shields.io/github/stars/MATTRAX64/UltimateMenu?style=flat-square&color=6c5ce7)](https://github.com/MATTRAX64/UltimateMenu/stargazers)
+[![Release](https://img.shields.io/github/v/release/MATTRAX64/UltimateMenu?style=flat-square\&color=6c5ce7)](https://github.com/MATTRAX64/UltimateMenu/releases)
+[![Stars](https://img.shields.io/github/stars/MATTRAX64/UltimateMenu?style=flat-square\&color=6c5ce7)](https://github.com/MATTRAX64/UltimateMenu/stargazers)
 [![License](https://img.shields.io/badge/license-custom-6c5ce7?style=flat-square)](LICENSE.md)
 
 [Download](https://github.com/MATTRAX64/UltimateMenu/releases) · [Report Bug](https://github.com/MATTRAX64/UltimateMenu/issues) · [Request Feature](https://github.com/MATTRAX64/UltimateMenu/issues)
 
 ![image of the menu](image.png)
+
 </div>
 
 > Ce projet n'est pas affilié à Another Axiom ni à Gorilla Tag.
 
-### - [Contacter moi](https://mattraxer64xp.page.gd) pour des idées Updates / Optimisations / problèmes ❇️
+### ❇️ [Contactez-moi](https://mattraxer64xp.page.gd) pour signaler un problème ou proposer une amélioration
 
-[📊 Voir les téléchargements 7/7j](https://github.com/MATTRAX64/UltimateMenu/blob/main/scripts/downloads.json)
-> téléchargeable sur Github✅, nexusmods✅, gamebanana ✅, Thunderstore✅, Excalibur Launcher✅, Patreon✅
-### 400 Téléchargement en moins de 1 semaine !
+[📊 Voir les téléchargements sur les 7 derniers jours](https://github.com/MATTRAX64/UltimateMenu/blob/main/scripts/downloads.json)
+
+> Disponible sur GitHub ✅ · Nexus Mods ✅ · GameBanana ✅ · Thunderstore ✅ · Excalibur Launcher ✅ · Patreon ✅
 
 ---
 
 ## 📋 Table des matières
 
-- [Interface](#-interface)
-- [Nouveautés V1.5](#-nouveautés-v15)
-- [Liste des mods](#-liste-des-mods)
-- [Mods annexes](#-mods-annexes)
-- [🌐 Other languages](#-other-languages)
+* [Interface](#-interface)
+* [Nouveautés V1.6](#-nouveautés-v16)
+* [Les mods](#-les-mods)
+* [Other languages](#-other-languages)
 
 ---
 
 ## 🖥 Interface
 
+L'interface d'UltimateMenu a été retravaillée pour rendre son utilisation **encore plus simple, rapide et intuitive**.
+
+L'interface en jeu (**GorillaInterface**) a également été améliorée afin de reprendre le même style et la même logique que le menu principal.
+
+L'objectif est d'avoir une expérience cohérente et simple, que ce soit dans le menu ou directement en jeu.
+
 Le mod menu est organisé en 3 pages :
 
-| Page | Description |
-|:--|:--|
-| 🏠 **Accueil** | Personnalisation de l'interface et réglages généraux |
-| 🧩 **Mods** | Liste de tous les mods, active/désactive chacun individuellement |
-| ⚙️ **Page de mod** | Accès aux paramètres spécifiques du mod sélectionné |
+| Page               | Description                                          |
+| :----------------- | :--------------------------------------------------- |
+| 🏠 **Accueil**     | Personnalisation de l'interface et réglages généraux |
+| 🧩 **Mods**        | Accès et gestion des différents mods                 |
+| ⚙️ **Page de mod** | Accès aux paramètres spécifiques du mod sélectionné  |
 
-## 🆕 Nouveautés V1.5
+---
 
-- Nouvelle interface style **"Round"**
-- Simplification des mods
-- Import de tous les fichiers directement dans le dossier du mod
-- Ajout de sons dans l'interface
+## 🆕 Nouveautés V1.6
 
-## 🧩 Liste des mods
+Cette version est principalement consacrée à la **finalisation, l'optimisation et l'amélioration générale d'UltimateMenu**.
 
-- 🎥 **GorillaCamera** — Contrôleur de caméra pour animations en boucle, durée personnalisable, modes Linéaire / Bézier
-- 💬 **GorillaDiscord** — Affiche ton activité Discord
-- 😮 **GorillaFaces** — Anime la bouche en fonction de la parole, image par image
-- 🪞 **GorillaMiror** — Améliore la qualité du miroir dans City
-- 🎬 **GorillaMocaps** — Enregistre les mouvements en jeu pour Blender (caméra incluse, compatible Blender 4/5)
-- 🏷️ **GorillaNames** — Attribue un pseudo selon le skin, mise à jour au rejoin
-- 🚪 **GorillaRooms** — Rejoins/favorise tes rooms, sélection aléatoire
-- ✨ **GorillaShaders** — Shader visuel simple
-- 📦 **GorillaSpawners** — Fait apparaître des objets 3D, visible en local uniquement
-- 📡 **GorillaStreams** — Affiche code/joueurs pour le stream, exportable en texte
-- 🕺 **GorillaTrackings** — Body tracking avancé (vitesse, style, tracker réel)
-- 🔊 **GorillaVoices** — Chat vocal privé avec tes amis
-- 🌧️ **GorillaWeather** — Change la météo
+### 🎨 Interface
 
-## 🔧 Mods annexes
+* Refonte et amélioration de l'interface
+* Navigation simplifiée pour une utilisation plus intuitive
+* Amélioration de l'interface directement en jeu
+* Harmonisation de **GorillaInterface** avec le design du menu principal
+* Expérience plus cohérente entre le menu et l'interface in-game
 
-- **GorillaVoices Patch**
-- **GorillaInterface** — gère les mods en jeu
-- **GorillaNameTags** — affiche le pseudo et la plateforme des joueurs
+### 🛠️ Corrections
+
+* Nouvelle vérification de l'ensemble du projet
+* Correction des problèmes et bugs rencontrés pendant les tests
+* Nettoyage général du projet
+* Amélioration de plusieurs parties du code
+
+### ⚡ Optimisation
+
+* Optimisation de la quasi-totalité des scripts
+* Réduction et simplification du code lorsque cela était possible
+* Compression et nettoyage de nombreux scripts
+* Suppression de code inutile ou redondant
+* Amélioration générale des performances et de la stabilité
+
+---
+
+## 🧩 Les mods
+
+UltimateMenu regroupe **14 mods** conçus principalement pour aider à la **création de contenu sur Gorilla Tag**.
+
+Ils proposent différents outils pour faciliter et améliorer :
+
+**🎬 les animations · 🎥 les vidéos · 📡 les streams · 🎭 la création de contenu · ⚙️ et bien plus encore**
+
+L'objectif est de réunir plusieurs outils pratiques dans un seul menu, avec une interface simple et accessible directement en jeu.
+
+---
+
+## 🏁 Dernière release prévue
+
+La **v1.6.0** représente actuellement la dernière release majeure prévue pour UltimateMenu.
+
+Le projet a été revérifié, corrigé et optimisé autant que possible. Il reste sûrement encore des améliorations possibles, mais l'objectif principal du projet est maintenant atteint.
+
+Cela ne signifie pas qu'UltimateMenu est définitivement abandonné : si un problème important apparaît ou si une mise à jour devient réellement nécessaire, une nouvelle version pourra être publiée.
+
+Pour le moment, **aucune nouvelle release n'est prévue après la v1.6.0**.
 
 ---
 
@@ -82,13 +112,17 @@ Le mod menu est organisé en 3 pages :
 <summary><b>🇬🇧 English</b></summary>
 <br>
 
-**Interface:** 🏠 Home (customization & settings) · 🧩 Mods (toggle individually) · ⚙️ Mod page (specific settings)
+UltimateMenu's interface has been redesigned and improved to make it **simpler, faster and more intuitive to use**.
 
-**What's new in V1.5:** New "Round" style interface · Simplified mods · Import files directly into the mod folder · Added sounds
+The in-game interface has also been improved to match the style and logic of the main menu.
 
-**Mod list:** same as above — GorillaCamera, GorillaDiscord, GorillaFaces, GorillaMiror, GorillaMocaps, GorillaNames, GorillaRooms, GorillaShaders, GorillaSpawners, GorillaStreams, GorillaTrackings, GorillaVoices, GorillaWeather (see French section above for full descriptions — mod names and behavior are identical across languages)
+UltimateMenu includes **14 mods** designed mainly to help with **animations, videos, streaming, content creation and more** on Gorilla Tag.
 
-**Additional mods:** GorillaVoices Patch · GorillaInterface · GorillaNameTags
+Most scripts have been reviewed, cleaned up, simplified and optimized. Issues found during testing have also been fixed.
+
+**V1.6.0 is currently planned to be the final major release of UltimateMenu.**
+
+If an important issue appears or an update becomes genuinely necessary, another release may still be published.
 
 </details>
 
@@ -96,13 +130,13 @@ Le mod menu est organisé en 3 pages :
 <summary><b>🇪🇸 Español</b></summary>
 <br>
 
-**Interfaz:** 🏠 Inicio (personalización y ajustes) · 🧩 Mods (activar/desactivar) · ⚙️ Página del mod (ajustes específicos)
+UltimateMenu incluye **14 mods** diseñados principalmente para ayudar con **animaciones, vídeos, streaming, creación de contenido y más** en Gorilla Tag.
 
-**Novedades V1.5:** Nueva interfaz "Round" · Mods simplificados · Importar archivos directo a la carpeta del mod · Sonidos añadidos
+La interfaz ha sido rediseñada y simplificada, incluida la interfaz dentro del juego.
 
-**Lista de mods:** igual que arriba — ver la sección en francés para las descripciones completas (los mods son idénticos en todos los idiomas)
+La mayoría de los scripts también han sido revisados, limpiados y optimizados.
 
-**Mods adicionales:** GorillaVoices Patch · GorillaInterface · GorillaNameTags
+**La V1.6.0 está prevista actualmente como la última versión principal de UltimateMenu.**
 
 </details>
 
@@ -110,13 +144,13 @@ Le mod menu est organisé en 3 pages :
 <summary><b>🇩🇪 Deutsch</b></summary>
 <br>
 
-**Interface:** 🏠 Startseite (Anpassung & Einstellungen) · 🧩 Mods (einzeln aktivieren) · ⚙️ Mod-Seite (spezifische Einstellungen)
+UltimateMenu enthält **14 Mods**, die hauptsächlich bei **Animationen, Videos, Streaming, Content-Erstellung und mehr** in Gorilla Tag helfen.
 
-**Neuerungen V1.5:** Neue "Round"-Oberfläche · Vereinfachte Mods · Dateien direkt in den Mod-Ordner importieren · Sounds hinzugefügt
+Die Benutzeroberfläche und die In-Game-Oberfläche wurden überarbeitet und vereinfacht.
 
-**Mod-Liste:** wie oben — siehe den französischen Abschnitt für vollständige Beschreibungen (Mods sind in allen Sprachen identisch)
+Die meisten Skripte wurden außerdem überprüft, bereinigt und optimiert.
 
-**Zusätzliche Mods:** GorillaVoices Patch · GorillaInterface · GorillaNameTags
+**V1.6.0 ist derzeit als letzte große Version von UltimateMenu geplant.**
 
 </details>
 
@@ -124,13 +158,13 @@ Le mod menu est organisé en 3 pages :
 <summary><b>🇷🇺 Русский</b></summary>
 <br>
 
-**Интерфейс:** 🏠 Главная (настройка и параметры) · 🧩 Моды (вкл/выкл по отдельности) · ⚙️ Страница мода (настройки)
+UltimateMenu включает **14 модов**, предназначенных в основном для помощи с **анимацией, видео, стримами, созданием контента и многим другим** в Gorilla Tag.
 
-**Новое в V1.5:** Новый интерфейс "Round" · Упрощённые моды · Импорт файлов прямо в папку мода · Добавлены звуки
+Основной и внутриигровой интерфейсы были переработаны и упрощены.
 
-**Список модов:** как выше — см. французский раздел для полных описаний (моды одинаковы на всех языках)
+Большинство скриптов также были проверены, очищены и оптимизированы.
 
-**Доп. моды:** GorillaVoices Patch · GorillaInterface · GorillaNameTags
+**V1.6.0 в настоящее время планируется как последний крупный релиз UltimateMenu.**
 
 </details>
 
@@ -138,13 +172,13 @@ Le mod menu est organisé en 3 pages :
 <summary><b>🇯🇵 日本語</b></summary>
 <br>
 
-**インターフェース：** 🏠 ホーム（カスタマイズと設定）· 🧩 Mods（個別に切替）· ⚙️ Mod ページ（専用設定）
+UltimateMenu には、Gorilla Tag での **アニメーション、動画、配信、コンテンツ制作など**をサポートするための **14個のMod** が含まれています。
 
-**V1.5 の新機能：** 新しい「Round」スタイル · mod の簡略化 · ファイルを mod フォルダに直接インポート · サウンド追加
+メインインターフェースとゲーム内インターフェースの両方が再設計され、よりシンプルになりました。
 
-**Mod 一覧：** 上記と同じ — 詳細な説明はフランス語セクションを参照（すべての言語で mod は同一）
+ほとんどのスクリプトも見直し、整理・最適化されています。
 
-**追加 mod：** GorillaVoices Patch · GorillaInterface · GorillaNameTags
+**V1.6.0 は現在、UltimateMenu の最後のメジャーリリースとして予定されています。**
 
 </details>
 
@@ -152,6 +186,10 @@ Le mod menu est organisé en 3 pages :
 
 <div align="center">
 
+**UltimateMenu v1.6.0**
+
 Made with 🦍 for the Gorilla Tag community
+
+*Thanks to everyone who used, tested and supported UltimateMenu.*
 
 </div>
