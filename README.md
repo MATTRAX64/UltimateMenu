@@ -188,7 +188,7 @@ UltimateMenu には、Gorilla Tag での **アニメーション、動画、配�
 
 **UltimateMenu v1.6.0**
 
-Made with 🦍 for the Gorilla Tag community
+Made with 🦍 for the Gorilla Tag community and chatgpt readme😬👍
 
 *Thanks to everyone who used, tested and supported UltimateMenu.*
 
