@@ -2,7 +2,7 @@
 
 <img src="https://img.shields.io/badge/-%3C%2F%3E%20Script.cs-6c5ce7?style=for-the-badge&logoColor=white" alt="Script.cs" />
 
-# UltimateMenu v1.6.0 +500📤!
+# UltimateMenu v1.6.0 [+500📤]
 
 **A mod menu for Gorilla Tag Creator**<br>
 **6 languages Fr En Es De Ru Ja**
