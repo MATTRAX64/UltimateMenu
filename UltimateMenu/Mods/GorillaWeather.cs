@@ -199,9 +199,9 @@ namespace UltimateMenu
 
         void ApplyRain()
         {
-            bool r = Raining;
-            if (_rainGO != null) _rainGO.SetActive(r);
-            ApplyWeather(r);
+            // Ne touche plus au GameObject (préserve les colliders) :
+            // le cycle météo natif (ApplyWeather) suffit à piloter la pluie.
+            ApplyWeather(Raining);
         }
 
         void ToggleRain() { _rainOn = !_rainOn; ApplyRain(); }
