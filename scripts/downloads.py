@@ -10,7 +10,6 @@ GITHUB_REPO = "MATTRAX64/UltimateMenu"
 # Tous les packages Thunderstore à additionner
 THUNDERSTORE_PACKAGES = [
     ("MATTRAX", "UltimateMenu"),
-    ("MATTRAX", "GTAG_UltimateMenu_v1_6_0"),
 ]
 
 GAMEBANANA_IDS = [
@@ -20,7 +19,6 @@ GAMEBANANA_IDS = [
 # Tous les mods Nexus à additionner
 NEXUS_MOD_IDS = [
     "1330",
-    "1338",
 ]
 
 OUTPUT_FILE = Path(__file__).parent / "downloads.json"
