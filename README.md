@@ -90,7 +90,7 @@ Utiliser un mod peut entraîner un bannissement selon les règles du jeu. Utilis
 
 <div align="center">
 
-**par MATTRAX** · [Contact](https://mattraxer64xp.page.gd) · [Patreon]([LIEN_PATREON_A_COMPLETER](https://www.patreon.com/c/MATTRAXER64xp))
+**par MATTRAX** · [Contact](https://mattraxer64xp.page.gd) · [Patreon](https://www.patreon.com/c/MATTRAXER64xp)
 
 
 </div>
