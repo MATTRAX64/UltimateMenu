@@ -159,18 +159,31 @@ def nexus_downloads():
     return total
 
 
+def format_total(n):
+    """
+    Arrondit vers le bas à une décimale de k : 3873 -> "3,8k+"
+    """
+    if n < 1000:
+        return f"{n}+"
+
+    return f"{n // 100 / 10:.1f}k+".replace(".", ",")
+
+
 def main():
     github = github_downloads()
     thunderstore = thunderstore_downloads()
     gamebanana = gamebanana_downloads()
     nexus = nexus_downloads()
 
+    total = github + thunderstore + gamebanana + nexus
+
     downloads = {
         "github": github,
         "thunderstore": thunderstore,
         "gamebanana": gamebanana,
         "nexus": nexus,
-        "total": github + thunderstore + gamebanana + nexus
+        "total": total,
+        "total_affiche": format_total(total)
     }
 
     print("\n--- TOTALS ---")
