@@ -39,9 +39,9 @@ Chaque mod a ses réglages dans l'onglet **Modes**. L'onglet **Accueil** gère l
 
 ## 📦 Installation
 
-1. Installe [BepInEx](https://github.com/BepInEx/BepInEx) sur Gorilla Tag.
+1. Installe [BepInEx](https://github.com/MATTRAX64/GorillaTagModInstaller) pour Gorilla Tag.
 2. Télécharge `UltimateMenu v1.7.114.dll` depuis les [Releases](https://github.com/MATTRAX64/UltimateMenu/releases).
-3. Place-le dans `BepInEx\plugins\UltimateMenu\`.
+3. Place-le dans `C:\Program Files (x86)\Steam\steamapps\common\Gorilla Tag\BepInEx\plugins\.....`.
 4. Lance le jeu.
 
 ---
