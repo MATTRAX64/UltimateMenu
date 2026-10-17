@@ -90,8 +90,7 @@ Utiliser un mod peut entraîner un bannissement selon les règles du jeu. Utilis
 
 <div align="center">
 
-**Développé par MATTRAX** · [Contact](https://mattraxer64xp.page.gd) · [Patreon](LIEN_PATREON_A_COMPLETER)
+**par MATTRAX** · [Contact](https://mattraxer64xp.page.gd) · [Patreon]([LIEN_PATREON_A_COMPLETER](https://www.patreon.com/c/MATTRAXER64xp))
 
-*Made with 🦍 for the Gorilla Tag community*
 
 </div>
