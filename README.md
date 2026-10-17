@@ -1,196 +1,97 @@
 <div align="center">
 
-<img src="https://img.shields.io/badge/-%3C%2F%3E%20Script.cs-6c5ce7?style=for-the-badge&logoColor=white" alt="Script.cs" />
+# 🦍 UltimateMenu
 
-# UltimateMenu v1.6.1 [+4K📤]
+**Mod menu pour Gorilla Tag avec interface liquid glass, sur PC et en VR**
 
-**A mod menu for Gorilla Tag Creator**<br>
-**6 languages Fr En Es De Ru Ja**
+**Version actuelle : v1.7.114** · **18 langues**
 
-[![Release](https://img.shields.io/github/v/release/MATTRAX64/UltimateMenu?style=flat-square\&color=6c5ce7)](https://github.com/MATTRAX64/UltimateMenu/releases)
-[![Stars](https://img.shields.io/github/stars/MATTRAX64/UltimateMenu?style=flat-square\&color=6c5ce7)](https://github.com/MATTRAX64/UltimateMenu/stargazers)
-[![License](https://img.shields.io/badge/license-custom-6c5ce7?style=flat-square)](LICENSE.md)
+[![Release](https://img.shields.io/github/v/release/MATTRAX64/UltimateMenu?style=flat-square&color=6c5ce7)](https://github.com/MATTRAX64/UltimateMenu/releases)
+[![Downloads](https://img.shields.io/github/downloads/MATTRAX64/UltimateMenu/total?style=flat-square&color=6c5ce7)](https://github.com/MATTRAX64/UltimateMenu/releases)
 
-[Download](https://github.com/MATTRAX64/UltimateMenu/releases) · [Report Bug](https://github.com/MATTRAX64/UltimateMenu/issues) · [Request Feature](https://github.com/MATTRAX64/UltimateMenu/issues)
+[Télécharger](https://github.com/MATTRAX64/UltimateMenu/releases) · [Signaler un bug](https://github.com/MATTRAX64/UltimateMenu/issues) · [Contact](https://mattraxer64xp.page.gd)
 
-![image of the menu](image.png)
+![Aperçu du menu](image.png)
 
 </div>
 
 > Ce projet n'est pas affilié à Another Axiom ni à Gorilla Tag.
 
-### ❇️ [Contactez-moi](https://mattraxer64xp.page.gd) pour signaler un problème ou proposer une amélioration
+---
 
-[📊 Voir les téléchargements sur les 7 derniers jours](https://github.com/MATTRAX64/UltimateMenu/blob/main/scripts/downloads.json)
+## ✨ Nouveautés v1.7
 
-> Disponible sur GitHub ✅ · Nexus Mods ✅ · GameBanana ✅ · Thunderstore ✅ · Excalibur Launcher ✅ · Patreon ✅
+* **Interface liquid glass** repensée, avec 9 polices intégrées et plusieurs thèmes.
+* **18 langues** disponibles.
+
+## 🧩 Fonctionnalités
+
+| Catégorie | Ce que tu peux faire |
+| :--- | :--- |
+| 🎥 **Caméra et capture** | Caméra spectateur, Mocap pour Blender, filtres d'écran, overlay OBS |
+| 🕺 **Corps** | Suivi corporel (plusieurs modes) et ragdoll |
+| 👥 **Social** | Chat vocal, étiquettes de nom, visages personnalisés, salles, objets 3D |
+| 🌦 **Environnement** | Météo et heure, textes à l'écran, optimisation et compteur FPS |
+
+Chaque mod a ses réglages dans l'onglet **Modes**. L'onglet **Accueil** gère l'apparence, la langue, le son et la VR.
 
 ---
 
-## 📋 Table des matières
+## 📦 Installation
 
-* [Interface](#-interface)
-* [Nouveautés V1.6](#-nouveautés-v16)
-* [Les mods](#-les-mods)
-* [Other languages](#-other-languages)
-
----
-
-## 🖥 Interface
-
-L'interface d'UltimateMenu a été retravaillée pour rendre son utilisation **encore plus simple, rapide et intuitive**.
-
-L'interface en jeu (**GorillaInterface**) a également été améliorée afin de reprendre le même style et la même logique que le menu principal.
-
-L'objectif est d'avoir une expérience cohérente et simple, que ce soit dans le menu ou directement en jeu.
-
-Le mod menu est organisé en 3 pages :
-
-| Page               | Description                                          |
-| :----------------- | :--------------------------------------------------- |
-| 🏠 **Accueil**     | Personnalisation de l'interface et réglages généraux |
-| 🧩 **Mods**        | Accès et gestion des différents mods                 |
-| ⚙️ **Page de mod** | Accès aux paramètres spécifiques du mod sélectionné  |
+1. Installe [BepInEx](https://github.com/BepInEx/BepInEx) sur Gorilla Tag.
+2. Télécharge `UltimateMenu v1.7.114.dll` depuis les [Releases](https://github.com/MATTRAX64/UltimateMenu/releases).
+3. Place-le dans `BepInEx\plugins\UltimateMenu\`.
+4. Lance le jeu.
 
 ---
 
-## 🆕 Nouveautés V1.6
+## 🎮 Utilisation
 
-Cette version est principalement consacrée à la **finalisation, l'optimisation et l'amélioration générale d'UltimateMenu**.
+* **PC** : ouvre le menu avec la touche configurée dans les réglages.
+* **VR** : stick droit, bas puis haut pour ouvrir, haut puis bas pour fermer. Gâchette gauche pour valider, bouton X pour revenir.
 
-### 🎨 Interface
+Un mod doit être **activé** avant que ses réglages soient accessibles.
 
-* Refonte et amélioration de l'interface
-* Navigation simplifiée pour une utilisation plus intuitive
-* Amélioration de l'interface directement en jeu
-* Harmonisation de **GorillaInterface** avec le design du menu principal
-* Expérience plus cohérente entre le menu et l'interface in-game
+### Blender et objets 3D
 
-### 🛠️ Corrections
-
-* Nouvelle vérification de l'ensemble du projet
-* Correction des problèmes et bugs rencontrés pendant les tests
-* Nettoyage général du projet
-* Amélioration de plusieurs parties du code
-
-### ⚡ Optimisation
-
-* Optimisation de la quasi-totalité des scripts
-* Réduction et simplification du code lorsque cela était possible
-* Compression et nettoyage de nombreux scripts
-* Suppression de code inutile ou redondant
-* Amélioration générale des performances et de la stabilité
+* **Mocap** : le module Blender se trouve dans `Assets\GorillaMocap\`. Installe-le comme module complémentaire dans Blender, puis ouvre le panneau latéral avec la touche **N**.
+* **Objets 3D** : `Assets\GorillaSpawners\AutoBundle.unitypackage` sert à créer tes propres bundles avec la version de Unity utilisée par Gorilla Tag.
 
 ---
 
-## 🧩 Les mods
+## 📁 Fichiers créés par le menu
 
-UltimateMenu regroupe **14 mods** conçus principalement pour aider à la **création de contenu sur Gorilla Tag**.
+Ils se trouvent dans `BepInEx\plugins\UltimateMenu\`.
 
-Ils proposent différents outils pour faciliter et améliorer :
-
-**🎬 les animations · 🎥 les vidéos · 📡 les streams · 🎭 la création de contenu · ⚙️ et bien plus encore**
-
-L'objectif est de réunir plusieurs outils pratiques dans un seul menu, avec une interface simple et accessible directement en jeu.
-
----
-
-## 🏁 Dernière release prévue
-
-La **v1.6.0** représente actuellement la dernière release majeure prévue pour UltimateMenu.
-
-Le projet a été revérifié, corrigé et optimisé autant que possible. Il reste sûrement encore des améliorations possibles, mais l'objectif principal du projet est maintenant atteint.
-
-Cela ne signifie pas qu'UltimateMenu est définitivement abandonné : si un problème important apparaît ou si une mise à jour devient réellement nécessaire, une nouvelle version pourra être publiée.
-
-Pour le moment, **aucune nouvelle release n'est prévue après la v1.6.0**.
+| Fichier | Contenu |
+| :--- | :--- |
+| `Profile.json` | Réglages du menu |
+| `GorillaFaces\` | Images de visage personnalisé |
+| `GorillaMocap\` | Exports Mocap pour Blender |
+| `GorillaSpawners\` | Fichiers `.bundle` des objets 3D |
+| `GorillaStreams` | Texte pour OBS (code de la salle et nombre de joueurs) |
+| `CrashReports\` | Rapports d'erreurs, si l'envoi est activé |
 
 ---
 
-## 🌐 Other languages
+## 🔐 Confidentialité
 
-<details>
-<summary><b>🇬🇧 English</b></summary>
-<br>
+* **Rapports d'erreurs** : désactivés par défaut. Si tu les actives, les erreurs sont envoyées en issues publiques sur GitHub, avec ton pseudo, ta configuration et le texte de l'erreur. Les chemins et les clés sont masqués.
+* **Vérification de version** : le menu interroge l'API GitHub au lancement.
 
-UltimateMenu's interface has been redesigned and improved to make it **simpler, faster and more intuitive to use**.
+---
 
-The in-game interface has also been improved to match the style and logic of the main menu.
+## ⚠️ Avertissement
 
-UltimateMenu includes **14 mods** designed mainly to help with **animations, videos, streaming, content creation and more** on Gorilla Tag.
-
-Most scripts have been reviewed, cleaned up, simplified and optimized. Issues found during testing have also been fixed.
-
-**V1.6.0 is currently planned to be the final major release of UltimateMenu.**
-
-If an important issue appears or an update becomes genuinely necessary, another release may still be published.
-
-</details>
-
-<details>
-<summary><b>🇪🇸 Español</b></summary>
-<br>
-
-UltimateMenu incluye **14 mods** diseñados principalmente para ayudar con **animaciones, vídeos, streaming, creación de contenido y más** en Gorilla Tag.
-
-La interfaz ha sido rediseñada y simplificada, incluida la interfaz dentro del juego.
-
-La mayoría de los scripts también han sido revisados, limpiados y optimizados.
-
-**La V1.6.0 está prevista actualmente como la última versión principal de UltimateMenu.**
-
-</details>
-
-<details>
-<summary><b>🇩🇪 Deutsch</b></summary>
-<br>
-
-UltimateMenu enthält **14 Mods**, die hauptsächlich bei **Animationen, Videos, Streaming, Content-Erstellung und mehr** in Gorilla Tag helfen.
-
-Die Benutzeroberfläche und die In-Game-Oberfläche wurden überarbeitet und vereinfacht.
-
-Die meisten Skripte wurden außerdem überprüft, bereinigt und optimiert.
-
-**V1.6.0 ist derzeit als letzte große Version von UltimateMenu geplant.**
-
-</details>
-
-<details>
-<summary><b>🇷🇺 Русский</b></summary>
-<br>
-
-UltimateMenu включает **14 модов**, предназначенных в основном для помощи с **анимацией, видео, стримами, созданием контента и многим другим** в Gorilla Tag.
-
-Основной и внутриигровой интерфейсы были переработаны и упрощены.
-
-Большинство скриптов также были проверены, очищены и оптимизированы.
-
-**V1.6.0 в настоящее время планируется как последний крупный релиз UltimateMenu.**
-
-</details>
-
-<details>
-<summary><b>🇯🇵 日本語</b></summary>
-<br>
-
-UltimateMenu には、Gorilla Tag での **アニメーション、動画、配信、コンテンツ制作など**をサポートするための **14個のMod** が含まれています。
-
-メインインターフェースとゲーム内インターフェースの両方が再設計され、よりシンプルになりました。
-
-ほとんどのスクリプトも見直し、整理・最適化されています。
-
-**V1.6.0 は現在、UltimateMenu の最後のメジャーリリースとして予定されています。**
-
-</details>
+Utiliser un mod peut entraîner un bannissement selon les règles du jeu. Utilise-le à tes propres risques, et de façon responsable.
 
 ---
 
 <div align="center">
 
-**UltimateMenu v1.6.0**
+**Développé par MATTRAX** · [Contact](https://mattraxer64xp.page.gd) · [Patreon](LIEN_PATREON_A_COMPLETER)
 
-Made with 🦍 for the Gorilla Tag community and chatgpt readme😬👍
-
-*Thanks to everyone who used, tested and supported UltimateMenu.*
+*Made with 🦍 for the Gorilla Tag community*
 
 </div>
