@@ -1,0 +1,181 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <Nullable>enable</Nullable>
+    <Version>1.7.114</Version>
+    <BaseOutputPath></BaseOutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="UnityEngine.SubsystemsModule"><HintPath>C:\Program Files (x86)\Steam\steamapps\common\Gorilla Tag\Gorilla Tag_Data\Managed\UnityEngine.SubsystemsModule.dll</HintPath><Private>False</Private></Reference>
+    <Reference Include="UnityEngine.AnimationModule">
+      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Gorilla Tag\Gorilla Tag_Data\Managed\UnityEngine.AnimationModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.ParticleSystemModule">
+      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Gorilla Tag\Gorilla Tag_Data\Managed\UnityEngine.ParticleSystemModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Mono.Cecil">
+      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Gorilla Tag\BepInEx\core\Mono.Cecil.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.JSONSerializeModule">
+      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Gorilla Tag\Gorilla Tag_Data\Managed\UnityEngine.JSONSerializeModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Photon3Unity3D">
+      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Gorilla Tag\Gorilla Tag_Data\Managed\Photon3Unity3D.dll</HintPath>
+    </Reference>
+    <Reference Include="0Harmony">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Gorilla Tag\BepInEx\core\0Harmony.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Gorilla Tag\Gorilla Tag_Data\Managed\Assembly-CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-CSharp-firstpass">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Gorilla Tag\Gorilla Tag_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
+    </Reference>
+    <Reference Include="BepInEx">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Gorilla Tag\BepInEx\core\BepInEx.dll</HintPath>
+    </Reference>
+    <Reference Include="PhotonRealtime">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Gorilla Tag\Gorilla Tag_Data\Managed\PhotonRealtime.dll</HintPath>
+    </Reference>
+    <Reference Include="PhotonUnityNetworking">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Gorilla Tag\Gorilla Tag_Data\Managed\PhotonUnityNetworking.dll</HintPath>
+    </Reference>
+    <Reference Include="PhotonVoice">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Gorilla Tag\Gorilla Tag_Data\Managed\PhotonVoice.dll</HintPath>
+    </Reference>
+    <Reference Include="PhotonVoice.API">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Gorilla Tag\Gorilla Tag_Data\Managed\PhotonVoice.API.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms">
+      <HintPath>..\..\..\..\..\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Windows.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Collections">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Gorilla Tag\Gorilla Tag_Data\Managed\Unity.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.InputSystem">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Gorilla Tag\Gorilla Tag_Data\Managed\Unity.InputSystem.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Rendering.LightTransport.Runtime">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Gorilla Tag\Gorilla Tag_Data\Managed\Unity.Rendering.LightTransport.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RenderPipelines.Core.Runtime">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Gorilla Tag\Gorilla Tag_Data\Managed\Unity.RenderPipelines.Core.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RenderPipelines.Universal.Runtime">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Gorilla Tag\Gorilla Tag_Data\Managed\Unity.RenderPipelines.Universal.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.TextMeshPro">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Gorilla Tag\Gorilla Tag_Data\Managed\Unity.TextMeshPro.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Gorilla Tag\Gorilla Tag_Data\Managed\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AssetBundleModule">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Gorilla Tag\Gorilla Tag_Data\Managed\UnityEngine.AssetBundleModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AudioModule">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Gorilla Tag\Gorilla Tag_Data\Managed\UnityEngine.AudioModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Gorilla Tag\Gorilla Tag_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ImageConversionModule">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Gorilla Tag\Gorilla Tag_Data\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.IMGUIModule">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Gorilla Tag\Gorilla Tag_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.InputLegacyModule">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Gorilla Tag\Gorilla Tag_Data\Managed\UnityEngine.InputLegacyModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.PhysicsModule">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Gorilla Tag\Gorilla Tag_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ScreenCaptureModule">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Gorilla Tag\Gorilla Tag_Data\Managed\UnityEngine.ScreenCaptureModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TextCoreFontEngineModule">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Gorilla Tag\Gorilla Tag_Data\Managed\UnityEngine.TextCoreFontEngineModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TextCoreTextEngineModule">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Gorilla Tag\Gorilla Tag_Data\Managed\UnityEngine.TextCoreTextEngineModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TextRenderingModule">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Gorilla Tag\Gorilla Tag_Data\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Gorilla Tag\Gorilla Tag_Data\Managed\UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UIModule">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Gorilla Tag\Gorilla Tag_Data\Managed\UnityEngine.UIModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestModule">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Gorilla Tag\Gorilla Tag_Data\Managed\UnityEngine.UnityWebRequestModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.VRModule">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Gorilla Tag\Gorilla Tag_Data\Managed\UnityEngine.VRModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.XRModule">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Gorilla Tag\Gorilla Tag_Data\Managed\UnityEngine.XRModule.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="Assets/**/*"/>
+    <EmbeddedResource Include="Assets/**/*" Exclude="Assets/**/*.cs;Assets/**/*.shader;Assets/**/*.meta">
+      <LogicalName>UltimateMenu.$([System.String]::Copy('%(Identity)').Replace('\', '.').Replace('/', '.'))</LogicalName>
+      <WithCulture>false</WithCulture>
+      <Type>Non-Resx</Type>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <UsingTask TaskName="PackMenuTranslations" TaskFactory="RoslynCodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)/Microsoft.Build.Tasks.Core.dll">
+    <ParameterGroup>
+      <Catalogs ParameterType="Microsoft.Build.Framework.ITaskItem[]" Required="true" />
+      <OutputDirectory ParameterType="System.String" Required="true" />
+      <Resources ParameterType="Microsoft.Build.Framework.ITaskItem[]" Output="true" />
+    </ParameterGroup>
+    <Task>
+      <Using Namespace="System" />
+      <Using Namespace="System.IO" />
+      <Using Namespace="System.IO.Compression" />
+      <Using Namespace="System.Collections.Generic" />
+      <Code Type="Fragment" Language="cs"><![CDATA[
+        Directory.CreateDirectory(OutputDirectory);
+        var resources = new List<Microsoft.Build.Framework.ITaskItem>();
+        foreach (var catalog in Catalogs)
+        {
+            string source = catalog.GetMetadata("FullPath");
+            string name = Path.GetFileName(source) + ".gz";
+            string output = Path.Combine(OutputDirectory, name);
+            using (var input = File.OpenRead(source))
+            using (var file = File.Create(output))
+            using (var gzip = new GZipStream(file, CompressionLevel.Optimal)) input.CopyTo(gzip);
+            var item = new Microsoft.Build.Utilities.TaskItem(output);
+            item.SetMetadata("LogicalName", "UltimateMenu.Assets.Menu.Translations." + name);
+            item.SetMetadata("WithCulture", "false");
+            item.SetMetadata("Type", "Non-Resx");
+            resources.Add(item);
+        }
+        Resources = resources.ToArray();
+      ]]></Code>
+    </Task>
+  </UsingTask>
+
+  <Target Name="PrepareMenuTranslations" BeforeTargets="AssignTargetPaths">
+    <ItemGroup><_MenuCatalog Include="Translations/*.json" /></ItemGroup>
+    <PackMenuTranslations Catalogs="@(_MenuCatalog)" OutputDirectory="$(IntermediateOutputPath)MenuTranslations">
+      <Output TaskParameter="Resources" ItemName="EmbeddedResource" />
+    </PackMenuTranslations>
+  </Target>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(SkipPluginDeploy)' != 'true'">
+    <Copy SourceFiles="$(TargetPath)" DestinationFiles="C:\Program Files (x86)\Steam\steamapps\common\Gorilla Tag\BepInEx\plugins\UltimateMenu\UltimateMenu v$(Version).dll" />
+  </Target>
+
+</Project>
