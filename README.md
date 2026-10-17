@@ -49,7 +49,7 @@ Chaque mod a ses réglages dans l'onglet **Modes**. L'onglet **Accueil** gère l
 ## 🎮 Utilisation
 
 * **PC** : ouvre le menu avec la touche configurée dans les réglages.
-* **VR** : stick droit, bas puis haut pour ouvrir, haut puis bas pour fermer. Gâchette gauche pour valider, bouton X pour revenir.
+* **VR** : stick droit, bas puis haut pour ouvrir, haut puis bas pour fermer. Gâchette pour valider.
 
 Un mod doit être **activé** avant que ses réglages soient accessibles.
 
