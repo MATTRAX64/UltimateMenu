@@ -197,3 +197,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+# Automated fix for issue #1665: meooowwwww :3
