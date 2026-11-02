@@ -1,4 +1,4 @@
-name: Update Downloads
+name: Downloads Updater
 
 on:
   workflow_dispatch:
