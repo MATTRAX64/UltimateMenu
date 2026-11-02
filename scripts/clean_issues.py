@@ -1,6 +1,7 @@
 import os
 import re
 from collections import defaultdict
+from difflib import SequenceMatcher
 
 import requests
 
@@ -13,6 +14,7 @@ HEADERS = {
 }
 
 COUNT_SUFFIX = re.compile(r"\s*x(\d+)$")
+SIMILARITY_THRESHOLD = 0.85
 
 
 def base_title(title):
@@ -22,6 +24,19 @@ def base_title(title):
 def count_of(title):
     m = COUNT_SUFFIX.search(title)
     return int(m.group(1)) if m else 1
+
+
+def normalize(text):
+    text = (text or "").lower()
+    text = re.sub(r"\s+", " ", text).strip()
+    return text
+
+
+def is_same_issue(a, b):
+    if normalize(base_title(a["title"])) != normalize(base_title(b["title"])):
+        return False
+    ratio = SequenceMatcher(None, normalize(a["body"]), normalize(b["body"])).ratio()
+    return ratio >= SIMILARITY_THRESHOLD
 
 
 def list_open_issues():
@@ -41,27 +56,35 @@ def list_open_issues():
     return issues
 
 
-def main():
-    groups = defaultdict(list)
-    for issue in list_open_issues():
-        key = base_title(issue["title"]).lower()
-        groups[key].append(issue)
+def group_duplicates(issues):
+    groups = []
+    for issue in issues:
+        for group in groups:
+            if is_same_issue(group[0], issue):
+                group.append(issue)
+                break
+        else:
+            groups.append([issue])
+    return groups
 
-    for items in groups.values():
+
+def main():
+    issues = list_open_issues()
+    for items in group_duplicates(issues):
         if len(items) < 2:
             continue
 
         items.sort(key=lambda i: i["created_at"])
         keeper, duplicates = items[0], items[1:]
+
         total = sum(count_of(i["title"]) for i in items)
         new_title = f"{base_title(keeper['title'])} x{total}"
 
-        r = requests.patch(
+        requests.patch(
             f"{API}/issues/{keeper['number']}",
             headers=HEADERS,
             json={"title": new_title},
-        )
-        r.raise_for_status()
+        ).raise_for_status()
 
         for dup in duplicates:
             requests.post(
