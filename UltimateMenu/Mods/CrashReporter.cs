@@ -42,7 +42,7 @@ namespace UltimateMenu
                 Directory.CreateDirectory(_folder);
                 if(File.Exists(_session))
                 {
-                    try { var report=JsonUtility.FromJson<Report>(File.ReadAllText(_session));report.kind="unclean_exit";report.error=string.IsNullOrEmpty(report.error)?"Previous session ended without a clean shutdown. No exception was captured; this may also be a forced close or power loss.":report.error;Store(report); }
+                    try { File.Delete(_session); }
                     catch(Exception error){Debug.LogWarning("[UltimateMenu] Crash session: "+error.Message);}
                 }
                 Snapshot();
