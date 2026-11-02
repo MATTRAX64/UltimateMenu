@@ -66,7 +66,7 @@ namespace UltimateMenu
         {
             if(type!=LogType.Exception&&type!=LogType.Error&&type!=LogType.Assert)return;
             string text=condition+"\n"+stack;
-            if(text.IndexOf("UltimateMenu",StringComparison.OrdinalIgnoreCase)>=0)Enqueue(text);
+            if(stack!=null&&stack.IndexOf("UltimateMenu.",StringComparison.Ordinal)>=0)Enqueue(text);
         }
         void Enqueue(string value){if(_enabled&&_errors.Count<16)_errors.Enqueue(Redact(value));}
         void Update()
