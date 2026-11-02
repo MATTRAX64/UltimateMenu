@@ -11,24 +11,15 @@ permissions:
 jobs:
   update-downloads:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Python
-        uses: actions/setup-python@v5
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: "3.x"
-
-      - name: Install dependencies
-        run: pip install requests
-
-      - name: Update downloads
+      - run: pip install requests
+      - run: python scripts/downloads.py
         env:
           NEXUS_API_KEY: ${{ secrets.NEXUS_API_KEY }}
-        run: python scripts/downloads.py
-
       - name: Commit changes
         run: |
           git config user.name "github-actions[bot]"
