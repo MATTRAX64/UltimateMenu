@@ -70,7 +70,7 @@ Ils se trouvent dans `BepInEx\plugins\UltimateMenu\`.
 | `GorillaFaces\` | Images de visage personnalisé |
 | `GorillaMocap\` | Exports Mocap pour Blender |
 | `GorillaSpawners\` | Fichiers `.bundle` des objets 3D |
-| `GorillaStreams` | Texte pour OBS (code de la salle et nombre de joueurs) |
+| `GorillaStreams\` | Texte pour OBS (code de la salle et nombre de joueurs) |
 | `CrashReports\` | Rapports d'erreurs, si l'envoi est activé |
 
 ---
