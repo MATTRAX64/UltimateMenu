@@ -495,20 +495,31 @@ namespace UltimateMenu
         void SetStatus(string msg) { _statusMsg = msg; _statusTimer = 5f; }
 
         bool _advancedOpen;
-        void DrawPage(MenuUI ui)
+        bool _sReady,_sRec,_sSaving,_sStatus,_sCam,_sLck,_sOrigin,_sBlender; PlayerEntry[] _sPlayers=new PlayerEntry[0]; string[] _sFiles=new string[0];
+        void SnapshotPage()
+        {
+            if(_sReady&&!(Event.current!=null&&Event.current.type==EventType.Layout))return;
+            if(!recording&&!_isSaving&&Time.unscaledTime>=_nextPlayersRefresh){_nextPlayersRefresh=Time.unscaledTime+2f;RefreshPlayers();}
+            _sRec=recording;_sSaving=_isSaving;_sStatus=_statusTimer>0&&!string.IsNullOrEmpty(_statusMsg);
+            _sCam=cameraSelected;_sLck=_lckCamera!=null;_sOrigin=originSet;
+            _sBlender=File.Exists(Path.Combine(_mocapFolder,BLENDER_ASSET_FILENAME));
+            _sPlayers=_players.ToArray();_sFiles=_lastExportedFiles.ToArray();_sReady=true;
+        }
+        void DrawPage(MenuUI ui){SnapshotPage();DrawPageBody(ui);}
+        void DrawPageBody(MenuUI ui)
         {
             if(!recording&&!_isSaving&&Time.unscaledTime>=_nextPlayersRefresh){_nextPlayersRefresh=Time.unscaledTime+2f;RefreshPlayers();}
             ui.BeginCard();
             ui.StatusPill(recording?I18n.T("Mocap.Recording"):I18n.T("Mocap.Stopped"),recording);
-            if(recording)ui.Label(FormatTime(Time.time-_recordingStartTime)+" · "+_totalSamples+" "+I18n.T("Mocap.Samples"),Theme.Text,10,true);
+            if(_sRec)ui.Label(FormatTime(Time.time-_recordingStartTime)+" · "+_totalSamples+" "+I18n.T("Mocap.Samples"),Theme.Text,10,true);
             if(ui.Btn(recording?I18n.T("Mocap.StopSave"):I18n.T("Mocap.StartRecord"),ui.TB3,Theme.Text)&&Enabled)
             {if(recording)StopRecording();else StartRecording();}
-            if(_isSaving)ui.Label(I18n.T("Mocap.Saving"),Theme.Dim,9);
-            if(_statusTimer>0&&!string.IsNullOrEmpty(_statusMsg))ui.Label(_statusMsg,Theme.Dim,9);
+            if(_sSaving)ui.Label(I18n.T("Mocap.Saving"),Theme.Dim,9);
+            if(_sStatus)ui.Label(_statusMsg,Theme.Dim,9);
             ui.EndCard();
             ui.Section(I18n.T("Mocap.ToRecord"));
             if(ui.Btn(I18n.T("Mocap.CheckPlayers"),ui.TB3,Theme.Text)&&Enabled)RefreshPlayers();
-            foreach(var player in _players)
+            foreach(var player in _sPlayers)
             {
                 string label=player.displayLabel.Length>64?player.displayLabel.Substring(0,64):player.displayLabel;
                 bool selected=ui.SelectionRow(label,player.selected);
@@ -516,7 +527,7 @@ namespace UltimateMenu
             }
             bool camera=ui.SelectionRow(I18n.T("Mocap.SpectatorCam"),cameraSelected);
             if(!recording&&!_isSaving&&cameraSelected!=camera){cameraSelected=camera;MenuPrefs.SetInt("MUM_MocapCameraSelected",camera?1:0);}
-            if(cameraSelected)
+            if(_sCam)
             {
                 ui.Label(I18n.T("Mocap.SpectatorCam")+" · "+I18n.T(_camStatus),Theme.Dim,9);
                 if(ui.Btn(I18n.T("Mocap.RefreshCam"),ui.TB3,Theme.Text)&&Enabled)RefreshCamera();
@@ -525,22 +536,22 @@ namespace UltimateMenu
             {
                 float rate=ui.Slider(I18n.T("Mocap.PlayerFPS"),sampleRate,1f,120f,"0");
                 if(rate!=sampleRate){sampleRate=rate;MenuPrefs.SetFloat("MUM_MocapSampleRate",rate);}
-                if(cameraSelected)
+                if(_sCam)
                 {
                     float cameraRate=ui.Slider(I18n.T("Mocap.CamFPS"),cameraSampleRate,1f,120f,"0");
                     if(cameraRate!=cameraSampleRate){cameraSampleRate=cameraRate;MenuPrefs.SetFloat("MUM_MocapCameraRate",cameraRate);}
-                    if(_lckCamera!=null&&ui.Btn(I18n.T("Mocap.AlignToMe"),ui.TB3,Theme.Text)&&Enabled)SnapCameraToPlayer();
+                    if(_sLck&&ui.Btn(I18n.T("Mocap.AlignToMe"),ui.TB3,Theme.Text)&&Enabled)SnapCameraToPlayer();
                 }
                 ui.Label(I18n.T("Mocap.OriginAuto"),Theme.Dim,9);
-                if(originSet&&ui.Btn(I18n.T("Mocap.ClearOrigin"),ui.TB3,Theme.Text)&&Enabled)ClearOrigin();
-                if(File.Exists(Path.Combine(_mocapFolder,BLENDER_ASSET_FILENAME)))
+                if(_sOrigin&&ui.Btn(I18n.T("Mocap.ClearOrigin"),ui.TB3,Theme.Text)&&Enabled)ClearOrigin();
+                if(_sBlender)
                     ui.Label(I18n.T("Mocap.BlenderAssetHint"),Theme.Dim,9);
             });
-            if(_lastExportedFiles.Count>0)
+            if(_sFiles.Length>0)
             {
                 ui.Section(I18n.T("Mocap.LastExported"));
                 ui.BeginCard();
-                foreach(var file in _lastExportedFiles)ui.Label(Path.GetFileName(file),Theme.Text,9);
+                foreach(var file in _sFiles)ui.Label(Path.GetFileName(file),Theme.Text,9);
                 ui.EndCard();
             }
         }

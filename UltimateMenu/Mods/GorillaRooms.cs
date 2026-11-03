@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System;
 using System.Reflection;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace UltimateMenu
@@ -47,7 +48,7 @@ namespace UltimateMenu
             if (_controllerType == null) { SetStatus("PhotonNetworkController introuvable"); return; }
             foreach (var m in _controllerType.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)) if (m.Name == "AttemptToAutoJoinSpecificRoom") { _joinMethod = m; break; }
             if (_joinMethod != null) { var prms = _joinMethod.GetParameters(); if (prms.Length >= 2 && prms[1].ParameterType.IsEnum) _joinTypeVal = Enum.GetValues(prms[1].ParameterType).GetValue(0); }
-            foreach (var asm in AppDomain.CurrentDomain.GetAssemblies()) foreach (var t in asm.GetTypes()) if (t.Name == "PhotonNetwork") { _photonType = t; break; }
+            foreach (var asm in AppDomain.CurrentDomain.GetAssemblies()) { Type[] types; try { types = asm.GetTypes(); } catch (ReflectionTypeLoadException e) { types = e.Types.Where(t => t != null).ToArray(); } catch { continue; } foreach (var t in types) if (t.Name == "PhotonNetwork") { _photonType = t; break; } if (_photonType != null) break; }
             SetStatus(_joinMethod != null ? "Photon OK" : "AttemptToAutoJoinSpecificRoom introuvable");
         }
 
@@ -103,17 +104,28 @@ namespace UltimateMenu
         void AddFavorite(string code) { code = code.Trim().ToUpper(); if (!string.IsNullOrEmpty(code) && !favoriteRooms.Contains(code)) { favoriteRooms.Add(code); SaveFavorites(); } }
         void RemoveFavorite(string code) { if (favoriteRooms.Remove(code)) SaveFavorites(); }
 
-        void DrawPage(MenuUI ui)
+        System.Action? _deferred; bool _snapReady, _snapInRoom, _snapShowStatus; string[] _snapFavs = new string[0];
+        void BeginSnapshot()
         {
-            bool inRoom=!string.IsNullOrEmpty(currentRoomCode)&&currentRoomCode!=I18n.T("Rooms.Menu")&&currentRoomCode!="Menu";
+            if (_snapReady && !(Event.current != null && Event.current.type == EventType.Layout)) return;
+            var d = _deferred; _deferred = null; d?.Invoke();
+            _snapInRoom = !string.IsNullOrEmpty(currentRoomCode) && currentRoomCode != I18n.T("Rooms.Menu") && currentRoomCode != "Menu";
+            _snapShowStatus = statusTimer > 0 && !string.IsNullOrEmpty(statusMsg);
+            _snapFavs = favoriteRooms.ToArray();
+            _snapReady = true;
+        }
+        void DrawPage(MenuUI ui) { BeginSnapshot(); DrawPageBody(ui); }
+        void DrawPageBody(MenuUI ui)
+        {
+            bool inRoom=_snapInRoom;
             ui.BeginCard();
             ui.InfoRow(I18n.T("Rooms.Title"),inRoom?currentRoomCode:I18n.T("Rooms.Menu"));
-            if(statusTimer>0&&!string.IsNullOrEmpty(statusMsg))ui.Label(statusMsg,Theme.Dim,9);
+            if(_snapShowStatus)ui.Label(statusMsg,Theme.Dim,9);
             if(inRoom)
             {
                 GUILayout.BeginHorizontal();
-                if(ui.Btn(I18n.T("Rooms.Leave"),ui.TB3,Theme.Text)&&Enabled)LeaveRoom();
-                if(ui.Btn(I18n.T("UI.Favorite"),ui.TB3,Theme.Text))AddFavorite(currentRoomCode);
+                if(ui.Btn(I18n.T("Rooms.Leave"),ui.TB3,Theme.Text)&&Enabled)_deferred=LeaveRoom;
+                if(ui.Btn(I18n.T("UI.Favorite"),ui.TB3,Theme.Text)){string fc=currentRoomCode;_deferred=()=>AddFavorite(fc);}
                 GUILayout.EndHorizontal();
             }
             ui.EndCard();
@@ -122,18 +134,18 @@ namespace UltimateMenu
             inputCode=ui.TextField(inputCode).Trim().ToUpperInvariant();
             if(inputCode.Length>16)inputCode=inputCode.Substring(0,16);
             GUILayout.BeginHorizontal();
-            if(ui.Btn(_connecting?I18n.T("Rooms.Joining"):I18n.T("Rooms.JoinBtn"),ui.TB3,Theme.Text)&&Enabled&&!_connecting)JoinRoom(inputCode);
-            if(ui.Btn(I18n.T("Rooms.Random"),ui.TB3,Theme.Text)&&Enabled&&!_connecting)JoinRoom(GenerateRoomCode());
+            if(ui.Btn(_connecting?I18n.T("Rooms.Joining"):I18n.T("Rooms.JoinBtn"),ui.TB3,Theme.Text)&&Enabled&&!_connecting){string jc=inputCode;_deferred=()=>JoinRoom(jc);}
+            if(ui.Btn(I18n.T("Rooms.Random"),ui.TB3,Theme.Text)&&Enabled&&!_connecting){string rc=GenerateRoomCode();_deferred=()=>JoinRoom(rc);}
             GUILayout.EndHorizontal();
             ui.EndCard();
-            ui.Section(I18n.T("Rooms.Favorites")+" · "+favoriteRooms.Count);
-            if(favoriteRooms.Count==0)ui.Label(I18n.T("Rooms.NoFavorites"),Theme.Dim,9);
-            for(int i=0;i<favoriteRooms.Count;i++)
+            ui.Section(I18n.T("Rooms.Favorites")+" · "+_snapFavs.Length);
+            if(_snapFavs.Length==0)ui.Label(I18n.T("Rooms.NoFavorites"),Theme.Dim,9);
+            for(int i=0;i<_snapFavs.Length;i++)
             {
-                string code=favoriteRooms[i];
+                string code=_snapFavs[i];
                 bool join=ui.FavoriteRow(code,out bool remove);
-                if(join&&Enabled&&!_connecting)JoinRoom(code);
-                if(remove){RemoveFavorite(code);break;}
+                if(join&&Enabled&&!_connecting)_deferred=()=>JoinRoom(code);
+                if(remove)_deferred=()=>RemoveFavorite(code);
                 ui.Space(4);
             }
         }

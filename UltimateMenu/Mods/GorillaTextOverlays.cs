@@ -1,5 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Json;
+using System.Text;
 using UnityEngine;
 
 namespace UltimateMenu
@@ -28,7 +32,7 @@ namespace UltimateMenu
         bool Enabled=>MenuUI.Instance!=null&&MenuUI.Instance.IsModEnabled(Title);
         void Awake()
         {
-            try{_data=JsonUtility.FromJson<Data>(MenuPrefs.GetString(Pref,"{}"))??new Data();}
+            try{_data=Decode(MenuPrefs.GetString(Pref,"{}"));}
             catch(Exception e){Log.Err("Texts.Load",e);}
             if(_data.boxes==null)_data.boxes=new List<Box>();
             _data.boxes.RemoveAll(b=>b==null);
@@ -38,10 +42,36 @@ namespace UltimateMenu
                 b.x=FiniteClamp(b.x,0,1,.25f);b.y=FiniteClamp(b.y,0,1,.25f);b.rounding=FiniteClamp(b.rounding,0,40,12);
             }
             if(_data.boxes.Count>0)_selected=0;
+            Log.Info("Texts loaded: "+_data.boxes.Count+" box(es)");
+        }
+        // JsonUtility returned "{}" for this structure, so the boxes are stored with DataContractJsonSerializer (same as Profile.json). Colors are stored as RRGGBBAA text.
+        [DataContract] sealed class Stored{[DataMember] public List<StoredBox> boxes;}
+        [DataContract] sealed class StoredBox{[DataMember] public string text,color,bg,border;[DataMember] public bool visible,bold,background,outline,shadow;[DataMember] public float x,y,size,textSize,rounding;}
+        static Color ParseColor(string hex,Color fallback)=>!string.IsNullOrEmpty(hex)&&ColorUtility.TryParseHtmlString("#"+hex,out Color c)?c:fallback;
+        static string Encode(Data data)
+        {
+            var stored=new Stored{boxes=new List<StoredBox>()};
+            foreach(var b in data.boxes)stored.boxes.Add(new StoredBox{text=b.text,color=ColorUtility.ToHtmlStringRGBA(b.color),bg=ColorUtility.ToHtmlStringRGBA(b.bg),border=ColorUtility.ToHtmlStringRGBA(b.border),visible=b.visible,bold=b.bold,background=b.background,outline=b.outline,shadow=b.shadow,x=b.x,y=b.y,size=b.size,textSize=b.textSize,rounding=b.rounding});
+            using(var stream=new MemoryStream()){new DataContractJsonSerializer(typeof(Stored)).WriteObject(stream,stored);return Encoding.UTF8.GetString(stream.ToArray());}
+        }
+        static Data Decode(string json)
+        {
+            var data=new Data();
+            if(string.IsNullOrEmpty(json))return data;
+            Stored stored;
+            using(var stream=new MemoryStream(Encoding.UTF8.GetBytes(json)))stored=(Stored)new DataContractJsonSerializer(typeof(Stored)).ReadObject(stream);
+            if(stored?.boxes==null)return data;
+            foreach(var s in stored.boxes)if(s!=null)data.boxes.Add(new Box{text=s.text??"",color=ParseColor(s.color,Color.white),bg=ParseColor(s.bg,new Color(0,0,0,.7f)),border=ParseColor(s.border,Color.white),visible=s.visible,bold=s.bold,background=s.background,outline=s.outline,shadow=s.shadow,x=s.x,y=s.y,size=s.size,textSize=s.textSize,rounding=s.rounding});
+            return data;
         }
         static float FiniteClamp(float f,float min,float max,float fallback)=>float.IsNaN(f)||float.IsInfinity(f)?fallback:Mathf.Clamp(f,min,max);
         void Dirty(){_saveAt=Time.unscaledTime+.4f;}
-        void Save(){MenuPrefs.SetString(Pref,JsonUtility.ToJson(_data));MenuPrefs.Save();_saveAt=-1;}
+        void Save()
+        {
+            _saveAt=-1;
+            try{string json=Encode(_data);MenuPrefs.SetString(Pref,json);MenuPrefs.Save();Log.Info("Texts saved: "+_data.boxes.Count+" box(es), "+json.Length+" chars");}
+            catch(Exception e){Log.Err("Texts.Save",e);}
+        }
         void Update()
         {
             if(!_registered&&MenuUI.Instance!=null){MenuUI.Instance.RegisterPage(Title,DrawPage,MenuCategory.Cosmetique);_registered=true;}

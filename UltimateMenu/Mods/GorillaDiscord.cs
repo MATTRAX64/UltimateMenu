@@ -4,6 +4,7 @@ using System.IO.Pipes;
 using System.Text;
 using System.Collections;
 using System.Reflection;
+using System.Linq;
 namespace UltimateMenu
 {
     public class GorillaDiscord : MonoBehaviour
@@ -53,8 +54,14 @@ namespace UltimateMenu
         void CachePhoton()
         {
             foreach (var asm in AppDomain.CurrentDomain.GetAssemblies())
-                foreach (var t in asm.GetTypes())
+            {
+                Type[] types;
+                try { types = asm.GetTypes(); }
+                catch (ReflectionTypeLoadException e) { types = e.Types.Where(x => x != null).ToArray(); }
+                catch { continue; }
+                foreach (var t in types)
                     if (t.Name == "PhotonNetwork") { _photonType = t; return; }
+            }
         }
         void Disconnect()
         {

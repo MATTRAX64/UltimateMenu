@@ -38,7 +38,7 @@ namespace UltimateMenu
             _announce=active;MenuPrefs.SetInt(Pref,active?1:0);_nextRefresh=_nextPublish=0f;
             if(active)
             {
-                foreach(string page in new[]{"Spawner.Title","Ragdoll.Title","NameTags.Title"})MenuPrefs.SetInt("MUM_ModEnabled_"+page,1);
+                foreach(string page in new[]{"Spawner.Title","Ragdoll.Title"})MenuPrefs.SetInt("MUM_ModEnabled_"+page,1);
             }
             else
             {
