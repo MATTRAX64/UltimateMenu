@@ -23,6 +23,7 @@ namespace UltimateMenu
         [Serializable] sealed class AccessToken { public string token; }
         [Serializable] sealed class Issue { public string title,body; }
         bool _enabled,_sending;
+        readonly System.Collections.Generic.HashSet<string> _seen=new System.Collections.Generic.HashSet<string>();
         float _nextSnapshot,_nextSend,_nextError;
         public string StatusKey {get;private set;}="Crash.Ready";
         [Serializable] public sealed class Report
@@ -36,7 +37,7 @@ namespace UltimateMenu
             Instance=this;
             _folder=Path.Combine(BepInEx.Paths.PluginPath,"UltimateMenu","CrashReports");
             _session=Path.Combine(_folder,"session.json");
-            _enabled=MenuPrefs.GetInt(Pref,0)==1;
+            _enabled=MenuPrefs.GetInt(Pref,1)==1;
             if(_enabled)
             {
                 Directory.CreateDirectory(_folder);
@@ -47,6 +48,7 @@ namespace UltimateMenu
                 }
                 Snapshot();
             }
+            if(_enabled)PurgeOutdated();
             Application.logMessageReceivedThreaded+=Capture;
         }
         public void SetEnabled(bool value)
@@ -57,6 +59,27 @@ namespace UltimateMenu
             else {while(_errors.TryDequeue(out _)){};ClearSession();}
         }
         public bool ReportsEnabled=>_enabled;
+        // A report belongs to the version that recorded it (modVersion). Once a newer version runs, older reports are stale (the bug may be fixed), so they are deleted instead of sent.
+        // An unreadable report or one without a valid version is useless and counts as outdated. If the running version itself is unknown, nothing is deleted.
+        static bool IsOlderThanCurrent(string recorded)
+        {
+            if(!Version.TryParse(Log.PluginVersion,out var current))return false;
+            return !Version.TryParse(recorded,out var old)||old<current;
+        }
+        void PurgeOutdated()
+        {
+            try
+            {
+                foreach(var file in Directory.GetFiles(_folder,"report-*.json*"))
+                {
+                    string recorded=null;
+                    try{recorded=JsonUtility.FromJson<Report>(File.ReadAllText(file))?.modVersion;}catch{}
+                    if(!IsOlderThanCurrent(recorded))continue;
+                    try{File.Delete(file);}catch{}
+                }
+            }
+            catch(Exception error){Debug.LogWarning("[UltimateMenu] Crash purge: "+error.Message);}
+        }
         public static void Record(string context,Exception error)
         {
             var reporter=Instance;
@@ -75,7 +98,7 @@ namespace UltimateMenu
             if(Time.unscaledTime>=_nextError&&_errors.TryDequeue(out string error))
             {
                 _nextError=Time.unscaledTime+30;
-                if(error==_lastRecorded)return;
+                if(error==_lastRecorded||!_seen.Add(error))return;
                 _lastRecorded=error;
                 var report=Describe();report.kind="exception";report.error=Redact(error);
                 Store(report);
@@ -93,7 +116,7 @@ namespace UltimateMenu
             string path=BepInEx.Paths.GameRootPath;
             string distribution=path.IndexOf("steamapps",StringComparison.OrdinalIgnoreCase)>=0?"Steam":path.IndexOf("Oculus",StringComparison.OrdinalIgnoreCase)>=0?"Meta/Oculus":"Unknown";
             string player=NetworkSystem.Instance!=null?NetworkSystem.Instance.GetMyNickName():MenuPrefs.GetString("playerName","Gorilla");
-            return new Report {id=Guid.NewGuid().ToString("N"),date=DateTimeOffset.Now.ToString("O"),player=NameContent.Plain(player),modVersion=Log.PluginVersion,
+            return new Report {id=Guid.NewGuid().ToString("N"),date=DateTimeOffset.Now.ToString("O"),player="anonymous",modVersion=Log.PluginVersion,
                 gameVersion=Application.version,unityVersion=Application.unityVersion,distribution=distribution,runtime=XRSettings.loadedDeviceName??"Unknown",
                 cpu=SystemInfo.processorType,cpuThreads=SystemInfo.processorCount,gpu=SystemInfo.graphicsDeviceName,ramMB=SystemInfo.systemMemorySize,vramMB=SystemInfo.graphicsMemorySize,os=SystemInfo.operatingSystem};
         }
@@ -128,7 +151,8 @@ namespace UltimateMenu
         {
             _sending=true;StatusKey="Crash.Sending";
             Report report;
-            try {report=JsonUtility.FromJson<Report>(File.ReadAllText(file));}catch{_sending=false;yield break;}
+            try {report=JsonUtility.FromJson<Report>(File.ReadAllText(file));}catch{try{File.Delete(file);}catch{}_sending=false;yield break;}
+            if(report==null||IsOlderThanCurrent(report.modVersion)){try{File.Delete(file);}catch{}_sending=false;yield break;}
             if(string.IsNullOrEmpty(_token)||DateTime.UtcNow>=_tokenExpiry)
             {
                 string jwt;
