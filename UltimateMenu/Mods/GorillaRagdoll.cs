@@ -290,6 +290,12 @@ namespace UltimateMenu
             Vector3 originalScale=original.lossyScale;
             target.localScale=new Vector3(originalScale.x/Mathf.Max(.001f,Mathf.Abs(boneScale.x)),originalScale.y/Mathf.Max(.001f,Mathf.Abs(boneScale.y)),originalScale.z/Mathf.Max(.001f,Mathf.Abs(boneScale.z)));
         }
+        // Without a VR headset (or before cosmetics finish loading) the game has no cosmetics entry for the local rig and throws KeyNotFoundException.
+        static IEnumerable<GameObject> SafeCosmetics(Func<IEnumerable<GameObject>> get)
+        {
+            try{return get();}
+            catch(KeyNotFoundException){return null;}
+        }
         Doll Build(VRRig rig,float seed,float speed,float random,float stretch,bool hide,float duration,Vector3? position=null,Quaternion? rotation=null,float? scale=null,Vector3? worldLaunch=null)
         {
             var d=new Doll{Source=rig,Seed=seed,Hide=hide,Expires=Time.unscaledTime+duration};
@@ -300,7 +306,7 @@ namespace UltimateMenu
                 var selectedOutfitRoots=new HashSet<GameObject>();
                 Action<IEnumerable<GameObject>> addRoots=items=>{if(items!=null)foreach(var item in items)if(item!=null&&item.activeInHierarchy)outfitRoots.Add(item);};
                 Action<IEnumerable<GameObject>> addSelected=items=>{if(items!=null)foreach(var item in items)if(item!=null&&item.activeInHierarchy){outfitRoots.Add(item);selectedOutfitRoots.Add(item);}};
-                addSelected(rig.activeCosmetics);addRoots(rig.cosmetics);addRoots(rig.overrideCosmetics);
+                addSelected(SafeCosmetics(()=>rig.activeCosmetics));addRoots(SafeCosmetics(()=>rig.cosmetics));addRoots(SafeCosmetics(()=>rig.overrideCosmetics));
                 if(rig.cosmeticsObjectRegistry!=null&&rig.mergedSet!=null&&rig.mergedSet.items!=null)
                     foreach(var item in rig.mergedSet.items)
                     {
@@ -312,6 +318,35 @@ namespace UltimateMenu
                 foreach(var item in outfitRoots)
                     foreach(var renderer in item.GetComponentsInChildren<Renderer>(true))
                         if(renderer.gameObject.activeInHierarchy&&(renderer.enabled||selectedOutfitRoots.Contains(item)))worn.Add(renderer);
+                // A cosmetic can be reached from several lists (worn, left/right copies, registry). Keep one renderer per same mesh + material + place.
+                Func<Renderer,bool> isSelected=rend=>selectedOutfitRoots.Any(root=>root!=null&&rend.transform.IsChildOf(root.transform));
+                Func<Renderer,string> meshKey=rend=>{Mesh m=rend is SkinnedMeshRenderer sk?sk.sharedMesh:rend.GetComponent<MeshFilter>()?.sharedMesh;return m==null?"":m.GetInstanceID()+"|"+(rend.sharedMaterial!=null?rend.sharedMaterial.GetInstanceID():0);};
+                // A cosmetic can exist twice: the one really worn (selected) and a template copy that stays in the scene. Keep the worn one.
+                var wornKeys=new HashSet<string>(worn.Where(rend=>rend.transform.IsChildOf(rig.transform)).Select(meshKey).Where(k=>k.Length>0));
+                foreach(var unworn in worn.Where(rend=>!rend.transform.IsChildOf(rig.transform)&&wornKeys.Contains(meshKey(rend))).ToArray())
+                {worn.Remove(unworn);Log.Info("Ragdoll: copy outside the rig removed (same cosmetic exists on the rig): "+unworn.name+" (parent "+(unworn.transform.parent!=null?unworn.transform.parent.name:"-")+")");}
+                var bodyBones=(rig.mainSkin!=null?rig.mainSkin.bones:new Transform[0]).Where(b=>b!=null&&IsBodyBone(BoneName(b))).ToArray();
+                var keptParts=new Dictionary<string,(Renderer r,float dist)>();
+                foreach(var candidate in worn.ToArray())
+                {
+                    if(candidate==rig.mainSkin||candidate==rig.faceSkin)continue;
+                    Mesh candidateMesh=candidate is SkinnedMeshRenderer candidateSkin?candidateSkin.sharedMesh:candidate.GetComponent<MeshFilter>()?.sharedMesh;
+                    if(candidateMesh==null)continue;
+                    Vector3 at=candidate.transform.position;
+                    if(bodyBones.Length==0)continue;
+                    Transform nearestBone=bodyBones.OrderBy(b=>(b.position-at).sqrMagnitude).First();
+                    float boneDistance=(nearestBone.position-at).magnitude;
+                    string partKey=candidateMesh.GetInstanceID()+"|"+(candidate.sharedMaterial!=null?candidate.sharedMaterial.GetInstanceID():0)+"|"+nearestBone.GetInstanceID();
+                    if(keptParts.TryGetValue(partKey,out var kept))
+                    {
+                        Renderer loser=boneDistance<kept.dist?kept.r:candidate;
+                        if(loser==kept.r)keptParts[partKey]=(candidate,boneDistance);
+                        worn.Remove(loser);
+                        Log.Info("Ragdoll: duplicate cosmetic removed: "+loser.name+" (parent "+(loser.transform.parent!=null?loser.transform.parent.name:"-")+"), kept the one closest to "+nearestBone.name);
+                    }
+                    else keptParts[partKey]=(candidate,boneDistance);
+                }
+                Log.Info("Ragdoll cosmetics ("+worn.Count+"): "+string.Join(" | ",worn.Select(r=>r.name+" ["+r.GetType().Name+(r.enabled?"":", disabled")+", worn="+isSelected(r)+", inRig="+r.transform.IsChildOf(rig.transform)+"] parent="+(r.transform.parent!=null?r.transform.parent.name:"-")+" at "+r.transform.position.ToString("F2"))));
                 var skins=worn.OfType<SkinnedMeshRenderer>().Where(s=>s.sharedMesh!=null&&s.bones.Length>0).Take(32).ToArray();
                 var skin=rig.mainSkin;
                 if(skin==null||skin.sharedMesh==null||skin.bones.Length==0)
@@ -380,12 +415,18 @@ namespace UltimateMenu
                 Transform[] skinBones=skin.bones;
                 for(int i=0;i<Mathf.Min(bindPoses.Length,skinBones.Length);i++)
                     if(skinBones[i]!=null)restWorld[skinBones[i]]=meshWorld*bindPoses[i].inverse;
-                if(restWorld.Count!=sourceBones.Count)throw new InvalidOperationException("Incomplete body bind poses; cannot detach tracking safely.");
+                if(restWorld.Count!=sourceBones.Count)Log.Info("Ragdoll: "+(sourceBones.Count-restWorld.Count)+" bone(s) without bind pose, using their live pose.");
                 foreach(var source in sourceBones.OrderBy(Depth))
                 {
-                    Transform bone=copy(source);Matrix4x4 pose=restWorld[source];
-                    bone.SetPositionAndRotation(pose.GetColumn(3),pose.rotation);
-                    Vector3 worldScale=pose.lossyScale,parentScale=bone.parent!=null?bone.parent.lossyScale:Vector3.one;
+                    Transform bone=copy(source);
+                    // Spawn in the pose the player has right now (arms, hug...). Scale still comes from the bind pose because tracking jobs rescale live bones.
+                    Vector3 posePosition=d.Root.transform.TransformPoint(rig.transform.InverseTransformPoint(source.position));
+                    Quaternion poseRotation=d.Root.transform.rotation*(Quaternion.Inverse(rig.transform.rotation)*source.rotation);
+                    Vector3 rigScale=rig.transform.lossyScale,rootScale=d.Root.transform.lossyScale,liveScale=source.lossyScale;
+                    Vector3 poseScale=restWorld.TryGetValue(source,out var rest)?(Vector3)rest.lossyScale:new Vector3(liveScale.x/NonZero(rigScale.x)*rootScale.x,liveScale.y/NonZero(rigScale.y)*rootScale.y,liveScale.z/NonZero(rigScale.z)*rootScale.z);
+                    if(float.IsNaN(posePosition.x)||float.IsNaN(poseRotation.x)){posePosition=bone.position;poseRotation=bone.rotation;}
+                    bone.SetPositionAndRotation(posePosition,poseRotation);
+                    Vector3 worldScale=poseScale,parentScale=bone.parent!=null?bone.parent.lossyScale:Vector3.one;
                     bone.localScale=new Vector3(worldScale.x/NonZero(parentScale.x),worldScale.y/NonZero(parentScale.y),worldScale.z/NonZero(parentScale.z));
                 }
                 // Select the bone carrying torso vertices, not the common IK-target ancestor.
@@ -572,7 +613,14 @@ namespace UltimateMenu
                     var sourceRenderer=item.GetComponentsInChildren<Renderer>().FirstOrDefault(r=>worn.Contains(r));
                     Vector3 center=sourceRenderer!=null?sourceRenderer.bounds.center:item.transform.position;
                     Vector3 cloneCenter=d.Root.transform.TransformPoint(rig.transform.InverseTransformPoint(center));
-                    Transform nearest=d.Drivers.OrderBy(driver=>(driver.Bone.position-cloneCenter).sqrMagnitude).First().Bone;
+                    Transform nearest=d.Drivers.OrderBy(driver=>
+                    {
+                        // Distance to the body part's real shape, not to its joint origin (a chest badge sits far from every joint). The torso is favoured when it is nearly as close.
+                        float best=float.MaxValue;
+                        foreach(var shape in driver.Body.GetComponentsInChildren<Collider>())
+                        {float gap=(shape.ClosestPoint(cloneCenter)-cloneCenter).sqrMagnitude;if(gap<best)best=gap;}
+                        return driver.Root?best*.5f:best;
+                    }).First().Bone;
                     if(nearest!=itemCopy&&!nearest.IsChildOf(itemCopy))itemCopy.SetParent(nearest,true);
                 }
                 foreach(var source in new[]{skin}.Concat(skins).SelectMany(s=>s.bones).Where(b=>b!=null).Distinct())
@@ -667,12 +715,18 @@ namespace UltimateMenu
             }
             GUILayout.EndHorizontal();
         }
+        bool _snapReady,_snapPending,_snapStatus;
         void DrawPage(MenuUI ui)
+        {
+            if(!_snapReady||(Event.current!=null&&Event.current.type==EventType.Layout)){_snapPending=_pendingStart>=0;_snapStatus=_status.Length>0;_snapReady=true;}
+            DrawPageBody(ui);
+        }
+        void DrawPageBody(MenuUI ui)
         {
             ui.BeginCard();
             if(ui.Btn(I18n.T(_local!=null?"Ragdoll.Restore":_pendingStart>=0?"Ragdoll.Cancel":"Ragdoll.Trigger"),ui.TA,Theme.Text))
             {if(_local!=null)RestoreLocal();else if(_pendingStart>=0)_pendingStart=-1;else BeginActivation();}
-            if(_pendingStart>=0)ui.Label(I18n.T("Ragdoll.Countdown")+" "+Mathf.CeilToInt(_pendingStart-Time.unscaledTime)+"s",Theme.Text,10,true);
+            if(_snapPending)ui.Label(I18n.T("Ragdoll.Countdown")+" "+Mathf.Max(0,Mathf.CeilToInt(_pendingStart-Time.unscaledTime))+"s",Theme.Text,10,true);
             bool hide=ui.Toggle(I18n.T("Ragdoll.Hide"),_hide);
             if(hide!=_hide)
             {
@@ -680,7 +734,7 @@ namespace UltimateMenu
                 if(_local!=null){RestoreRendering(_local);_local.Hide=hide;Publish();}
                 Save();
             }
-            if(_status.Length>0)ui.Label(I18n.T(_status),Theme.Dim,9);
+            if(_snapStatus)ui.Label(I18n.T(_status),Theme.Dim,9);
             float delay=ui.IntSlider(I18n.T("Ragdoll.Delay"),(int)_delay,0,15);
             bool close=ui.Toggle(I18n.T("Ragdoll.CloseMenu"),_closeMenu);
             if(delay!=_delay||close!=_closeMenu){_delay=delay;_closeMenu=close;Save();}
@@ -783,6 +837,7 @@ namespace UltimateMenu
         internal static string Part(string name)
         {
             if(name.Contains("head"))return "head";
+            if(name=="body"||name=="bodynew"||name.Contains("chest")||name.Contains("spine")||name.Contains("torso"))return "torso";
             string side=name.Contains("left")||name.Contains("arml")||name.Contains("handl")||name.Contains("wristl")?"l":
                 name.Contains("right")||name.Contains("armr")||name.Contains("handr")||name.Contains("wristr")?"r":"";
             if(side.Length==0)return "";
