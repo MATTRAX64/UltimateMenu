@@ -60,11 +60,11 @@ Un mod doit être **activé** avant que ses réglages soient accessibles.
 
 ---
 
-## 📁 Fichiers / dociers créés par le menu
+## 📁 Fichiers / Dociers créés par le menu
 
 Ils se trouvent dans `BepInEx\plugins\UltimateMenu\`.
 
-| Fichier | Contenu |
+| Fichier / Dociers | Contenu |
 | :--- | :--- |
 | `📄 Profile.json` | Réglages du menu |
 | `📁 GorillaFaces` | Images de visage personnalisé |
