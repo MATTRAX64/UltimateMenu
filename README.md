@@ -60,18 +60,18 @@ Un mod doit être **activé** avant que ses réglages soient accessibles.
 
 ---
 
-## 📁 Fichiers créés par le menu
+## 📁 Fichiers / dociers créés par le menu
 
 Ils se trouvent dans `BepInEx\plugins\UltimateMenu\`.
 
 | Fichier | Contenu |
 | :--- | :--- |
-| `Profile.json` | Réglages du menu |
-| `GorillaFaces\` | Images de visage personnalisé |
-| `GorillaMocap\` | Exports Mocap pour Blender |
-| `GorillaSpawners\` | Fichiers `.bundle` des objets 3D |
-| `GorillaStreams\` | Texte pour OBS (code de la salle et nombre de joueurs) |
-| `CrashReports\` | Rapports d'erreurs, si l'envoi est activé |
+| `📄 Profile.json` | Réglages du menu |
+| `📁 GorillaFaces` | Images de visage personnalisé |
+| `📁 GorillaMocap` | Exports Mocap pour Blender |
+| `📁 GorillaSpawners` | Fichiers `.bundle` des objets 3D |
+| `📁 GorillaStreams` | Texte pour OBS (code de la salle et nombre de joueurs) |
+| `📁 CrashReports` | Rapports d'erreurs, si l'envoi est activé |
 
 ---
 
