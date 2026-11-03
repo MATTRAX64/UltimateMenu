@@ -77,7 +77,7 @@ Ils se trouvent dans `BepInEx\plugins\UltimateMenu\`.
 
 ## 🔐 Confidentialité
 
-* **Rapports d'erreurs** : désactivés par défaut. Si tu les actives, les erreurs sont envoyées en issues publiques sur GitHub, avec ton pseudo, ta configuration et le texte de l'erreur. Les chemins et les clés sont masqués.
+* **Rapports d'erreurs** : Activé par défaut pour récupérer les erreurs pour les régler après on peut toujours desactiver le Rapports d'erreurs dans les settings du mod menu.
 * **Vérification de version** : le menu interroge l'API GitHub au lancement.
 
 ---
