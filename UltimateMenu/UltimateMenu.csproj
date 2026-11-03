@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <Nullable>enable</Nullable>
-    <Version>1.7.114</Version>
+    <Version>$([System.Text.RegularExpressions.Regex]::Match($([System.IO.File]::ReadAllText('$(MSBuildProjectDirectory)\Log.cs')), 'BepInPlugin\([^,]+,[^,]+,\s*"([0-9.]+)"').Groups[1].Value)</Version>
     <BaseOutputPath></BaseOutputPath>
   </PropertyGroup>
 

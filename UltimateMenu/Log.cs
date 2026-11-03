@@ -3,7 +3,7 @@ using UnityEngine.Networking;
 using System.Collections;
 namespace UltimateMenu
 {
-    [BepInPlugin("com.mattrax.ultimatemenu", "UltimateMenu", "1.7.114")]
+    [BepInPlugin("com.mattrax.ultimatemenu", "UltimateMenu", "1.7.123")]
     public class Log : BaseUnityPlugin
     {
         public static Log Instance { get; private set; }
@@ -37,7 +37,7 @@ namespace UltimateMenu
             catch (ReflectionTypeLoadException e)
             {
                 modules = e.Types.Where(t => t != null).ToArray();
-                foreach (var failure in e.LoaderExceptions) if (failure != null) Err("Optional module dependency", failure);
+                foreach (var failure in e.LoaderExceptions) if (failure != null) Info("Optional module dependency: " + failure.Message);
             }
             try { gameObject.AddComponent<MenuUI>(); } catch (Exception e) { Err("Menu startup", e); }
             foreach (var t in modules.Where(t => t.Namespace == typeof(Log).Namespace && t.IsClass && !t.IsAbstract && typeof(MonoBehaviour).IsAssignableFrom(t) && t != typeof(Log) && t != typeof(MenuUI) && t != typeof(CrashReporter) && t != typeof(GorillaInterface) && t != typeof(Notif)))

@@ -339,6 +339,7 @@ namespace UltimateMenu
             sb.AppendLine("MUM_BgAlpha=" + MenuPrefs.GetFloat("MUM_BgAlpha", 0.97f).ToString(Inv));
             sb.AppendLine("MUM_Layout=" + MenuPrefs.GetInt("MUM_Layout", 0));
             sb.AppendLine("MUM_Lang=" + MenuPrefs.GetInt("MUM_Lang", 0));
+            sb.AppendLine("MUM_TextOverlays=" + MenuPrefs.GetString("MUM_TextOverlays", "{}"));
             string content = sb.ToString();
             var t = new System.Threading.Thread(() =>
             {
@@ -1776,6 +1777,7 @@ namespace UltimateMenu
         public bool ColorPickerHSV(ref Color color, string label = "Couleur", float sv = 200f, float hw = 20f, bool compact = false)
         {
             Label(label, Theme.Text, 10);
+            float keepAlpha = color.a;
             Color.RGBToHSV(color, out float hue, out float saturation, out float value);
             if (_colorWheelTexture == null)
             {
@@ -1831,6 +1833,7 @@ namespace UltimateMenu
             UI.DrawRounded(new Rect(marker.x - 3f * UI.Scale, marker.y - 3f * UI.Scale, 6f * UI.Scale, 6f * UI.Scale), Color.HSVToRGB(hue, saturation, value), UI.Px(3));
             changed |= !Mathf.Approximately(newSaturation, saturation) || !Mathf.Approximately(newValue, value);
             color = Color.HSVToRGB(hue, newSaturation, newValue);
+            color.a = keepAlpha; // HSVToRGB returns alpha 1; keep the caller's opacity so an opacity slider next to the wheel can be dragged.
             return changed;
         }
 
