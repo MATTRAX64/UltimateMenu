@@ -6,7 +6,7 @@
 
 **Version actuelle : v1.7.114** · **18 langues**
 
-### **NexusMods | GameBanana | Github**
+### **NexusMods ![nexusmods_ico](https://www.nexusmods.com/Contents/images/og/default.png)    | GameBanana | Github**
 
 [![Release](https://img.shields.io/github/v/release/MATTRAX64/UltimateMenu?style=flat-square&color=6c5ce7)](https://github.com/MATTRAX64/UltimateMenu/releases)
 [![Téléchargements](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/MATTRAX64/UltimateMenu/main/scripts/downloads.json&query=$.total_affiche&label=t%C3%A9l%C3%A9chargements&color=6c5ce7&style=flat-square)](https://github.com/MATTRAX64/UltimateMenu/releases)
