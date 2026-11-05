@@ -5,6 +5,7 @@
 **Mod menu pour Gorilla Tag avec interface liquid glass, sur PC et en VR**
 
 **Version actuelle : v1.7.114** · **18 langues**
+
 **NexusMods | GameBanana | Github**
 
 [![Release](https://img.shields.io/github/v/release/MATTRAX64/UltimateMenu?style=flat-square&color=6c5ce7)](https://github.com/MATTRAX64/UltimateMenu/releases)
