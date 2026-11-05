@@ -6,7 +6,7 @@
 
 **Version actuelle : v1.7.114** · **18 langues**
 
-### **[Nexus Mods](https://www.nexusmods.com/)** ![NexusMods](https://www.google.com/s2/favicons?domain=nexusmods.com&sz=64) | **[GameBanana](https://gamebanana.com/)** ![GameBanana](https://www.google.com/s2/favicons?domain=gamebanana.com&sz=64) | **[GitHub](https://github.com/)** ![GitHub](https://github.com/favicon.ico)
+### **[Nexus Mods](https://www.nexusmods.com/)** <img src="https://www.google.com/s2/favicons?domain=nexusmods.com&sz=32" width="32" height="32" /> | **[GameBanana](https://gamebanana.com/)** <img src="https://www.google.com/s2/favicons?domain=gamebanana.com&sz=32" width="32" height="32" /> | **[GitHub](https://github.com/)** <img src="https://www.google.com/s2/favicons?domain=github.com&sz=32" width="32" height="32" />
 [![Release](https://img.shields.io/github/v/release/MATTRAX64/UltimateMenu?style=flat-square&color=6c5ce7)](https://github.com/MATTRAX64/UltimateMenu/releases)
 [![Téléchargements](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/MATTRAX64/UltimateMenu/main/scripts/downloads.json&query=$.total_affiche&label=t%C3%A9l%C3%A9chargements&color=6c5ce7&style=flat-square)](https://github.com/MATTRAX64/UltimateMenu/releases)
 
