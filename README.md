@@ -7,17 +7,11 @@
 **Version actuelle : v1.7.114** · **18 langues**
 
 <p align="center">
-  <a href="https://www.nexusmods.com/gorillatag/mods/1330" style="text-decoration: none;">
-    <img src="https://www.google.com/s2/favicons?domain=nexusmods.com&sz=64" width="32" height="32">
-  </a>
-  &nbsp;&nbsp;
-  <a href="https://gamebanana.com/mods/716098" style="text-decoration: none;">
-    <img src="https://www.google.com/s2/favicons?domain=gamebanana.com&sz=64" width="32" height="32">
-  </a>
-  &nbsp;&nbsp;
-  <a href="https://github.com/MATTRAX64/UltimateMenu/releases/" style="text-decoration: none;">
-    <img src="https://github.githubassets.com/favicons/favicon.png" width="32" height="32">
-  </a>
+  <a href="https://www.nexusmods.com/gorillatag/mods/1330"><img src="https://www.google.com/s2/favicons?domain=nexusmods.com&sz=64" width="32"></a>
+  &nbsp;
+  <a href="https://gamebanana.com/mods/716098"><img src="https://www.google.com/s2/favicons?domain=gamebanana.com&sz=64" width="32"></a>
+  &nbsp;
+  <a href="https://github.com/MATTRAX64/UltimateMenu/releases/"><img src="https://github.githubassets.com/favicons/favicon.png" width="32"></a>
 </p>
 
 [![Release](https://img.shields.io/github/v/release/MATTRAX64/UltimateMenu?style=flat-square&color=6c5ce7)](https://github.com/MATTRAX64/UltimateMenu/releases)
