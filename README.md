@@ -24,6 +24,7 @@
 </div>
 
 > Ce projet n'est pas affilié à Another Axiom ni à Gorilla Tag.
+
 > Ce projet utilise l’IA pour compresser et optimiser avant leur envoi sur GitHub.
 
 ---
