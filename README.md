@@ -35,14 +35,12 @@
 
 ## 🧩 Fonctionnalités
 
-| Catégorie | Ce que tu peux faire |
-| :--- | :--- |
-| 🎥 **Caméra et capture** | Caméra spectateur, Mocap pour Blender, filtres d'écran, overlay OBS |
-| 🕺 **Corps** | Suivi corporel (plusieurs modes) et ragdoll |
-| 👥 **Social** | Chat vocal, étiquettes de nom, visages personnalisés, salles, objets 3D |
-| 🌦 **Environnement** | Météo et heure, textes à l'écran, optimisation et compteur FPS |
+* Modifier des éléments visuels et en rajouter
+* Modifier des interactions de personnage, camera
+* Exporter, Importer des profils
+* Optimisation Unity - Discord Rich Presence
 
-Chaque mod a ses réglages dans l'onglet **Modes**. L'onglet **Accueil** gère l'apparence, la langue, le son et la VR.
+Chaque mod a ses réglages on peut aussi gérer l'apparence, la langue, le son.
 
 ---
 
