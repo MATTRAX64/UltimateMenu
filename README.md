@@ -51,7 +51,9 @@ Each mod has its own settings. You can also customize the menu’s appearance, l
 
 1. Install [BepInEx for Gorilla Tag](https://github.com/MATTRAX64/GorillaTagModInstaller).
 2. Download `UltimateMenu.dll` from [Releases](https://github.com/MATTRAX64/UltimateMenu/releases).
-3. Place the DLL in `C:\Program Files (x86)\Steam\steamapps\common\Gorilla Tag\BepInEx\plugins`.
+3. Place the DLL in the right directory :
+   - **Steam:** `C:\Program Files (x86)\Steam\steamapps\common\Gorilla Tag\BepInEx\plugins\`
+   - **Meta PC (Oculus):** `C:\Program Files\Oculus\Software\Software\another-axiom-gorilla-tag\BepInEx\plugins\`
 4. Launch the game.
 
 ---
