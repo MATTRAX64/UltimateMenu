@@ -21,7 +21,7 @@
 
 ![Aperçu du menu](Menu.png)
 
-![Aperçu de Rendu Visuel](PostVolume_URP.png)
+![Aperçu de Rendu Visuel](PostVolumeURP.png)
 
 </div>
 
