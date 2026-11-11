@@ -30,10 +30,9 @@
 
 ---
 
-## ✨ Nouveautés v1.7
+## ✨ Nouveautés v1.8
 
-* **Interface liquid glass** repensée, avec 9 polices intégrées et plusieurs thèmes.
-* **18 langues** disponibles.
+* **Interface liquid glass Réaliste** PostProcessing URP fonctionnel !
 
 ## 🧩 Fonctionnalités
 
@@ -49,7 +48,7 @@ Chaque mod a ses réglages on peut aussi gérer l'apparence, la langue, le son.
 ## 📦 Installation
 
 1. Installe [BepInEx](https://github.com/MATTRAX64/GorillaTagModInstaller) pour Gorilla Tag.
-2. Télécharge `UltimateMenu v1.7.114.dll` depuis les [Releases](https://github.com/MATTRAX64/UltimateMenu/releases).
+2. Télécharge `UltimateMenu.dll` depuis les [Releases](https://github.com/MATTRAX64/UltimateMenu/releases).
 3. Place-le dans `C:\Program Files (x86)\Steam\steamapps\common\Gorilla Tag\BepInEx\plugins\.....`.
 4. Lance le jeu.
 
@@ -57,10 +56,7 @@ Chaque mod a ses réglages on peut aussi gérer l'apparence, la langue, le son.
 
 ## 🎮 Utilisation
 
-* **PC** : ouvre le menu avec la touche configurée dans les réglages.
-* **VR** : stick droit, bas puis haut pour ouvrir, haut puis bas pour fermer. Gâchette pour valider.
-
-Un mod doit être **activé** avant que ses réglages soient accessibles.
+Un tutoriel **obligatoire** sera afficher en jeu pour ouvrir en jeu et pour la version ordinateur la touche est montrer dès le chargement.
 
 ### Blender et objets 3D
 
