@@ -4,7 +4,7 @@
 
 **Mod menu pour Gorilla Tag avec interface liquid glass, sur PC et en VR**
 
-**Version actuelle : v1.7.114** · **18 langues**
+**Version actuelle : v1.8.39** · **18 langues**
 
 <p align="center">
   <a href="https://www.nexusmods.com/gorillatag/mods/1330"><img src="https://www.google.com/s2/favicons?domain=nexusmods.com&sz=64" width="32"></a>
