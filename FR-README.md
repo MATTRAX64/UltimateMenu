@@ -49,7 +49,9 @@ Chaque mod a ses réglages on peut aussi gérer l'apparence, la langue, le son.
 
 1. Installe [BepInEx](https://github.com/MATTRAX64/GorillaTagModInstaller) pour Gorilla Tag.
 2. Télécharge `UltimateMenu.dll` depuis les [Releases](https://github.com/MATTRAX64/UltimateMenu/releases).
-3. Place-le dans `C:\Program Files (x86)\Steam\steamapps\common\Gorilla Tag\BepInEx\plugins\.....`.
+3. Place-le dans le bonne emplacement :
+   - **Steam:** `C:\Program Files (x86)\Steam\steamapps\common\Gorilla Tag\BepInEx\plugins\`
+   - **Meta PC (Oculus):** `C:\Program Files\Oculus\Software\Software\another-axiom-gorilla-tag\BepInEx\plugins\`
 4. Lance le jeu.
 
 ---
