@@ -6,7 +6,7 @@
 
 **Current version: v1.8.39** · **18 languages**
 
-[Cliquer pour voir le ReadMe en francais](https://github.com/MATTRAX64/UltimateMenu/blob/main/FR-README.md)
+[Cliquer pour le FR ReadMe](https://github.com/MATTRAX64/UltimateMenu/blob/main/FR-README.md)
 
 <p align="center">
   <a href="https://www.nexusmods.com/gorillatag/mods/1330"><img src="https://www.google.com/s2/favicons?domain=nexusmods.com&sz=64" width="32" alt="Nexus Mods"></a>
