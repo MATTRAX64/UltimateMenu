@@ -4,7 +4,7 @@
 
 **A Gorilla Tag mod menu with a Liquid Glass interface for desktop and VR**
 
-**Current version: v1.8.39** · **18 languages**
+**Current version: v1.8** · **18 languages**
 
 [Cliquer pour le FR ReadMe](https://github.com/MATTRAX64/UltimateMenu/blob/main/FR-README.md)
 
