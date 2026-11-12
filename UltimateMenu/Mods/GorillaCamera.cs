@@ -117,7 +117,7 @@ namespace UltimateMenu
             if (nowEnabled != _wasEnabled)
             {
                 _wasEnabled = nowEnabled;
-                if (nowEnabled) SpawnCameraClone(); else DestroyCameraClone();
+                if (nowEnabled) SpawnCameraClone(); else ReleaseCameraClone();
             }
 
             if (Keyboard.current == null) return;
@@ -129,19 +129,27 @@ namespace UltimateMenu
             if (IsKeyDown(KeyCode.Delete) && selectedKF >= 0 && selectedKF < Keyframes.Count) { Keyframes.RemoveAt(selectedKF); selectedKF = -1; }
             if (IsPlayingKeyframes) { PlayKF(); return; }
             Move(Keyboard.current);
-            if (Mouse.current.rightButton.isPressed) MouseLook(Mouse.current);
-            float scroll = Mouse.current.scroll.ReadValue().y;
+            var mouse = Mouse.current;
+            if (mouse == null) return;
+            if (mouse.rightButton?.isPressed == true) MouseLook(mouse);
+            float scroll = mouse.scroll?.ReadValue().y ?? 0f;
             if (Mathf.Abs(scroll) > 0.01f) { speed = Mathf.Clamp(speed + scroll * 0.005f, 1f, 20f); SaveSpeedSens(); }
         }
 
-        public void SpawnCameraClone() { if (_state == CamState.None) TriggerSpawn(); }
+        public void SpawnCameraClone()
+        {
+            if (_state != CamState.None) return;
+            var existing = GameObject.Find("LCKTablet(Clone)");
+            if (existing != null) GrabCamera(existing);
+            else TriggerSpawn();
+        }
 
-        public void DestroyCameraClone()
+        void ReleaseCameraClone()
         {
             IsPlayingKeyframes = false;
             if (Active) Disable();
             CancelInvoke(nameof(DelayedFind));
-            if (lckCamera != null) Destroy(lckCamera);
+            // The game owns the LCK tablet and its monitor lifecycle.
             lckCamera = null;
             _state = CamState.None;
         }
@@ -152,7 +160,7 @@ namespace UltimateMenu
             {
                 var wallGO = GameObject.Find("WallSpawner");
                 if (wallGO == null) return;
-                var wallComp = wallGO.GetComponents<Component>().FirstOrDefault(c => c.GetType().Name == "LckWallCameraSpawner");
+                var wallComp = wallGO.GetComponents<Component>().FirstOrDefault(c => c != null && c.GetType().Name == "LckWallCameraSpawner");
                 if (wallComp == null) return;
                 var flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static;
                 var getOrCreate = wallComp.GetType().GetMethod("GetOrCreateBodyCameraSpawner", flags);
