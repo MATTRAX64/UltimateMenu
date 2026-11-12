@@ -49,7 +49,12 @@ namespace UltimateMenu
 
         GameObject _cam;
         Camera _lens;
-        bool _owned, _spawning, _spawnedByUs;
+        bool _spawning;
+        Transform _tabletParent;
+        bool _tabletWasParented;
+        Vector3 _tabletPosition;
+        Quaternion _tabletRotation;
+        Vector3 _tabletScale;
         float _nextFind, _nextSpawnTry, _spawnDeadline;
 
         bool _wasEnabled, _pageRegistered;
@@ -109,7 +114,7 @@ namespace UltimateMenu
 
         void BeginCasting()
         {
-            _spawnedByUs = false; _spawning = false; _nextFind = 0f; _nextSpawnTry = 0f;
+            _spawning = false; _nextFind = 0f; _nextSpawnTry = 0f;
             ResetView();
             _nextSwitch = Time.unscaledTime + _switchEvery;
             RefreshPlayers();
@@ -117,17 +122,31 @@ namespace UltimateMenu
 
         void EndCasting()
         {
-            if (_owned && _cam != null) Destroy(_cam);
-            _cam = null; _lens = null; _owned = false; _spawning = false; _spawnedByUs = false;
+            ReleaseTablet();
+            _spawning = false;
             ResetView();
             MenuPrefs.Save();
         }
 
         void OnDestroy()
         {
-            if (_owned && _cam != null) Destroy(_cam);
+            ReleaseTablet();
             MenuPrefs.Save();
             if (Instance == this) Instance = null;
+        }
+
+        void ReleaseTablet()
+        {
+            if (_cam != null && (!_tabletWasParented || _tabletParent != null))
+            {
+                var tablet = _cam.transform;
+                tablet.SetParent(_tabletParent, false);
+                tablet.SetLocalPositionAndRotation(_tabletPosition, _tabletRotation);
+                tablet.localScale = _tabletScale;
+            }
+            _cam = null;
+            _lens = null;
+            _tabletParent = null;
         }
 
         void ResetView() { _init = false; _mapInit = false; _wallK = 1f; }
@@ -144,11 +163,11 @@ namespace UltimateMenu
 
         void MaintainCamera()
         {
-            if (_cam != null && !_cam.activeInHierarchy) { _cam = null; _lens = null; _owned = false; ResetView(); }
+            if (_cam != null && !_cam.activeInHierarchy) { ReleaseTablet(); ResetView(); }
             if (_cam != null || Time.unscaledTime < _nextFind) return;
             _nextFind = Time.unscaledTime + 0.5f;
             var found = FindExisting();
-            if (found != null) { Adopt(found, _spawnedByUs); return; }
+            if (found != null) { Adopt(found); return; }
             if (_spawning && Time.unscaledTime < _spawnDeadline) return;
             _spawning = false;
             if (Time.unscaledTime >= _nextSpawnTry) { _nextSpawnTry = Time.unscaledTime + 3f; TriggerSpawn(); }
@@ -163,12 +182,18 @@ namespace UltimateMenu
             gc.Disable();
         }
 
-        void Adopt(GameObject go, bool owned)
+        void Adopt(GameObject go)
         {
             _cam = go;
-            _cam.transform.SetParent(null);
+            var tablet = go.transform;
+            _tabletParent = tablet.parent;
+            _tabletWasParented = _tabletParent != null;
+            _tabletPosition = tablet.localPosition;
+            _tabletRotation = tablet.localRotation;
+            _tabletScale = tablet.localScale;
+            tablet.SetParent(null);
             _lens = null;
-            _owned = owned; _spawning = false; _spawnedByUs = false;
+            _spawning = false;
             ResetView();
             SetStatus("Casting.CamReady");
         }
@@ -182,7 +207,7 @@ namespace UltimateMenu
                 if (gc != null && gc.Enabled)
                 {
                     gc.SpawnCameraClone();
-                    _spawning = true; _spawnedByUs = false; _spawnDeadline = Time.unscaledTime + 10f;
+                    _spawning = true; _spawnDeadline = Time.unscaledTime + 10f;
                     SetStatus("Casting.CamSpawning");
                     return;
                 }
@@ -198,7 +223,7 @@ namespace UltimateMenu
                 var spawnMethod = bodySpawner.GetType().GetMethod("SpawnCamera", flags);
                 if (spawnMethod == null) return;
                 try { spawnMethod.Invoke(bodySpawner, new object[spawnMethod.GetParameters().Length]); } catch { }
-                _spawning = true; _spawnedByUs = true; _spawnDeadline = Time.unscaledTime + 10f;
+                _spawning = true; _spawnDeadline = Time.unscaledTime + 10f;
                 SetStatus("Casting.CamSpawning");
             }
             catch (Exception e) { Log.Err("GorillaCasting.TriggerSpawn", e); }
