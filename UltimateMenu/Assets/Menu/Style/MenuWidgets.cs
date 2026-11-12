@@ -152,6 +152,40 @@ namespace UltimateMenu
             return Theme.Accent;
         }
 
+        void EmojiLabel(string text, GUIStyle style)
+        {
+            Rect row = GUILayoutUtility.GetRect(0f, style.lineHeight + style.padding.vertical + 2f, GUILayout.ExpandWidth(true));
+            DrawSingleLineLabel(row, text, style);
+        }
+
+        static void DrawEmojiRuns(Rect rect, GUIStyle style,
+            List<(string Text, Texture2D? Texture, float Width)> runs, float width)
+        {
+            float x = rect.x + style.padding.left;
+            float extra = rect.width - width;
+            if (style.alignment == TextAnchor.MiddleCenter) x += extra * .5f;
+            else if (style.alignment == TextAnchor.MiddleRight) x += extra;
+
+            var runStyle = new GUIStyle(style)
+            {
+                alignment = TextAnchor.MiddleLeft,
+                padding = new RectOffset()
+            };
+            foreach (var run in runs)
+            {
+                if (run.Texture != null)
+                {
+                    float size = run.Width;
+                    GUI.DrawTexture(new Rect(x, rect.center.y - size * .5f, size, size), run.Texture);
+                }
+                else
+                {
+                    GUI.Label(new Rect(x, rect.y, run.Width + 1f, rect.height), run.Text, runStyle);
+                }
+                x += run.Width;
+            }
+        }
+
         static void DrawSingleLineLabel(Rect rect, string text, GUIStyle source)
         {
             if (Event.current.type != EventType.Repaint || rect.width <= 0f || string.IsNullOrEmpty(text))
@@ -159,10 +193,41 @@ namespace UltimateMenu
 
             var style = new GUIStyle(source) { wordWrap = false, clipping = TextClipping.Clip };
             var content = new GUIContent(text.Replace('\r', ' ').Replace('\n', ' '));
+            List<(string Text, Texture2D? Texture, float Width)>? runs = null;
             float width = Mathf.Ceil(style.CalcSize(content).x);
+            int offsetInText = 0;
+            foreach (System.Text.RegularExpressions.Match match in MenuEmoji.Sequences.Matches(content.text))
+            {
+                var texture = MenuEmoji.Get(match.Value);
+                if (texture == null) continue;
+                runs ??= new List<(string, Texture2D?, float)>();
+                AddTextRun(content.text.Substring(offsetInText, match.Index - offsetInText));
+                runs.Add(("", texture, Mathf.Ceil(style.lineHeight * 1.08f)));
+                offsetInText = match.Index + match.Length;
+            }
+            if (runs != null)
+            {
+                AddTextRun(content.text.Substring(offsetInText));
+                width = style.padding.horizontal;
+                foreach (var run in runs) width += run.Width;
+            }
+
+            void AddTextRun(string part)
+            {
+                if (part.Length == 0) return;
+                // Subtract the sentinel's advance to retain trailing spaces in the measured run.
+                float advance = style.CalcSize(new GUIContent(part + "|")).x - style.CalcSize(new GUIContent("|")).x;
+                runs?.Add((part, null, Mathf.Max(0f, advance)));
+            }
+
+            void DrawText(Rect bounds)
+            {
+                if (runs == null) GUI.Label(bounds, content, style);
+                else DrawEmojiRuns(bounds, style, runs, width);
+            }
             if (width <= rect.width)
             {
-                GUI.Label(rect, content, style);
+                DrawText(rect);
                 return;
             }
 
@@ -183,7 +248,7 @@ namespace UltimateMenu
 
             style.alignment = TextAnchor.MiddleLeft;
             GUI.BeginGroup(rect);
-            GUI.Label(new Rect(-offset, 0f, width, rect.height), content, style);
+            DrawText(new Rect(-offset, 0f, width, rect.height));
             GUI.EndGroup();
         }
 
@@ -224,8 +289,7 @@ namespace UltimateMenu
             Rect row = GUILayoutUtility.GetRect(1f, 54f * scale, GUILayout.ExpandWidth(true));
             bool hover = row.Contains(Event.current.mousePosition);
             UI.DrawGlass(row, Color.Lerp(Theme.BG3, tint, hover ? .28f : .15f), Mathf.RoundToInt(12f * scale));
-            UI.DrawRounded(new Rect(row.x + 9f * scale, row.y + 10f * scale, 4f * scale, 34f * scale), tint, Mathf.RoundToInt(2f * scale));
-            Rect label = new Rect(row.x + 22f * scale, row.y + 5f * scale, Mathf.Max(1f, row.width - 30f * scale), 23f * scale);
+            Rect label = new Rect(row.x + 12f * scale, row.y + 5f * scale, Mathf.Max(1f, row.width - 24f * scale), 23f * scale);
             GUI.Label(label, title, UI.Sty(Theme.Text, 12, true, TextAnchor.MiddleLeft));
             label.y += 22f * scale;
             GUI.Label(label, caption, UI.Sty(UI.SecondaryText, 9, false, TextAnchor.MiddleLeft));

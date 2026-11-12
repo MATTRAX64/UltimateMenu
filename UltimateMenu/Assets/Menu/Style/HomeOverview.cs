@@ -33,7 +33,8 @@ namespace UltimateMenu
             if (_supporters.Length == 0) return;
             Section(I18n.T("Core.supporters"));
             BeginCard();
-            foreach (var name in _supporters) Label(name, Theme.Text, 11, true);
+            var style = UI.Sty(Theme.Text, 11, true, TextAnchor.MiddleLeft);
+            foreach (var name in _supporters) EmojiLabel(name, style);
             EndCard();
             Space(10);
         }
