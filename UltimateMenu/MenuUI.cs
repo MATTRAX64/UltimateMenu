@@ -638,6 +638,7 @@ namespace UltimateMenu
 
         void OnDestroy()
         {
+            MenuEmoji.Clear();
             if (Instance != this) return;
             Instance = null;
             if (_gorillaInterface != null) Destroy(_gorillaInterface.gameObject);
@@ -1524,7 +1525,8 @@ namespace UltimateMenu
             ExpandableSection(I18n.T("Core.home_news"), string.IsNullOrEmpty(Log.PublishedVersion) ? "" : "v" + Log.PublishedVersion, ref _newsOpen, () =>
             {
                 bool hasNotes = !string.IsNullOrWhiteSpace(Log.ReleaseNotes);
-                Label(hasNotes ? Log.ReleaseNotes : I18n.T("Core.home_news_empty"), hasNotes ? Theme.Text : Theme.Dim, 10);
+                if (hasNotes) DrawReleaseMarkdown(Log.ReleaseNotes, I18n.T("Core.home_news"));
+                else Label(I18n.T("Core.home_news_empty"), Theme.Dim, 10);
             });
             Space(14);
             DrawSupporters();
