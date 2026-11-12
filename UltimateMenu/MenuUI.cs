@@ -220,17 +220,18 @@ namespace UltimateMenu
 
         public static void DetectAndApply()
         {
-            if (Keyboard.current == null) return;
+            var keyboard = Keyboard.current;
+            if (keyboard == null) return;
 
-            string w=Keyboard.current.wKey.displayName?.ToLowerInvariant();
-            string a=Keyboard.current.aKey.displayName?.ToLowerInvariant();
-            string z=Keyboard.current.zKey.displayName?.ToLowerInvariant();
+            string w=keyboard.wKey?.displayName?.ToLowerInvariant();
+            string a=keyboard.aKey?.displayName?.ToLowerInvariant();
+            string z=keyboard.zKey?.displayName?.ToLowerInvariant();
             Layout physical=w=="z" && a=="q"?Layout.Azerty:z=="y"?Layout.Qwertz:w=="ц"?Layout.Jcuken:w=="w" && a=="a"?Layout.Qwerty:Layout.Unset;
-            Layout named=FromSystemName(Keyboard.current.keyboardLayout??"");
+            Layout named=FromSystemName(keyboard.keyboardLayout ?? "");
             if(named!=Layout.Unset) physical=named;
             if(physical!=Layout.Unset){if(Current!=physical)Current=physical;return;}
 
-            string layoutName = Keyboard.current.keyboardLayout;
+            string layoutName = keyboard.keyboardLayout;
             if (string.IsNullOrEmpty(layoutName)) return;
 
             Layout detected = FromSystemName(layoutName);
@@ -779,7 +780,8 @@ namespace UltimateMenu
             }
             KeyLayout.DetectAndApply();
 
-            if ((_visible || (GorillaInterface.Instance != null && GorillaInterface.Instance.CastRequested)) && (Screen.width != _lastScreenW || Screen.height != _lastScreenH))
+            var vrInterface = GorillaInterface.Instance;
+            if ((_visible || (vrInterface != null && vrInterface.CastRequested)) && (Screen.width != _lastScreenW || Screen.height != _lastScreenH))
             { _lastScreenW = Screen.width; _lastScreenH = Screen.height; ComputeRect(); }
 
             if (_visible)
@@ -797,19 +799,20 @@ namespace UltimateMenu
             }
 
             _keyMenu = Keys.GetKey("KeyMenu");
-            if (Keyboard.current == null) return;
+            var keyboard = Keyboard.current;
+            if (keyboard == null) return;
 
             Key menuKey = ToInputKey(_keyMenu);
-            if (menuKey != Key.None && Keyboard.current[menuKey].wasPressedThisFrame) ToggleVisible();
+            if (menuKey != Key.None && keyboard[menuKey]?.wasPressedThisFrame == true) ToggleVisible();
 
             if (WaitingKey && _vrKeyboardTarget != "@rebind")
             {
-                if (Keyboard.current.escapeKey.wasPressedThisFrame)
+                if (keyboard.escapeKey?.wasPressedThisFrame == true)
                 { WaitingKey = false; RebindTarget = null; return; }
 
-                foreach (var control in Keyboard.current.allKeys)
+                foreach (var control in keyboard.allKeys)
                 {
-                    if (!control.wasPressedThisFrame) continue;
+                    if (control?.wasPressedThisFrame != true) continue;
                     KeyCode kc = FromInputKey(control.keyCode);
                     if (kc == KeyCode.None) continue;
 
