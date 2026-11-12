@@ -584,15 +584,30 @@ namespace UltimateMenu
             return true;
         }
 
+        List<Entry>? _layoutPlayers;
+        bool _layoutPlayerView, _layoutSmooth, _layoutAutoSwitch, _layoutCountdown, _layoutSpawn;
+        string? _layoutStatus;
+
         void DrawPage(MenuUI ui)
         {
-            bool playerView = _view == ViewMode.Player;
+            // Unity reuses the Layout control tree for input and Repaint.
+            if (Event.current.type == EventType.Layout || _layoutPlayers == null)
+            {
+                _layoutPlayers = _players;
+                _layoutPlayerView = _view == ViewMode.Player;
+                _layoutSmooth = _follow == FollowMode.Smooth;
+                _layoutAutoSwitch = _autoSwitch;
+                _layoutCountdown = _sel.Count > 1;
+                _layoutSpawn = _cam == null;
+                _layoutStatus = _statusTimer > 0f ? _statusKey : null;
+            }
+            bool playerView = _layoutPlayerView;
 
             // --- Etat + camera ---
             ui.BeginCard();
             ui.StatusPill(Active ? I18n.T("Casting.Active") : I18n.T("Casting.Inactive"), Active);
-            if (_statusTimer > 0f && !string.IsNullOrEmpty(_statusKey)) ui.Label(I18n.T(_statusKey), Theme.Dim, 9);
-            if (_cam == null && ui.Btn(I18n.T("Casting.SpawnCam"), ui.TB3, Theme.Text) && Enabled) { _nextFind = 0f; _nextSpawnTry = 0f; }
+            if (!string.IsNullOrEmpty(_layoutStatus)) ui.Label(I18n.T(_layoutStatus), Theme.Dim, 9);
+            if (_layoutSpawn && ui.Btn(I18n.T("Casting.SpawnCam"), ui.TB3, Theme.Text) && Enabled) { _nextFind = 0f; _nextSpawnTry = 0f; }
             ui.EndCard();
 
             // --- Vue ---
@@ -606,7 +621,7 @@ namespace UltimateMenu
             ui.Space(6); ui.Section(I18n.T("Casting.Players") + " (" + _sel.Count + ")");
             ui.BeginCard();
             ui.Label(I18n.T("Casting.SelectionHint"), Theme.Dim, 8);
-            var list = _players;
+            var list = _layoutPlayers;
             for (int i = 0; i < list.Count; i++)
             {
                 var e = list[i];
@@ -632,11 +647,11 @@ namespace UltimateMenu
                 ui.Label(I18n.T("Casting.Current") + " : " + NameOf(_currentActor), Theme.Dim, 9);
                 bool auto = ui.Toggle(I18n.T("Casting.AutoSwitch"), _autoSwitch);
                 if (Enabled && auto != _autoSwitch) { _autoSwitch = auto; MenuPrefs.SetInt("MUM_CastAuto", auto ? 1 : 0); _nextSwitch = Time.unscaledTime + _switchEvery; }
-                if (_autoSwitch)
+                if (_layoutAutoSwitch)
                 {
                     if (Sl(ui, "Casting.SwitchEvery", ref _switchEvery, 2f, 120f, "0", "MUM_CastEvery"))
                         _nextSwitch = Mathf.Min(_nextSwitch, Time.unscaledTime + _switchEvery);
-                    if (_sel.Count > 1)
+                    if (_layoutCountdown)
                         ui.Label(I18n.T("Casting.NextIn") + " " + Mathf.CeilToInt(Mathf.Max(0f, _nextSwitch - Time.unscaledTime)) + " s", Theme.Dim, 8);
                 }
                 ui.Space(4);
@@ -653,7 +668,7 @@ namespace UltimateMenu
             ui.BeginCard();
             int f = ui.ModePicker(new[] { I18n.T("Casting.FollowFixed"), I18n.T("Casting.FollowSmooth") }, (int)_follow);
             if (Enabled && f != (int)_follow) { _follow = (FollowMode)f; MenuPrefs.SetInt("MUM_CastFollow", f); ResetView(); }
-            if (_follow == FollowMode.Smooth)
+            if (_layoutSmooth)
             {
                 if (playerView)
                 {
