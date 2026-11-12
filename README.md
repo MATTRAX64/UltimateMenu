@@ -14,6 +14,7 @@
   <a href="https://gamebanana.com/mods/716098"><img src="https://www.google.com/s2/favicons?domain=gamebanana.com&sz=64" width="32" alt="GameBanana"></a>
   &nbsp;
   <a href="https://github.com/MATTRAX64/UltimateMenu/releases/"><img src="https://github.githubassets.com/favicons/favicon.png" width="32" alt="GitHub"></a>
+  <a href="https://discord.com/invite/bucBZEdxce"><img src="https://cdn.discordapp.com/icons/810644499763691540/97ccd8637aa79c7970cd6f58999766a5.png" width="32" alt="GTModdingGroup_Discord"></a>
 </p>
 
 [![Release](https://img.shields.io/github/v/release/MATTRAX64/UltimateMenu?style=flat-square&color=6c5ce7)](https://github.com/MATTRAX64/UltimateMenu/releases)
