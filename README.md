@@ -23,9 +23,9 @@
 
 [Download](https://github.com/MATTRAX64/UltimateMenu/releases) · [Report a bug](https://github.com/MATTRAX64/UltimateMenu/issues) · [Contact](https://mattraxer64xp.page.gd)
 
-![Menu preview](Menu.png)
+![Menu preview](Thumbnail/Menu.png)
 
-![Visual effects preview](PostVolumeURP.png)
+![Visual effects preview](Thumbnail/PostVolumeURP.png)
 
 </div>
 
