@@ -80,7 +80,7 @@ The menu stores these in `BepInEx/plugins/UltimateMenu/`.
 | 📄 `Profile.json` | Menu settings |
 | 📁 `GorillaFaces` | Custom face images |
 | 📁 `GorillaMocap` | Mocap exports for Blender |
-| 📁 `GorillaSpawners` | 3D object `.bundle` files |
+| 📁 `GorillaSpawners` | 3D object `.bundle` files ([Community Objects](https://github.com/MATTRAX64/UltimateMenu/tree/main/GorillaSpawners_3D_Objects)) |
 | 📁 `GorillaStreams` | Text for OBS, including the room code and player count |
 | 📁 `CrashReports` | Error reports when reporting is enabled |
 
