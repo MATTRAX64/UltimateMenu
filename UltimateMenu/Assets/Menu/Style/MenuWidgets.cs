@@ -69,6 +69,7 @@ namespace UltimateMenu
             GUILayout.Space(4);
         }
 
+        readonly Dictionary<string, bool> _expandedLayout = new Dictionary<string, bool>();
         readonly Dictionary<string, float> _expandedHeights = new Dictionary<string, float>();
         readonly Dictionary<string, float> _expandedWidths = new Dictionary<string, float>();
         readonly Dictionary<string, int> _sectionVisits = new Dictionary<string, int>();
@@ -91,7 +92,9 @@ namespace UltimateMenu
                 MenuStyle.Animate(animation, 0f);
             }
             float progress = MenuStyle.Animate(animation, isOpen ? 1f : 0f, 18f);
-            if (isOpen || progress > .001f)
+            if (Event.current.type == EventType.Layout)
+                _expandedLayout[visitKey] = isOpen || progress > .001f;
+            if (_expandedLayout.TryGetValue(visitKey, out bool drawExpanded) && drawExpanded)
             {
                 float fullHeight = _expandedHeights[label];
                 Rect viewport = GUILayoutUtility.GetRect(GUIContent.none, GUIStyle.none,
