@@ -1597,6 +1597,8 @@ namespace UltimateMenu
 
         string _settingsAnchor;
         bool _newsOpen;
+        bool _settingsWaitingKey;
+        string? _settingsLastKey;
         void DrawPreferences(Rect outerRect)
         {
             _scrollSettings = BeginCustomScroll(_scrollSettings, outerRect, _settingsContentH);
@@ -1633,9 +1635,14 @@ namespace UltimateMenu
             Space(4);
             UI.TextScale = Slider(I18n.T("Core.text_size"), UI.TextScale, .5f, 1.5f, "0.00x", 120f);
             Space(4);
-            if (WaitingKey) { Label(I18n.T("Core.waiting_key"), Theme.Accent, 12, true); if (Btn(I18n.T("Core.cancel"), TB3, Color.white)) { WaitingKey = false; RebindTarget = null; } }
+            if (Event.current.type == EventType.Layout)
+            {
+                _settingsWaitingKey = WaitingKey;
+                _settingsLastKey = _keyHistory.Count > 0 ? _keyHistory[0] : null;
+            }
+            if (_settingsWaitingKey) { Label(I18n.T("Core.waiting_key"), Theme.Accent, 12, true); if (Btn(I18n.T("Core.cancel"), TB3, Color.white)) { WaitingKey = false; RebindTarget = null; } }
             else { if (RebindBtn(I18n.T("Core.menu_key"), _keyMenu)) StartRebind("KeyMenu"); }
-            if (_keyHistory.Count > 0) { Space(4); Label(I18n.T("Core.last_key") + " " + _keyHistory[0], Theme.Accent, 10, true); }
+            if (_settingsLastKey != null) { Space(4); Label(I18n.T("Core.last_key") + " " + _settingsLastKey, Theme.Accent, 10, true); }
             EndCard();
 
             Space(6);
