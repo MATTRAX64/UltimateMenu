@@ -1,0 +1,27 @@
+# .github/workflows/remove-root-bundles.yml
+name: Supprimer les fichiers .bundle à la racine
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Supprimer et pousser les modifications
+        shell: bash
+        run: |
+          git rm --ignore-unmatch -- ':(top,glob)*.bundle'
+          if git diff --cached --quiet; then
+            exit 0
+          fi
+
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'Supprimer les fichiers .bundle à la racine'
+          git push origin "HEAD:${GITHUB_REF}"
