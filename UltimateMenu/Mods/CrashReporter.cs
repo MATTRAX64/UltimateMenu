@@ -40,12 +40,11 @@ namespace UltimateMenu
         void Awake()
         {
             Instance=this;
-            _folder=Path.Combine(BepInEx.Paths.PluginPath,"UltimateMenu","CrashReports");
+            _folder=Path.Combine(ReleaseUpdater.DataFolder,"CrashReports");
             _session=Path.Combine(_folder,"session.json");
             _enabled=MenuPrefs.GetInt(Pref,1)==1;
             if(_enabled)
             {
-                Directory.CreateDirectory(_folder);
                 if(File.Exists(_session))
                 {
                     try { File.Delete(_session); }
@@ -60,7 +59,7 @@ namespace UltimateMenu
         {
             if(value==_enabled)return;
             _enabled=value;MenuPrefs.SetInt(Pref,value?1:0);MenuPrefs.Save();
-            if(value){Directory.CreateDirectory(_folder);Snapshot();_nextSend=0;}
+            if(value){Snapshot();_nextSend=0;}
             else {while(_errors.TryDequeue(out _)){};ClearSession();}
         }
         public bool ReportsEnabled=>_enabled;
@@ -112,8 +111,19 @@ namespace UltimateMenu
             if(!_sending&&Time.unscaledTime>=_nextSend)
             {
                 _nextSend=Time.unscaledTime+60;
-                var files=Directory.GetFiles(_folder,"report-*.json");Array.Sort(files,StringComparer.Ordinal);
-                if(files.Length>0)StartCoroutine(Send(files[0]));
+                string[] files;
+                try
+                {
+                    Directory.CreateDirectory(_folder);
+                    files = Directory.GetFiles(_folder, "report-*.json");
+                }
+                catch (Exception folderError) when (folderError is IOException || folderError is UnauthorizedAccessException)
+                {
+                    Debug.LogWarning("[UltimateMenu] Crash report folder: " + folderError.Message);
+                    return;
+                }
+                Array.Sort(files, StringComparer.Ordinal);
+                if (files.Length > 0) StartCoroutine(Send(files[0]));
             }
         }
         Report Describe()
@@ -126,7 +136,7 @@ namespace UltimateMenu
         }
         void Snapshot()
         {
-            try { var report=Describe();report.kind="session";report.error=Redact(_lastRecorded);File.WriteAllText(_session,JsonUtility.ToJson(report)); }
+            try { Directory.CreateDirectory(_folder);var report=Describe();report.kind="session";report.error=Redact(_lastRecorded);File.WriteAllText(_session,JsonUtility.ToJson(report)); }
             catch(Exception error){Debug.LogWarning("[UltimateMenu] Crash snapshot: "+error.Message);}
         }
         void Store(Report report)
