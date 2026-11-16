@@ -41,10 +41,15 @@ namespace UltimateMenu
         static void PrepareDataFolders(string loadedDirectory)
         {
             Directory.CreateDirectory(DataFolder);
-            foreach (string source in new[] { loadedDirectory, BepInEx.Paths.PluginPath, Path.GetDirectoryName(BepInEx.Paths.PluginPath) })
-                foreach (string name in new[] { "GorillaFaces", "GorillaMocap", "GorillaSpawners", "GorillaStreams", "CrashReports" })
-                    try { MergeData(Path.Combine(source, name), Path.Combine(DataFolder, name)); }
+            foreach (string name in new[] { "GorillaFaces", "GorillaMocap", "GorillaSpawners", "GorillaStreams", "CrashReports" })
+            {
+                string destination = Path.Combine(DataFolder, name);
+                try { Directory.CreateDirectory(destination); }
+                catch (Exception e) { Log.Err("Data folder: " + name, e); continue; }
+                foreach (string source in new[] { loadedDirectory, BepInEx.Paths.PluginPath, Path.GetDirectoryName(BepInEx.Paths.PluginPath) })
+                    try { MergeData(Path.Combine(source, name), destination); }
                     catch (Exception e) { Log.Err("Data migration: " + name, e); }
+            }
         }
         static void StartWorker(string script)
         {
