@@ -1,6 +1,6 @@
 # Security Policy
 
-![UltimateMenu security reporting](Thumbnail/Report.png)
+<img src="Thumbnail/Report.png" alt="UltimateMenu security reporting" height="250">
 
 ## Report a security vulnerability
 
