@@ -9,7 +9,7 @@
 <a href="https://store.steampowered.com/app/250820/SteamVR"><img src="https://www.google.com/s2/favicons?domain=store.steampowered.com&amp;sz=64" width="64" alt="SteamVR"></a>
 &nbsp;
 <a href="https://www.meta.com/fr/quest/setup"><img src="https://www.google.com/s2/favicons?domain=meta.com&amp;sz=64" width="64" alt="Meta Horizon Link"></a>
-&nbsp; · &nbsp;
+&nbsp;
 <a href="https://docs.bepinex.dev/"><img src="https://docs.bepinex.dev/logo.svg" width="64" alt="BepInEx"></a>
 &nbsp;
 <a href="https://store.steampowered.com/app/1533390/Gorilla_Tag/"><img src="https://shared.akamai.steamstatic.com/community_assets/images/apps/1533390/50e703e1d3f97380214e300802694cbb78939191.jpg" width="64" alt="Gorilla Tag"></a>
