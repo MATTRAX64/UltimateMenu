@@ -27,7 +27,7 @@
 
 </div>
 
-> UltimateMenu is an independent community project. This project uses AI to help compress and optimize files before uploading them to GitHub.
+> **UltimateMenu is an independent community project. This project uses AI to help compress and optimize files before uploading them to GitHub.**
 
 ## <img src="UltimateMenu/Assets/Menu/Icons/Sun.png" width="22" alt=""> What's new in v1.8
 
