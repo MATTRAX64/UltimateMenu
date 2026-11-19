@@ -25,8 +25,6 @@
 
 **GT ModMenu for content creator with a Liquid Glass UI & Shaders**
 
-### **V1.8** · **18 languages**
-
 <a href="https://store.steampowered.com/app/250820/SteamVR"><img src="https://www.google.com/s2/favicons?domain=store.steampowered.com&amp;sz=64" width="64" alt="SteamVR"></a>
 &nbsp;
 <a href="https://www.meta.com/fr/quest/setup"><img src="https://www.google.com/s2/favicons?domain=meta.com&amp;sz=64" width="64" alt="Meta Horizon Link"></a>
@@ -36,6 +34,9 @@
 <a href="https://www.anotheraxiom.com/games/gorilla-tag-vr"><img src="https://shared.akamai.steamstatic.com/community_assets/images/apps/1533390/50e703e1d3f97380214e300802694cbb78939191.jpg" width="64" alt="Gorilla Tag"></a>
 &nbsp;
 <a href="https://www.anotheraxiom.com"><img src="https://cdn.prod.website-files.com/642eed5606709d7c70b1ccb1/6442dc80a71be63df952a1e9_Base%20AA%20logo%20wheel_256x256.png" width="64" alt="Gorilla Tag"></a>
+
+
+### **V1.8** · **18 languages**
 
 <p>
   <a href="https://github.com/MATTRAX64/UltimateMenu/releases/"><img src="https://github.githubassets.com/favicons/favicon.png" width="32" alt="GitHub Releases"></a>
