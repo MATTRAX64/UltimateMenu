@@ -17,11 +17,11 @@
 <a href="https://www.anotheraxiom.com"><img src="https://cdn.prod.website-files.com/642eed5606709d7c70b1ccb1/6442dc80a71be63df952a1e9_Base%20AA%20logo%20wheel_256x256.png" width="64" alt="Gorilla Tag"></a>
 
 <p>
+  <a href="https://github.com/MATTRAX64/UltimateMenu/releases/"><img src="https://github.githubassets.com/favicons/favicon.png" width="32" alt="GitHub Releases"></a>
+  &nbsp;
   <a href="https://www.nexusmods.com/gorillatag/mods/1330"><img src="https://www.google.com/s2/favicons?domain=nexusmods.com&amp;sz=64" width="32" alt="Nexus Mods"></a>
   &nbsp;
   <a href="https://gamebanana.com/mods/716098"><img src="https://www.google.com/s2/favicons?domain=gamebanana.com&amp;sz=64" width="32" alt="GameBanana"></a>
-  &nbsp;
-  <a href="https://github.com/MATTRAX64/UltimateMenu/releases/"><img src="https://github.githubassets.com/favicons/favicon.png" width="32" alt="GitHub Releases"></a>
   &nbsp;
   <a href="https://discord.com/invite/bucBZEdxce"><img src="https://cdn.discordapp.com/icons/810644499763691540/97ccd8637aa79c7970cd6f58999766a5.png" width="32" alt="Gorilla Tag Modding Discord"></a>
   &nbsp;
