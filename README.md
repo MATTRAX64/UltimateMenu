@@ -2,7 +2,7 @@
 
 # UltimateMenu
 
-**A Gorilla Tag mod menu with a Liquid Glass interface for desktop and VR**
+**A Gorilla Tag mod menu with a Liquid Glass interface & Shaders for [SteamVR](https://store.steampowered.com/app/250820/SteamVR) & [Meta Horizon Link](https://www.meta.com/fr/quest/setup)**
 
 **v1.8 series** · **18 languages**
 
