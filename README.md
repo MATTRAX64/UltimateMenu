@@ -112,12 +112,12 @@ UltimateMenu stores its data under `BepInEx/plugins/UltimateMenu/`.
 
 ---
 
-## Privacy
+### Privacy
 
 - **Error reporting** is enabled by default to help diagnose and fix issues. You can turn it off in the mod menu settings.
 - **Update checks** use the GitHub API at startup.
 
-## Warning
+### Warning
 
 Using mods may result in a ban under the game’s rules. Use UltimateMenu responsibly and at your own risk.
 
