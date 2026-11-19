@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🦍 UltimateMenu
+# UltimateMenu
 
 **A Gorilla Tag mod menu with a Liquid Glass interface for desktop and VR**
 
