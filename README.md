@@ -2,8 +2,6 @@
 
 # UltimateMenu
 
-**GT ModMenu for content creator with a Liquid Glass UI & Shaders**
-
 <p align="center">
   <img src="https://flagcdn.com/w40/gb.png" width="40" alt="English"> 
   <img src="https://flagcdn.com/w40/fr.png" width="40" alt="French"> 
@@ -24,6 +22,8 @@
   <img src="https://flagcdn.com/w40/ru.png" width="40" alt="Russian"> 
   <img src="https://flagcdn.com/w40/jp.png" width="40" alt="Japanese">
 <p>
+
+**GT ModMenu for content creator with a Liquid Glass UI & Shaders**
 
 **V1.8** · **18 languages**
 
