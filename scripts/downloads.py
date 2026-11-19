@@ -6,7 +6,7 @@ GITHUB_REPO = "MATTRAX64/UltimateMenu"
 GAMEBANANA_ID = "716098"
 NEXUS_MOD_ID = "1330"
 OUTPUT_FILE = Path(__file__).parent / "downloads.json"
-
+Thunderstore_Excalibur = "2500"
 
 def github_downloads():
     r = requests.get(f"https://api.github.com/repos/{GITHUB_REPO}/releases", headers={"Accept": "application/vnd.github+json"}, timeout=30)
@@ -40,8 +40,8 @@ def format_total(n):
 
 def main():
     github, gamebanana, nexus = github_downloads(), gamebanana_downloads(), nexus_downloads()
-    total = github + gamebanana + nexus
-    downloads = {"github": github, "gamebanana": gamebanana, "nexus": nexus, "total": total, "total_affiche": format_total(total)}
+    total = github + gamebanana + nexus + Thunderstore_Excalibur
+    downloads = {"github": github, "gamebanana": gamebanana, "nexus": nexus,"Thunderstore + Excalibur": Thunderstore_Excalibur, "total": total, "total_affiche": format_total(total)}
     print(json.dumps(downloads, indent=2))
     OUTPUT_FILE.write_text(json.dumps(downloads, indent=2), encoding="utf-8")
 
