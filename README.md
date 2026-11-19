@@ -17,24 +17,24 @@
 <a href="https://www.anotheraxiom.com"><img src="https://cdn.prod.website-files.com/642eed5606709d7c70b1ccb1/6442dc80a71be63df952a1e9_Base%20AA%20logo%20wheel_256x256.png" width="64" alt="Gorilla Tag"></a>
 
 <p align="center">
-  <img src="https://flagcdn.com/w40/gb.png" width="20" alt="English"> 
-  <img src="https://flagcdn.com/w40/fr.png" width="20" alt="French"> 
-  <img src="https://flagcdn.com/w40/de.png" width="20" alt="German"> 
-  <img src="https://flagcdn.com/w40/es.png" width="20" alt="Spanish"> 
-  <img src="https://flagcdn.com/w40/it.png" width="20" alt="Italian"> 
-  <img src="https://flagcdn.com/w40/pt.png" width="20" alt="Portuguese"> 
-  <img src="https://flagcdn.com/w40/nl.png" width="20" alt="Dutch"> 
-  <img src="https://flagcdn.com/w40/pl.png" width="20" alt="Polish"> 
-  <img src="https://flagcdn.com/w40/cz.png" width="20" alt="Czech"> 
-  <img src="https://flagcdn.com/w40/hu.png" width="20" alt="Hungarian"> 
-  <img src="https://flagcdn.com/w40/ro.png" width="20" alt="Romanian"> 
-  <img src="https://flagcdn.com/w40/dk.png" width="20" alt="Danish"> 
-  <img src="https://flagcdn.com/w40/se.png" width="20" alt="Swedish"> 
-  <img src="https://flagcdn.com/w40/fi.png" width="20" alt="Finnish"> 
-  <img src="https://flagcdn.com/w40/tr.png" width="20" alt="Turkish"> 
-  <img src="https://flagcdn.com/w40/ua.png" width="20" alt="Ukrainian"> 
-  <img src="https://flagcdn.com/w40/ru.png" width="20" alt="Russian"> 
-  <img src="https://flagcdn.com/w40/jp.png" width="20" alt="Japanese">
+  <img src="https://flagcdn.com/w40/gb.png" width="40" alt="English"> 
+  <img src="https://flagcdn.com/w40/fr.png" width="40" alt="French"> 
+  <img src="https://flagcdn.com/w40/de.png" width="40" alt="German"> 
+  <img src="https://flagcdn.com/w40/es.png" width="40" alt="Spanish"> 
+  <img src="https://flagcdn.com/w40/it.png" width="40" alt="Italian"> 
+  <img src="https://flagcdn.com/w40/pt.png" width="40" alt="Portuguese"> 
+  <img src="https://flagcdn.com/w40/nl.png" width="40" alt="Dutch"> 
+  <img src="https://flagcdn.com/w40/pl.png" width="40" alt="Polish"> 
+  <img src="https://flagcdn.com/w40/cz.png" width="40" alt="Czech"> 
+  <img src="https://flagcdn.com/w40/hu.png" width="40" alt="Hungarian"> 
+  <img src="https://flagcdn.com/w40/ro.png" width="40" alt="Romanian"> 
+  <img src="https://flagcdn.com/w40/dk.png" width="40" alt="Danish"> 
+  <img src="https://flagcdn.com/w40/se.png" width="40" alt="Swedish"> 
+  <img src="https://flagcdn.com/w40/fi.png" width="40" alt="Finnish"> 
+  <img src="https://flagcdn.com/w40/tr.png" width="40" alt="Turkish"> 
+  <img src="https://flagcdn.com/w40/ua.png" width="40" alt="Ukrainian"> 
+  <img src="https://flagcdn.com/w40/ru.png" width="40" alt="Russian"> 
+  <img src="https://flagcdn.com/w40/jp.png" width="40" alt="Japanese">
 <p>
 
 <p>
