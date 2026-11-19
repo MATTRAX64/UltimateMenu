@@ -28,6 +28,10 @@
   <a href="https://www.patreon.com/c/MATTRAXER64xp"><img src="https://www.patreon.com/favicon.ico" width="32" alt="Patreon"></a>
 </p>
 
+🇬🇧 English · 🇫🇷 Français · 🇩🇪 Deutsch · 🇪🇸 Español · 🇮🇹 Italiano · 🇵🇹 Português  
+🇳🇱 Nederlands · 🇵🇱 Polski · 🇨🇿 Čeština · 🇭🇺 Magyar · 🇷🇴 Română · 🇩🇰 Dansk  
+🇸🇪 Svenska · 🇫🇮 Suomi · 🇹🇷 Türkçe · 🇺🇦 Українська · 🇷🇺 Русский · 🇯🇵 日本語
+
 [![Release](https://img.shields.io/github/v/release/MATTRAX64/UltimateMenu?style=flat-square&color=6c5ce7)](https://github.com/MATTRAX64/UltimateMenu/releases)
 [![Downloads](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/MATTRAX64/UltimateMenu/main/scripts/downloads.json&query=$.total_affiche&label=downloads&color=6c5ce7&style=flat-square)](https://github.com/MATTRAX64/UltimateMenu/releases)
 
