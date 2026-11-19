@@ -29,24 +29,24 @@
 </p>
 
 <p align="center">
-  <img src="https://flagcdn.com/w40/gb.png" width="20" alt="English"> English ·
-  <img src="https://flagcdn.com/w40/fr.png" width="20" alt="French"> Français ·
-  <img src="https://flagcdn.com/w40/de.png" width="20" alt="German"> Deutsch ·
-  <img src="https://flagcdn.com/w40/es.png" width="20" alt="Spanish"> Español ·
-  <img src="https://flagcdn.com/w40/it.png" width="20" alt="Italian"> Italiano ·
-  <img src="https://flagcdn.com/w40/pt.png" width="20" alt="Portuguese"> Português<br>
-  <img src="https://flagcdn.com/w40/nl.png" width="20" alt="Dutch"> Nederlands ·
-  <img src="https://flagcdn.com/w40/pl.png" width="20" alt="Polish"> Polski ·
-  <img src="https://flagcdn.com/w40/cz.png" width="20" alt="Czech"> Čeština ·
-  <img src="https://flagcdn.com/w40/hu.png" width="20" alt="Hungarian"> Magyar ·
-  <img src="https://flagcdn.com/w40/ro.png" width="20" alt="Romanian"> Română ·
-  <img src="https://flagcdn.com/w40/dk.png" width="20" alt="Danish"> Dansk<br>
-  <img src="https://flagcdn.com/w40/se.png" width="20" alt="Swedish"> Svenska ·
-  <img src="https://flagcdn.com/w40/fi.png" width="20" alt="Finnish"> Suomi ·
-  <img src="https://flagcdn.com/w40/tr.png" width="20" alt="Turkish"> Türkçe ·
-  <img src="https://flagcdn.com/w40/ua.png" width="20" alt="Ukrainian"> Українська ·
-  <img src="https://flagcdn.com/w40/ru.png" width="20" alt="Russian"> Русский ·
-  <img src="https://flagcdn.com/w40/jp.png" width="20" alt="Japanese"> 日本語
+  <img src="https://flagcdn.com/w40/gb.png" width="20" alt="English"> ·
+  <img src="https://flagcdn.com/w40/fr.png" width="20" alt="French"> ·
+  <img src="https://flagcdn.com/w40/de.png" width="20" alt="German"> ·
+  <img src="https://flagcdn.com/w40/es.png" width="20" alt="Spanish"> ·
+  <img src="https://flagcdn.com/w40/it.png" width="20" alt="Italian"> ·
+  <img src="https://flagcdn.com/w40/pt.png" width="20" alt="Portuguese"> ·
+  <img src="https://flagcdn.com/w40/nl.png" width="20" alt="Dutch"> ·
+  <img src="https://flagcdn.com/w40/pl.png" width="20" alt="Polish"> ·
+  <img src="https://flagcdn.com/w40/cz.png" width="20" alt="Czech"> ·
+  <img src="https://flagcdn.com/w40/hu.png" width="20" alt="Hungarian"> ·
+  <img src="https://flagcdn.com/w40/ro.png" width="20" alt="Romanian"> ·
+  <img src="https://flagcdn.com/w40/dk.png" width="20" alt="Danish"> ·
+  <img src="https://flagcdn.com/w40/se.png" width="20" alt="Swedish"> ·
+  <img src="https://flagcdn.com/w40/fi.png" width="20" alt="Finnish"> ·
+  <img src="https://flagcdn.com/w40/tr.png" width="20" alt="Turkish"> ·
+  <img src="https://flagcdn.com/w40/ua.png" width="20" alt="Ukrainian"> ·
+  <img src="https://flagcdn.com/w40/ru.png" width="20" alt="Russian"> ·
+  <img src="https://flagcdn.com/w40/jp.png" width="20" alt="Japanese">
 <p>
 
 [![Release](https://img.shields.io/github/v/release/MATTRAX64/UltimateMenu?style=flat-square&color=6c5ce7)](https://github.com/MATTRAX64/UltimateMenu/releases)
