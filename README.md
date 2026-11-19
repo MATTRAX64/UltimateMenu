@@ -16,6 +16,23 @@
 &nbsp;
 <a href="https://www.anotheraxiom.com"><img src="https://cdn.prod.website-files.com/642eed5606709d7c70b1ccb1/6442dc80a71be63df952a1e9_Base%20AA%20logo%20wheel_256x256.png" width="64" alt="Gorilla Tag"></a>
 
+<p>
+  <a href="https://github.com/MATTRAX64/UltimateMenu/releases/"><img src="https://github.githubassets.com/favicons/favicon.png" width="32" alt="GitHub Releases"></a>
+  &nbsp;
+  <a href="https://www.nexusmods.com/gorillatag/mods/1330"><img src="https://www.google.com/s2/favicons?domain=nexusmods.com&amp;sz=64" width="32" alt="Nexus Mods"></a>
+  &nbsp;
+  <a href="https://gamebanana.com/mods/716098"><img src="https://www.google.com/s2/favicons?domain=gamebanana.com&amp;sz=64" width="32" alt="GameBanana"></a>
+  &nbsp;
+  <a href="https://discord.com/invite/bucBZEdxce"><img src="https://cdn.discordapp.com/icons/810644499763691540/97ccd8637aa79c7970cd6f58999766a5.png" width="32" alt="Gorilla Tag Modding Discord"></a>
+  &nbsp;
+  <a href="https://www.patreon.com/c/MATTRAXER64xp"><img src="https://www.patreon.com/favicon.ico" width="32" alt="Patreon"></a>
+</p>
+
+[![Release](https://img.shields.io/github/v/release/MATTRAX64/UltimateMenu?style=flat-square&color=6c5ce7)](https://github.com/MATTRAX64/UltimateMenu/releases)
+[![Downloads](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/MATTRAX64/UltimateMenu/main/scripts/downloads.json&query=$.total_affiche&label=downloads&color=6c5ce7&style=flat-square)](https://github.com/MATTRAX64/UltimateMenu/releases)
+
+[Download](https://github.com/MATTRAX64/UltimateMenu/releases) · [Report a bug](https://github.com/MATTRAX64/UltimateMenu/issues) · [Contact](https://mattraxer64xp.page.gd)
+
 <p align="center">
   <img src="https://flagcdn.com/w40/gb.png" width="40" alt="English"> 
   <img src="https://flagcdn.com/w40/fr.png" width="40" alt="French"> 
@@ -36,23 +53,6 @@
   <img src="https://flagcdn.com/w40/ru.png" width="40" alt="Russian"> 
   <img src="https://flagcdn.com/w40/jp.png" width="40" alt="Japanese">
 <p>
-
-<p>
-  <a href="https://github.com/MATTRAX64/UltimateMenu/releases/"><img src="https://github.githubassets.com/favicons/favicon.png" width="32" alt="GitHub Releases"></a>
-  &nbsp;
-  <a href="https://www.nexusmods.com/gorillatag/mods/1330"><img src="https://www.google.com/s2/favicons?domain=nexusmods.com&amp;sz=64" width="32" alt="Nexus Mods"></a>
-  &nbsp;
-  <a href="https://gamebanana.com/mods/716098"><img src="https://www.google.com/s2/favicons?domain=gamebanana.com&amp;sz=64" width="32" alt="GameBanana"></a>
-  &nbsp;
-  <a href="https://discord.com/invite/bucBZEdxce"><img src="https://cdn.discordapp.com/icons/810644499763691540/97ccd8637aa79c7970cd6f58999766a5.png" width="32" alt="Gorilla Tag Modding Discord"></a>
-  &nbsp;
-  <a href="https://www.patreon.com/c/MATTRAXER64xp"><img src="https://www.patreon.com/favicon.ico" width="32" alt="Patreon"></a>
-</p>
-
-[![Release](https://img.shields.io/github/v/release/MATTRAX64/UltimateMenu?style=flat-square&color=6c5ce7)](https://github.com/MATTRAX64/UltimateMenu/releases)
-[![Downloads](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/MATTRAX64/UltimateMenu/main/scripts/downloads.json&query=$.total_affiche&label=downloads&color=6c5ce7&style=flat-square)](https://github.com/MATTRAX64/UltimateMenu/releases)
-
-[Download](https://github.com/MATTRAX64/UltimateMenu/releases) · [Report a bug](https://github.com/MATTRAX64/UltimateMenu/issues) · [Contact](https://mattraxer64xp.page.gd)
 
 ![UltimateMenu interface preview](Thumbnail/Menu.png)
 
