@@ -2,7 +2,7 @@
 
 # UltimateMenu
 
-**A Gorilla Tag mod menu with a Liquid Glass interface & Shaders**
+**GT ModMenu for content creator with a Liquid Glass UI & Shaders**
 
 **v1.8 series** · **18 languages**
 
