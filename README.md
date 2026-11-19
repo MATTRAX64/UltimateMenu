@@ -12,7 +12,9 @@
 &nbsp;
 <a href="https://docs.bepinex.dev"><img src="https://docs.bepinex.dev/logo.svg" width="64" alt="BepInEx"></a>
 &nbsp;
-<a href="https://www.anotheraxiom.com"><img src="https://shared.akamai.steamstatic.com/community_assets/images/apps/1533390/50e703e1d3f97380214e300802694cbb78939191.jpg" width="64" alt="Gorilla Tag"></a>
+<a href="https://www.anotheraxiom.com/games/gorilla-tag-vr"><img src="https://shared.akamai.steamstatic.com/community_assets/images/apps/1533390/50e703e1d3f97380214e300802694cbb78939191.jpg" width="64" alt="Gorilla Tag"></a>
+&nbsp;
+<a href="https://www.anotheraxiom.com"><img src="https://cdn.prod.website-files.com/642eed5606709d7c70b1ccb1/6856f34a17e523c3d761f2c1_HorizontalLogo_LightBG_Orange_TM.svg" width="64" alt="Gorilla Tag"></a>
 
 <p>
   <a href="https://www.nexusmods.com/gorillatag/mods/1330"><img src="https://www.google.com/s2/favicons?domain=nexusmods.com&amp;sz=64" width="32" alt="Nexus Mods"></a>
