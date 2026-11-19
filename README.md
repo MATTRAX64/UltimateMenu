@@ -25,7 +25,7 @@
 
 **GT ModMenu for content creator with a Liquid Glass UI & Shaders**
 
-**V1.8** · **18 languages**
+# **V1.8** · **18 languages**
 
 <a href="https://store.steampowered.com/app/250820/SteamVR"><img src="https://www.google.com/s2/favicons?domain=store.steampowered.com&amp;sz=64" width="64" alt="SteamVR"></a>
 &nbsp;
