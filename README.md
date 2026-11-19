@@ -35,7 +35,6 @@
 &nbsp;
 <a href="https://www.anotheraxiom.com"><img src="https://cdn.prod.website-files.com/642eed5606709d7c70b1ccb1/6442dc80a71be63df952a1e9_Base%20AA%20logo%20wheel_256x256.png" width="64" alt="Gorilla Tag"></a>
 
-
 ### **V1.8** · **18 languages**
 
 <p>
