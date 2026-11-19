@@ -28,9 +28,26 @@
   <a href="https://www.patreon.com/c/MATTRAXER64xp"><img src="https://www.patreon.com/favicon.ico" width="32" alt="Patreon"></a>
 </p>
 
-🇬🇧 English · 🇫🇷 Français · 🇩🇪 Deutsch · 🇪🇸 Español · 🇮🇹 Italiano · 🇵🇹 Português  
-🇳🇱 Nederlands · 🇵🇱 Polski · 🇨🇿 Čeština · 🇭🇺 Magyar · 🇷🇴 Română · 🇩🇰 Dansk  
-🇸🇪 Svenska · 🇫🇮 Suomi · 🇹🇷 Türkçe · 🇺🇦 Українська · 🇷🇺 Русский · 🇯🇵 日本語
+<p align="center">
+  <img src="https://flagcdn.com/w40/gb.png" width="20" alt="English"> English ·
+  <img src="https://flagcdn.com/w40/fr.png" width="20" alt="French"> Français ·
+  <img src="https://flagcdn.com/w40/de.png" width="20" alt="German"> Deutsch ·
+  <img src="https://flagcdn.com/w40/es.png" width="20" alt="Spanish"> Español ·
+  <img src="https://flagcdn.com/w40/it.png" width="20" alt="Italian"> Italiano ·
+  <img src="https://flagcdn.com/w40/pt.png" width="20" alt="Portuguese"> Português<br>
+  <img src="https://flagcdn.com/w40/nl.png" width="20" alt="Dutch"> Nederlands ·
+  <img src="https://flagcdn.com/w40/pl.png" width="20" alt="Polish"> Polski ·
+  <img src="https://flagcdn.com/w40/cz.png" width="20" alt="Czech"> Čeština ·
+  <img src="https://flagcdn.com/w40/hu.png" width="20" alt="Hungarian"> Magyar ·
+  <img src="https://flagcdn.com/w40/ro.png" width="20" alt="Romanian"> Română ·
+  <img src="https://flagcdn.com/w40/dk.png" width="20" alt="Danish"> Dansk<br>
+  <img src="https://flagcdn.com/w40/se.png" width="20" alt="Swedish"> Svenska ·
+  <img src="https://flagcdn.com/w40/fi.png" width="20" alt="Finnish"> Suomi ·
+  <img src="https://flagcdn.com/w40/tr.png" width="20" alt="Turkish"> Türkçe ·
+  <img src="https://flagcdn.com/w40/ua.png" width="20" alt="Ukrainian"> Українська ·
+  <img src="https://flagcdn.com/w40/ru.png" width="20" alt="Russian"> Русский ·
+  <img src="https://flagcdn.com/w40/jp.png" width="20" alt="Japanese"> 日本語
+<p>
 
 [![Release](https://img.shields.io/github/v/release/MATTRAX64/UltimateMenu?style=flat-square&color=6c5ce7)](https://github.com/MATTRAX64/UltimateMenu/releases)
 [![Downloads](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/MATTRAX64/UltimateMenu/main/scripts/downloads.json&query=$.total_affiche&label=downloads&color=6c5ce7&style=flat-square)](https://github.com/MATTRAX64/UltimateMenu/releases)
