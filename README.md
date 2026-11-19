@@ -4,6 +4,27 @@
 
 **GT ModMenu for content creator with a Liquid Glass UI & Shaders**
 
+<p align="center">
+  <img src="https://flagcdn.com/w40/gb.png" width="40" alt="English"> 
+  <img src="https://flagcdn.com/w40/fr.png" width="40" alt="French"> 
+  <img src="https://flagcdn.com/w40/de.png" width="40" alt="German"> 
+  <img src="https://flagcdn.com/w40/es.png" width="40" alt="Spanish"> 
+  <img src="https://flagcdn.com/w40/it.png" width="40" alt="Italian"> 
+  <img src="https://flagcdn.com/w40/pt.png" width="40" alt="Portuguese"> 
+  <img src="https://flagcdn.com/w40/nl.png" width="40" alt="Dutch"> 
+  <img src="https://flagcdn.com/w40/pl.png" width="40" alt="Polish"> 
+  <img src="https://flagcdn.com/w40/cz.png" width="40" alt="Czech"> 
+  <img src="https://flagcdn.com/w40/hu.png" width="40" alt="Hungarian"> 
+  <img src="https://flagcdn.com/w40/ro.png" width="40" alt="Romanian"> 
+  <img src="https://flagcdn.com/w40/dk.png" width="40" alt="Danish"> 
+  <img src="https://flagcdn.com/w40/se.png" width="40" alt="Swedish"> 
+  <img src="https://flagcdn.com/w40/fi.png" width="40" alt="Finnish"> 
+  <img src="https://flagcdn.com/w40/tr.png" width="40" alt="Turkish"> 
+  <img src="https://flagcdn.com/w40/ua.png" width="40" alt="Ukrainian"> 
+  <img src="https://flagcdn.com/w40/ru.png" width="40" alt="Russian"> 
+  <img src="https://flagcdn.com/w40/jp.png" width="40" alt="Japanese">
+<p>
+
 **V1.8** · **18 languages**
 
 <a href="https://store.steampowered.com/app/250820/SteamVR"><img src="https://www.google.com/s2/favicons?domain=store.steampowered.com&amp;sz=64" width="64" alt="SteamVR"></a>
@@ -32,27 +53,6 @@
 [![Downloads](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/MATTRAX64/UltimateMenu/main/scripts/downloads.json&query=$.total_affiche&label=downloads&color=6c5ce7&style=flat-square)](https://github.com/MATTRAX64/UltimateMenu/releases)
 
 [Download](https://github.com/MATTRAX64/UltimateMenu/releases) · [Report a bug](https://github.com/MATTRAX64/UltimateMenu/issues) · [Contact](https://mattraxer64xp.page.gd)
-
-<p align="center">
-  <img src="https://flagcdn.com/w40/gb.png" width="40" alt="English"> 
-  <img src="https://flagcdn.com/w40/fr.png" width="40" alt="French"> 
-  <img src="https://flagcdn.com/w40/de.png" width="40" alt="German"> 
-  <img src="https://flagcdn.com/w40/es.png" width="40" alt="Spanish"> 
-  <img src="https://flagcdn.com/w40/it.png" width="40" alt="Italian"> 
-  <img src="https://flagcdn.com/w40/pt.png" width="40" alt="Portuguese"> 
-  <img src="https://flagcdn.com/w40/nl.png" width="40" alt="Dutch"> 
-  <img src="https://flagcdn.com/w40/pl.png" width="40" alt="Polish"> 
-  <img src="https://flagcdn.com/w40/cz.png" width="40" alt="Czech"> 
-  <img src="https://flagcdn.com/w40/hu.png" width="40" alt="Hungarian"> 
-  <img src="https://flagcdn.com/w40/ro.png" width="40" alt="Romanian"> 
-  <img src="https://flagcdn.com/w40/dk.png" width="40" alt="Danish"> 
-  <img src="https://flagcdn.com/w40/se.png" width="40" alt="Swedish"> 
-  <img src="https://flagcdn.com/w40/fi.png" width="40" alt="Finnish"> 
-  <img src="https://flagcdn.com/w40/tr.png" width="40" alt="Turkish"> 
-  <img src="https://flagcdn.com/w40/ua.png" width="40" alt="Ukrainian"> 
-  <img src="https://flagcdn.com/w40/ru.png" width="40" alt="Russian"> 
-  <img src="https://flagcdn.com/w40/jp.png" width="40" alt="Japanese">
-<p>
 
 ![UltimateMenu interface preview](Thumbnail/Menu.png)
 
