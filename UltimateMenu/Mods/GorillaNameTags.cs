@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
 using Photon.Pun;
 using TMPro;
 using UnityEngine;
@@ -14,15 +13,8 @@ namespace UltimateMenu
         enum Platform { Quest, Steam }
         enum IconMode { Off, Left, Right }
 
-        static readonly FieldInfo RankedSubTierPCField =
-            typeof(VRRig).GetField("currentRankedSubTierPC", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
-            ?? typeof(VRRig).GetField("currentRankedSubTierPC", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static);
-
-        static readonly PropertyInfo RankedSubTierPCProperty =
-            RankedSubTierPCField == null ? typeof(VRRig).GetProperty("currentRankedSubTierPC", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance) : null;
-
         public bool Enabled => MenuUI.Instance != null && MenuUI.Instance.IsModEnabled("NameTags.Title");
-        private bool _wasEnabled = true, _pageRegistered, _platformFieldLoggedOnce;
+        private bool _wasEnabled = true, _pageRegistered;
 
         float _baseSize = 0.3f, _maxRenderDistance = 40f, _heightOffset = 0.6f, _iconGap = 8f;
         IconMode _iconMode = IconMode.Left;
@@ -59,6 +51,8 @@ namespace UltimateMenu
             public Image Icon;
             public RectTransform IconRect;
             public string LastName = "";
+            public string LastNameSource;
+            public string LastNickname;
             public Platform? LastPlatform;
             public IconMode LastIconMode = (IconMode)(-1);
             public float LastIconGap = float.NaN;
@@ -75,7 +69,7 @@ namespace UltimateMenu
         //  _rebuildAll: we joined or left a room, every tag belongs to the previous room.
         //  _recheckAll: a player entered, left or changed properties (nickname, menu marker): re-read each tag's owner.
         bool _rebuildAll, _recheckAll;
-        float _recheckTimer;   // safety net: recheck every 2 s in case the game assigns a player to a rig after the event
+        float _recheckTimer;   // safety net: recheck every 10 s in case the game assigns a player to a rig after the event
 
         void OnEnable() { try { PhotonNetwork.AddCallbackTarget(this); } catch { } _rebuildAll = true; }
         void OnDisable() { try { PhotonNetwork.RemoveCallbackTarget(this); } catch { } }
@@ -170,15 +164,15 @@ namespace UltimateMenu
             if (_localHead == null) return;
             _activeRigsSet.Clear();
 
-            // Recheck who owns each rig only when something was reported (player joined/left/changed properties) or every 2 s as a safety net.
+            // Recheck who owns each rig only when something was reported (player joined/left/changed properties) or every 10 s as a safety net.
             bool recheck = _recheckAll;
             _recheckAll = false;
             _recheckTimer -= Time.unscaledDeltaTime;
-            if (_recheckTimer <= 0f) { _recheckTimer = 2f; recheck = true; }
+            if (_recheckTimer <= 0f) { _recheckTimer = 10f; recheck = true; }
 
             foreach (var rig in VRRigCache.ActiveRigs)
             {
-                if (rig == null || rig == GorillaTagger.Instance.offlineVRRig) continue;
+                if (rig == null || rig == VRRig.LocalRig) continue;
                 _activeRigsSet.Add(rig);
 
                 var otherHead = GetOtherHead(rig);
@@ -192,7 +186,7 @@ namespace UltimateMenu
                 if (!_tags.TryGetValue(rig, out var tag) || tag.Root == null)
                 {
                     tag = BuildTag(rig); _tags[rig] = tag;
-                    ReadIdentity(rig, out tag.LastActor, out tag.LastUserId); tag.LastRigActive = rig.gameObject.activeInHierarchy;
+                    ReadIdentity(rig, out tag.LastActor, out tag.LastUserId); tag.LastRigActive = rig.isActiveAndEnabled;
                 }
                 UpdateTag(rig, tag, otherHead, recheck);
             }
@@ -235,7 +229,7 @@ namespace UltimateMenu
         {
             try
             {
-                var asm = Assembly.GetExecutingAssembly();
+                var asm = typeof(GorillaNameTags).Assembly;
                 using (var stream = asm.GetManifestResourceStream(resourceName))
                 {
                     if (stream == null) return null;
@@ -331,15 +325,25 @@ namespace UltimateMenu
         {
             if (tag.Root == null) return;
 
-            // Only on a reported change (or the 2 s safety net): who does this rig belong to now?
+            // Only on a reported change (or the 10 s safety net): who does this rig belong to now?
             // A different player (pooled rig reused), or the rig being activated again, means everything the tag shows is stale and is rebuilt now.
-            if (recheck)
+            bool rigActive = rig.isActiveAndEnabled;
+            bool activityChanged = rigActive != tag.LastRigActive;
+            string nameSource = rig.playerText1 != null ? rig.playerText1.text : null;
+            string nickname = rig.Creator?.NickName;
+            bool nameSourceChanged = nameSource != tag.LastNameSource || nickname != tag.LastNickname;
+            if (recheck || activityChanged || nameSourceChanged)
             {
                 ReadIdentity(rig, out int actor, out string userId);
-                bool rigActive = rig.gameObject.activeInHierarchy;
                 if (tag.LastActor != actor || tag.LastUserId != userId || (rigActive && !tag.LastRigActive)) ResetTag(tag);
                 else tag.NextInfoRefresh = 0f;   // same player: still re-read name / platform / menu logo right away
                 tag.LastActor = actor; tag.LastUserId = userId; tag.LastRigActive = rigActive;
+            }
+
+            if (!rigActive)
+            {
+                if (tag.Root.activeSelf) tag.Root.SetActive(false);
+                return;
             }
 
             var tagTransform = tag.Root.transform;
@@ -368,13 +372,15 @@ namespace UltimateMenu
             float scaleMul = Mathf.Lerp(1f, MinScaleMul, scaleT);
             tagTransform.localScale = Vector3.one * (0.01f * _baseSize * scaleMul);
 
-            // Smooth transforms every frame, but refresh text/network metadata only 4 times/sec.
+            // Refresh metadata on changes, with a periodic fallback for late network updates.
             if (Time.unscaledTime < tag.NextInfoRefresh) return;
-            tag.NextInfoRefresh = Time.unscaledTime + 0.25f;
+            tag.NextInfoRefresh = Time.unscaledTime + 10f;
+            tag.LastNameSource = nameSource;
+            tag.LastNickname = nickname;
             string version = "";
             try { if (rig.Creator != null) version = GorillaNetwork.VersionFor(rig.Creator.ActorNumber); } catch { }
             string name = GetDisplayName(rig);
-            Platform platform = GetPlatform(rig);
+            Platform? platform = GetPlatform(rig);
             bool nameChanged = tag.LastName != name;
             bool platformChanged = tag.LastPlatform != platform;
             bool iconModeChanged = tag.LastIconMode != _iconMode;
@@ -390,7 +396,12 @@ namespace UltimateMenu
                 tag.LastIconMode = _iconMode;
                 tag.LastIconGap = _iconGap;
 
-                Sprite iconSprite = menuConnected && _menuLogoSprite != null ? _menuLogoSprite : platform == Platform.Steam ? _steamIconSprite : _metaIconSprite;
+                Sprite iconSprite = menuConnected && _menuLogoSprite != null ? _menuLogoSprite : platform switch
+                {
+                    Platform.Steam => _steamIconSprite,
+                    Platform.Quest => _metaIconSprite,
+                    _ => null
+                };
                 bool showIcon = _iconMode != IconMode.Off && tag.Icon != null && iconSprite != null;
 
                 if (tag.Icon != null) { tag.Icon.sprite = iconSprite; tag.Icon.gameObject.SetActive(showIcon); }
@@ -420,22 +431,22 @@ namespace UltimateMenu
             return new string(chars);
         }
 
-        Platform GetPlatform(VRRig rig)
+        static Platform? GetPlatform(VRRig rig)
         {
-            try
+            // Ranked tiers do not identify the platform used for the current session.
+            string platform = rig.Creator?.Platform?.Trim();
+            switch (platform?.ToUpperInvariant())
             {
-                object raw = null;
-                if (RankedSubTierPCField != null) raw = RankedSubTierPCField.IsStatic ? RankedSubTierPCField.GetValue(null) : RankedSubTierPCField.GetValue(rig);
-                else if (RankedSubTierPCProperty != null) raw = RankedSubTierPCProperty.GetValue(rig);
-
-                _platformFieldLoggedOnce = true;
-                if (raw == null) return Platform.Quest;
-                return System.Convert.ToInt32(raw) != 0 ? Platform.Steam : Platform.Quest;
-            }
-            catch (System.Exception e)
-            {
-                if (!_platformFieldLoggedOnce) { _platformFieldLoggedOnce = true; Log.Err("GorillaNameTags.GetPlatform", e); }
-                return Platform.Quest;
+                case "PLATFORM_STEAM":
+                case "STEAM":
+                    return Platform.Steam;
+                case "PLATFORM_QUEST":
+                case "QUEST":
+                case "PLATFORM_OCULUS_PC":
+                case "OCULUS_PC":
+                    return Platform.Quest;
+                default:
+                    return null;
             }
         }
 
