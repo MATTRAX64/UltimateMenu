@@ -3,7 +3,7 @@ using UnityEngine.Networking;
 using System.Collections;
 namespace UltimateMenu
 {
-    [BepInPlugin("com.mattrax.ultimatemenu", "UltimateMenu", "1.8.83")]
+    [BepInPlugin("com.mattrax.ultimatemenu", "UltimateMenu", "1.8.85")]
     public class Log : BaseUnityPlugin
     {
         public static Log Instance { get; private set; }
