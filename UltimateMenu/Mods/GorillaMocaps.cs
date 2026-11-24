@@ -70,7 +70,23 @@ namespace UltimateMenu
             }
             cameraSelected = MenuPrefs.GetInt("MUM_MocapCameraSelected", 1) == 1;
             CreateDataFolder(); EnsureBlenderAssetExtracted(); }
-        void Start() { GorillaTagger.OnPlayerSpawned(OnPlayerSpawned); }
+        void Start()
+        {
+            var playerType = typeof(GorillaTagger).Assembly.GetType("NetPlayer");
+            var conversion = playerType?.GetMethod("op_Implicit",
+                BindingFlags.Public | BindingFlags.Static, null, new[] { typeof(Photon.Realtime.Player) }, null);
+            if (conversion == null || conversion.ReturnType != playerType)
+            {
+                Log.Info("Mocap unavailable: this build of Gorilla Tag lacks the NetPlayer conversion.");
+                enabled = false;
+                return;
+            }
+
+            RegisterSpawnCallback();
+        }
+
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]
+        void RegisterSpawnCallback() => GorillaTagger.OnPlayerSpawned(OnPlayerSpawned);
         void OnPlayerSpawned() { if(!recording&&!_isSaving)NewFileGroup(PhotonInRoom() ? PhotonRoomName() : "NoRoomCode"); RefreshPlayers(); AutoCalibrateOriginOnce(); }
 
         void Update()

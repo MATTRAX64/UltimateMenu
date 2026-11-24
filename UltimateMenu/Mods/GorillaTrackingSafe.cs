@@ -53,6 +53,12 @@ namespace UltimateMenu
 
         void Awake()
         {
+            if (AccessTools.Method(typeof(VRRig), "PostTick") == null)
+            {
+                Log.Info("Body tracking unavailable: VRRig.PostTick is missing.");
+                enabled = false;
+                return;
+            }
             Instance = this;
             LoadConfig();
             for (int i = 0; i < 64; i++) _tData[i] = new TrackerData { DeviceId = (uint)i };
@@ -485,6 +491,9 @@ namespace UltimateMenu
 
         static class Patches
         {
+            [HarmonyPrepare]
+            static bool Prepare() => AccessTools.Method(typeof(VRRig), "PostTick") != null;
+
             [HarmonyPatch(typeof(VRRig), "PostTick")]
             [HarmonyPostfix]
             static void Postfix(VRRig __instance) { if (__instance.isOfflineVRRig && Instance != null) Instance.ApplyTracking(__instance); }

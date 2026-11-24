@@ -1,8 +1,16 @@
 using UnityEngine;
+using System;
+using System.Collections.Generic;
+using System.Net;
+using System.Net.Sockets;
+using System.Text;
+using Photon.Pun;
+using Photon.Realtime;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 namespace UltimateMenu
 {
-    public sealed partial class GorillaFaceTracking : MonoBehaviour
+    public sealed class GorillaFaceTracking : MonoBehaviour
     {
         const string Title = "FaceTracking.Title";
         const int Cell = 64, Atlas = Cell * 4;
@@ -332,6 +340,327 @@ namespace UltimateMenu
                 _rigMouthPose = NeutralRigMouth;
                 _pupilSize = 1f;
             }
+        }
+
+        const int FaceOscPort = 9015;
+        const string EyeTrackingPref = "MUM_LiveFaceEyes";
+        const string MouthTrackingPref = "MUM_LiveFaceMouth";
+        bool _trackEyes, _trackMouth;
+        UdpClient _faceOsc;
+        float _retryOsc;
+        bool _oscUnavailable;
+        readonly Dictionary<string, (float value, float time)> _faceInputs = new Dictionary<string, (float, float)>(StringComparer.Ordinal);
+        Vector2 _liveGaze;
+        float _liveGazeTime = -10f;
+
+        void PollFaceInput()
+        {
+            if (!_trackEyes && !_trackMouth) { StopFaceInput(); return; }
+            float now = Time.realtimeSinceStartup;
+            if (_faceOsc == null)
+            {
+                if (now < _retryOsc) return;
+                try
+                {
+                    _faceOsc = new UdpClient(new IPEndPoint(IPAddress.Loopback, FaceOscPort));
+                    _oscUnavailable = false;
+                }
+                catch (SocketException)
+                {
+                    _oscUnavailable = true;
+                    _retryOsc = now + 2f;
+                    return;
+                }
+            }
+            try
+            {
+                IPEndPoint sender = new IPEndPoint(IPAddress.Loopback, 0);
+                for (int count = 0; count < 64 && _faceOsc.Available > 0; count++)
+                {
+                    byte[] packet = _faceOsc.Receive(ref sender);
+                    if (IPAddress.IsLoopback(sender.Address)) ReadFaceOsc(packet, 0, packet.Length, now, 0);
+                }
+            }
+            catch (SocketException)
+            {
+                StopFaceInput();
+                _oscUnavailable = true;
+                _retryOsc = now + 2f;
+            }
+        }
+
+        void StopFaceInput()
+        {
+            _faceOsc?.Close();
+            _faceOsc = null;
+            _faceInputs.Clear();
+            _liveGazeTime = -10f;
+            _oscUnavailable = false;
+        }
+
+        static int OscInt(byte[] data, int offset) =>
+            data[offset] << 24 | data[offset + 1] << 16 | data[offset + 2] << 8 | data[offset + 3];
+
+        static bool ReadOscString(byte[] data, ref int offset, int end, out string value)
+        {
+            value = "";
+            int start = offset;
+            while (offset < end && data[offset] != 0) offset++;
+            if (offset == end) return false;
+            value = Encoding.ASCII.GetString(data, start, offset - start);
+            offset = (offset + 4) & ~3;
+            return offset <= end;
+        }
+
+        static float OscFloat(byte[] data, int offset) => BitConverter.Int32BitsToSingle(OscInt(data, offset));
+
+        void ReadFaceOsc(byte[] data, int start, int end, float now, int depth)
+        {
+            if (depth > 3 || end - start > 8192 || !ReadOscString(data, ref start, end, out string address)) return;
+            if (address == "#bundle")
+            {
+                if (end - start < 8) return;
+                start += 8;
+                while (end - start >= 4)
+                {
+                    int length = OscInt(data, start);
+                    start += 4;
+                    if (length <= 0 || (length & 3) != 0 || length > end - start) return;
+                    ReadFaceOsc(data, start, start + length, now, depth + 1);
+                    start += length;
+                }
+                return;
+            }
+            if (!ReadOscString(data, ref start, end, out string types)) return;
+            if (address == "/sl/eyeTrackedGazePoint" && types == ",fff" && end - start >= 12)
+            {
+                float x = OscFloat(data, start), y = OscFloat(data, start + 4), z = OscFloat(data, start + 8);
+                if (Finite(x) && Finite(y) && Finite(z) && z < -.0001f)
+                {
+                    _liveGaze = new Vector2(Mathf.Clamp(-Mathf.Atan2(x, -z) / .45f, -1f, 1f),
+                        Mathf.Clamp(Mathf.Atan2(y, -z) / .45f, -1f, 1f));
+                    _liveGazeTime = now;
+                }
+                return;
+            }
+            const string prefix = "/sl/xrfb/facew/";
+            if (types != ",f" || end - start < 4 || !address.StartsWith(prefix, StringComparison.Ordinal)) return;
+            string key = address.Substring(prefix.Length);
+            switch (key)
+            {
+                case "EyesClosedL": case "EyesClosedR":
+                case "InnerBrowRaiserL": case "InnerBrowRaiserR":
+                case "OuterBrowRaiserL": case "OuterBrowRaiserR":
+                case "BrowLowererL": case "BrowLowererR":
+                case "JawDrop": case "LipCornerPullerL": case "LipCornerPullerR":
+                case "LipCornerDepressorL": case "LipCornerDepressorR":
+                case "LipPuckerL": case "LipPuckerR": case "LipFunnelerLT": case "LipFunnelerRT":
+                case "LipStretcherL": case "LipStretcherR": case "TongueOut":
+                    float value = OscFloat(data, start);
+                    if (Finite(value)) _faceInputs[key] = (Mathf.Clamp01(value), now);
+                    break;
+            }
+        }
+
+        static bool Finite(float value) => !float.IsNaN(value) && !float.IsInfinity(value);
+        bool Fresh(float stamp) => Time.realtimeSinceStartup - stamp < .5f;
+        float Weight(string key, float fallback = 0f) =>
+            _faceInputs.TryGetValue(key, out var sample) && Fresh(sample.time) ? sample.value : fallback;
+
+        float Brow(string side, float fallback)
+        {
+            float inner = Weight("InnerBrowRaiser" + side, -1f);
+            float outer = Weight("OuterBrowRaiser" + side, -1f);
+            float down = Weight("BrowLowerer" + side, -1f);
+            if (inner < 0f && outer < 0f && down < 0f) return fallback;
+            return Mathf.Max(0f, Mathf.Max(inner, outer)) - Mathf.Max(0f, down);
+        }
+
+        int TrackedMouth()
+        {
+            float jaw = Weight("JawDrop", -1f);
+            if (jaw < 0f) return _rigMouthPose;
+            float smile = (Weight("LipCornerPullerL") + Weight("LipCornerPullerR")) * .5f;
+            float frown = (Weight("LipCornerDepressorL") + Weight("LipCornerDepressorR")) * .5f;
+            float round = Mathf.Max((Weight("LipPuckerL") + Weight("LipPuckerR")) * .5f,
+                (Weight("LipFunnelerLT") + Weight("LipFunnelerRT")) * .5f);
+            float wide = (Weight("LipStretcherL") + Weight("LipStretcherR")) * .5f;
+            if (round > .35f) return 9;
+            if (frown > .4f && jaw < .2f) return 8;
+            if (Weight("TongueOut") > .35f && jaw > .12f) return 4;
+            if (smile > .28f) return jaw > .4f ? 2 : jaw > .14f ? 1 : smile > .65f ? 3 : 0;
+            if (jaw > .65f) return wide > .35f ? 5 : 7;
+            if (jaw > .16f) return 6;
+            return NeutralRigMouth;
+        }
+
+        const string FacePoseKey = "UltimateMenu.Face1";
+        readonly Dictionary<int, RemoteFace> _remoteFaces = new Dictionary<int, RemoteFace>();
+        readonly HashSet<int> _visibleFaces = new HashSet<int>();
+        readonly List<int> _removedFaces = new List<int>();
+        Room _faceRoom;
+        float _nextFaceNetwork, _faceHeartbeat;
+        byte _faceSequence;
+        byte[] _publishedFace;
+
+        sealed class RemoteFace
+        {
+            public MeshRenderer Renderer;
+            public Material Original, Overlay;
+            public Texture2D Texture;
+            public byte[] Packet;
+            public float LastSeen;
+        }
+
+        void UpdateFaceNetwork(bool publish)
+        {
+            if (!GorillaNetwork.SharingEnabled || !PhotonNetwork.InRoom || PhotonNetwork.LocalPlayer == null)
+            {
+                StopFaceNetwork();
+                return;
+            }
+            if (_faceRoom != PhotonNetwork.CurrentRoom)
+            {
+                ClearRemoteFaces();
+                _faceRoom = PhotonNetwork.CurrentRoom;
+                _publishedFace = null;
+                _nextFaceNetwork = 0f;
+            }
+            if (!publish) ClearPublishedFace();
+            float now = Time.unscaledTime;
+            if (now < _nextFaceNetwork) return;
+            _nextFaceNetwork = now + .12f;
+            if (publish)
+            {
+                byte[] pose = {
+                    (byte)(_lastGaze.x + 4), (byte)(_lastGaze.y + 3),
+                    (byte)Mathf.Clamp(Mathf.RoundToInt(_lastShape.x * 10f), 0, 60),
+                    (byte)Mathf.Clamp(Mathf.RoundToInt(_lastShape.y * 10f), 0, 60),
+                    (byte)(_lastShape.z + 4), (byte)(_lastShape.w + 4),
+                    (byte)(_lastAngles.x + 35), (byte)(_lastAngles.y + 35),
+                    (byte)Mathf.RoundToInt(_lastPupilSize * 20f), (byte)_lastRigMouthFrame,
+                    _faceSequence
+                };
+                if (!SameFacePose(pose, _publishedFace) || now >= _faceHeartbeat)
+                {
+                    pose[10] = ++_faceSequence;
+                    if (PhotonNetwork.LocalPlayer.SetCustomProperties(new Hashtable { [FacePoseKey] = pose }))
+                    {
+                        _publishedFace = pose;
+                        _faceHeartbeat = now + 1f;
+                    }
+                }
+            }
+            if (EnsureRigFace()) RefreshRemoteFaces(now);
+        }
+
+        static bool SameFacePose(byte[] first, byte[] second)
+        {
+            if (second == null) return false;
+            for (int i = 0; i < 10; i++)
+                if (first[i] != second[i]) return false;
+            return true;
+        }
+
+        static bool ValidFacePose(byte[] p) => p != null && p.Length == 11
+            && p[0] <= 8 && p[1] <= 6 && p[2] <= 60 && p[3] <= 60 && p[4] <= 8 && p[5] <= 8
+            && p[6] <= 70 && p[7] <= 70 && p[8] >= 10 && p[8] <= 25 && p[9] < RigMouthPoses.Length;
+
+        void RefreshRemoteFaces(float now)
+        {
+            _visibleFaces.Clear();
+            foreach (var rig in VRRigCache.ActiveRigs)
+            {
+                if (rig == null || rig.Creator == null) continue;
+                int actor = rig.Creator.ActorNumber;
+                if (actor == PhotonNetwork.LocalPlayer.ActorNumber || string.IsNullOrEmpty(GorillaNetwork.VersionFor(actor))) continue;
+                var player = _faceRoom.GetPlayer(actor);
+                if (player == null || !(player.CustomProperties[FacePoseKey] is byte[] packet) || !ValidFacePose(packet)) continue;
+                if (!_remoteFaces.TryGetValue(actor, out var remote))
+                {
+                    var renderer = rig.transform.Find("rig/head/gorillaface")?.GetComponent<MeshRenderer>();
+                    if (renderer == null)
+                    {
+                        foreach (var candidate in rig.GetComponentsInChildren<MeshRenderer>(true))
+                        {
+                            if (!string.Equals(candidate.name, "gorillaface", System.StringComparison.OrdinalIgnoreCase)) continue;
+                            renderer = candidate;
+                            break;
+                        }
+                    }
+                    if (renderer == null || renderer.sharedMaterial == null) continue;
+                    var original = renderer.sharedMaterial;
+                    int slot = original.HasProperty("_MouthMap") ? Shader.PropertyToID("_MouthMap")
+                        : original.HasProperty("_BaseMap") ? Shader.PropertyToID("_BaseMap")
+                        : original.HasProperty("_MainTex") ? Shader.PropertyToID("_MainTex") : -1;
+                    if (slot == -1) continue;
+                    remote = new RemoteFace {
+                        Renderer = renderer, Original = original,
+                        Overlay = new Material(original),
+                        Texture = new Texture2D(Atlas, Atlas, TextureFormat.RGBA32, false) {
+                            filterMode = FilterMode.Point, wrapMode = TextureWrapMode.Clamp
+                        }
+                    };
+                    remote.Overlay.SetTexture(slot, remote.Texture);
+                    _remoteFaces.Add(actor, remote);
+                }
+                if (remote.Renderer == null || !remote.Renderer.transform.IsChildOf(rig.transform)) continue;
+                bool changed = !SameFacePose(packet, remote.Packet);
+                if (changed || packet[10] != remote.Packet[10]) remote.LastSeen = now;
+                remote.Packet = packet;
+                if (now - remote.LastSeen > 2.5f)
+                {
+                    if (remote.Renderer.sharedMaterial == remote.Overlay) remote.Renderer.sharedMaterial = remote.Original;
+                    _visibleFaces.Add(actor);
+                    continue;
+                }
+                _visibleFaces.Add(actor);
+                if (changed)
+                    RenderFace(remote.Texture, false, new Vector2Int(packet[0] - 4, packet[1] - 3),
+                        new Vector4(packet[2] / 10f, packet[3] / 10f, packet[4] - 4, packet[5] - 4),
+                        new Vector4(packet[6] - 35, packet[7] - 35, 0, 0), packet[8] / 20f, packet[9]);
+                if (remote.Renderer.sharedMaterial != remote.Overlay)
+                {
+                    remote.Original = remote.Renderer.sharedMaterial;
+                    remote.Renderer.sharedMaterial = remote.Overlay;
+                }
+            }
+            _removedFaces.Clear();
+            foreach (var pair in _remoteFaces)
+                if (!_visibleFaces.Contains(pair.Key)) _removedFaces.Add(pair.Key);
+            foreach (int actor in _removedFaces)
+            {
+                ReleaseRemoteFace(_remoteFaces[actor]);
+                _remoteFaces.Remove(actor);
+            }
+        }
+
+        void ReleaseRemoteFace(RemoteFace remote)
+        {
+            if (remote.Renderer != null && remote.Renderer.sharedMaterial == remote.Overlay)
+                remote.Renderer.sharedMaterial = remote.Original;
+            Destroy(remote.Overlay);
+            Destroy(remote.Texture);
+        }
+
+        void ClearRemoteFaces()
+        {
+            foreach (var remote in _remoteFaces.Values) ReleaseRemoteFace(remote);
+            _remoteFaces.Clear();
+        }
+
+        void ClearPublishedFace()
+        {
+            if (_publishedFace != null && _faceRoom == PhotonNetwork.CurrentRoom && PhotonNetwork.InRoom)
+                PhotonNetwork.LocalPlayer?.SetCustomProperties(new Hashtable { [FacePoseKey] = null });
+            _publishedFace = null;
+        }
+
+        void StopFaceNetwork()
+        {
+            ClearPublishedFace();
+            ClearRemoteFaces();
+            _faceRoom = null;
         }
     }
 

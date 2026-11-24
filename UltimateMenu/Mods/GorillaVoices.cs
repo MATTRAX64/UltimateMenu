@@ -169,5 +169,11 @@ namespace UltimateMenu
 
     [HarmonyPatch(typeof(VRRig))]
     [HarmonyPatch("PostTick")]
-    internal class VoiceChatPatch { static void Postfix(VRRig __instance) => GorillaVoices.Instance?.ApplyToRig(__instance); }
+    internal class VoiceChatPatch
+    {
+        [HarmonyPrepare]
+        static bool Prepare() => AccessTools.Method(typeof(VRRig), "PostTick") != null;
+
+        static void Postfix(VRRig __instance) => GorillaVoices.Instance?.ApplyToRig(__instance);
+    }
 }

@@ -61,6 +61,8 @@ namespace UltimateMenu
             public int LastActor = int.MinValue;
             public string LastUserId;
             public bool LastRigActive;
+            public Transform BodyPivot;
+            public Vector3 LastBodyUp;
             public Vector3 SmoothedPos;
             public Quaternion SmoothedRot;
         }
@@ -186,6 +188,7 @@ namespace UltimateMenu
                 if (!_tags.TryGetValue(rig, out var tag) || tag.Root == null)
                 {
                     tag = BuildTag(rig); _tags[rig] = tag;
+                    tag.BodyPivot = rig.transform.Find("rig/body_pivot");
                     ReadIdentity(rig, out tag.LastActor, out tag.LastUserId); tag.LastRigActive = rig.isActiveAndEnabled;
                 }
                 UpdateTag(rig, tag, otherHead, recheck);
@@ -354,10 +357,28 @@ namespace UltimateMenu
             if (dist > _maxRenderDistance) { if (tag.Root.activeSelf) tag.Root.SetActive(false); return; }
             if (!tag.Root.activeSelf) { tag.Root.SetActive(true); ResetTag(tag); }
 
-            Vector3 targetPos = otherPos + Vector3.up * _heightOffset;
-            Quaternion targetRot = Quaternion.LookRotation(headPos - targetPos) * Quaternion.Euler(0f, 180f, 0f);
+            Vector3 bodyUp = tag.BodyPivot != null ? tag.BodyPivot.up : rig.transform.up;
+            Vector3 targetPos = otherPos + bodyUp * _heightOffset;
+            Vector3 facing = targetPos - headPos;
+            Vector3 viewerUp = _localHead.up;
+            Quaternion targetRot = tag.Initialized ? tag.SmoothedRot : _localHead.rotation;
+            if (facing.sqrMagnitude > 0.000001f)
+            {
+                Vector3 billboardUp = Vector3.ProjectOnPlane(viewerUp, facing);
+                if (billboardUp.sqrMagnitude < 0.000001f)
+                    billboardUp = Vector3.Cross(facing, _localHead.right);
+                targetRot = Quaternion.LookRotation(facing, billboardUp);
+            }
 
-            if (!tag.Initialized) { tag.SmoothedPos = targetPos; tag.SmoothedRot = targetRot; tag.Initialized = true; }
+            // Snap across a gravity flip so interpolation cannot pull the label through the avatar.
+            bool gravityFlipped = tag.Initialized && Vector3.Dot(tag.LastBodyUp, bodyUp) < 0.5f;
+            tag.LastBodyUp = bodyUp;
+            if (!tag.Initialized || gravityFlipped)
+            {
+                tag.SmoothedPos = targetPos;
+                tag.SmoothedRot = targetRot;
+                tag.Initialized = true;
+            }
             else
             {
                 float t = 1f - Mathf.Exp(-FollowLerp * Time.deltaTime);
