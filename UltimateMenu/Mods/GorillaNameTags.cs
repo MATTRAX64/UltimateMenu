@@ -33,6 +33,8 @@ namespace UltimateMenu
         readonly HashSet<VRRig> _activeRigsSet = new HashSet<VRRig>();
 
         Transform _localHead;
+        Vector3 _gravityUp = Vector3.up;
+        bool _gravityApiUnavailable;
         float _localHeadRefreshTimer;
 
         const string METAICON_RESOURCE = "UltimateMenu.Assets.GorillaNameTags.Meta.png";
@@ -62,8 +64,7 @@ namespace UltimateMenu
             public string LastUserId;
             public bool LastRigActive;
             public Transform BodyPivot;
-            public Vector3 LastBodyUp;
-            public Vector3 SmoothedPos;
+            public Vector3 SmoothedHeadPosition;
             public Quaternion SmoothedRot;
         }
 
@@ -156,14 +157,43 @@ namespace UltimateMenu
         Transform GetOtherHead(VRRig rig)
         {
             if (_headCache.TryGetValue(rig, out var cached) && cached != null) return cached;
-            var head = rig.transform.Find("rig/head");
+            var head = rig.transform.Find("rig/body_pivot/head_pivot") ?? rig.transform.Find("rig/head");
             if (head != null) _headCache[rig] = head;
             return head;
+        }
+
+        Vector3 ReadGravityUp()
+        {
+            if (!_gravityApiUnavailable)
+            {
+                try
+                {
+                    Vector3 up = ReadLocalGravityController();
+                    if (up.sqrMagnitude > 0.000001f) return up.normalized;
+                }
+                catch (System.TypeLoadException) { _gravityApiUnavailable = true; }
+                catch (System.MissingMemberException) { _gravityApiUnavailable = true; }
+            }
+
+            Vector3 gravity = Physics.gravity;
+            return gravity.sqrMagnitude > 0.000001f ? -gravity.normalized : _gravityUp;
+        }
+
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]
+        static Vector3 ReadLocalGravityController()
+        {
+            var player = GorillaLocomotion.GTPlayer.Instance;
+            if (player == null || player.bodyCollider == null) return Vector3.zero;
+            var (found, controller) = GorillaTag.Gravity.MonkeGravityManager.GetMonkeGravityController(player.bodyCollider);
+            if (!found || controller == null)
+                controller = player.GetComponentInChildren<GorillaTag.Gravity.MonkeGravityController>();
+            return controller != null ? controller.GravityUp : Vector3.zero;
         }
 
         void RefreshTags()
         {
             if (_localHead == null) return;
+            _gravityUp = ReadGravityUp();
             _activeRigsSet.Clear();
 
             // Recheck who owns each rig only when something was reported (player joined/left/changed properties) or every 10 s as a safety net.
@@ -357,37 +387,28 @@ namespace UltimateMenu
             if (dist > _maxRenderDistance) { if (tag.Root.activeSelf) tag.Root.SetActive(false); return; }
             if (!tag.Root.activeSelf) { tag.Root.SetActive(true); ResetTag(tag); }
 
-            Vector3 bodyUp = tag.BodyPivot != null ? tag.BodyPivot.up : rig.transform.up;
-            Vector3 targetPos = otherPos + bodyUp * _heightOffset;
+            Transform body = tag.BodyPivot != null ? tag.BodyPivot : rig.transform;
+            float blend = 1f - Mathf.Exp(-FollowLerp * Time.unscaledDeltaTime);
+            bool snap = !tag.Initialized || (otherPos - tag.SmoothedHeadPosition).sqrMagnitude > 4f;
+            tag.SmoothedHeadPosition = snap ? otherPos : Vector3.Lerp(tag.SmoothedHeadPosition, otherPos, blend);
+            Vector3 targetPos = tag.SmoothedHeadPosition + body.up * _heightOffset;
             Vector3 facing = targetPos - headPos;
-            Vector3 viewerUp = _localHead.up;
-            Quaternion targetRot = tag.Initialized ? tag.SmoothedRot : _localHead.rotation;
             if (facing.sqrMagnitude > 0.000001f)
             {
-                Vector3 billboardUp = Vector3.ProjectOnPlane(viewerUp, facing);
+                facing.Normalize();
+                Vector3 billboardUp = Vector3.ProjectOnPlane(_gravityUp, facing);
+                if (billboardUp.sqrMagnitude < 0.0001f && tag.Initialized)
+                    billboardUp = Vector3.ProjectOnPlane(tag.SmoothedRot * Vector3.up, facing);
                 if (billboardUp.sqrMagnitude < 0.000001f)
-                    billboardUp = Vector3.Cross(facing, _localHead.right);
-                targetRot = Quaternion.LookRotation(facing, billboardUp);
-            }
+                    billboardUp = Vector3.ProjectOnPlane(Vector3.forward, facing);
 
-            // Snap across a gravity flip so interpolation cannot pull the label through the avatar.
-            bool gravityFlipped = tag.Initialized && Vector3.Dot(tag.LastBodyUp, bodyUp) < 0.5f;
-            tag.LastBodyUp = bodyUp;
-            if (!tag.Initialized || gravityFlipped)
-            {
-                tag.SmoothedPos = targetPos;
-                tag.SmoothedRot = targetRot;
+                Quaternion targetRot = Quaternion.LookRotation(facing, billboardUp);
+                tag.SmoothedRot = snap ? targetRot : Quaternion.Slerp(tag.SmoothedRot, targetRot, blend);
+                tagTransform.rotation = tag.SmoothedRot;
                 tag.Initialized = true;
             }
-            else
-            {
-                float t = 1f - Mathf.Exp(-FollowLerp * Time.deltaTime);
-                tag.SmoothedPos = Vector3.Lerp(tag.SmoothedPos, targetPos, t);
-                tag.SmoothedRot = Quaternion.Slerp(tag.SmoothedRot, targetRot, t);
-            }
 
-            tagTransform.position = tag.SmoothedPos;
-            tagTransform.rotation = tag.SmoothedRot;
+            tagTransform.position = targetPos;
 
             float scaleT = Mathf.InverseLerp(NearDistance, FarDistance, dist);
             float scaleMul = Mathf.Lerp(1f, MinScaleMul, scaleT);
