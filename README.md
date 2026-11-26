@@ -43,8 +43,10 @@
   <a href="https://www.nexusmods.com/gorillatag/mods/1330"><img src="https://www.google.com/s2/favicons?domain=nexusmods.com&amp;sz=64" width="32" alt="Nexus Mods"></a>
   &nbsp;
   <a href="https://gamebanana.com/mods/716098"><img src="https://www.google.com/s2/favicons?domain=gamebanana.com&amp;sz=64" width="32" alt="GameBanana"></a>
+  <!--
   &nbsp;
   <a href="https://discord.com/invite/bucBZEdxce"><img src="https://cdn.discordapp.com/icons/810644499763691540/97ccd8637aa79c7970cd6f58999766a5.png" width="32" alt="Gorilla Tag Modding Discord"></a>
+  -->
   &nbsp;
   <a href="https://www.patreon.com/c/MATTRAXER64xp"><img src="https://www.patreon.com/favicon.ico" width="32" alt="Patreon"></a>
 </p>
