@@ -38,7 +38,7 @@ def main():
     total = sum(counts.values())
     counts.update(total=total, total_affiche=f"{total}+" if total < 1000 else f"{total // 1000},{total // 100 % 10}k+")
     output = json.dumps(counts, indent=2)
-    destination = Path(__file__).resolve().parents[3] / "scripts" / "downloads.json"
+    destination = Path(__file__).with_name("downloads.json")
     destination.parent.mkdir(parents=True, exist_ok=True)
     destination.write_text(output + "\n", encoding="utf-8")
     print(output)
