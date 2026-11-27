@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.InputSystem;
 using System;
 using System.Collections.Generic;
@@ -281,17 +281,31 @@ namespace UltimateMenu
             }
         }
 
-        bool IsKeyDown(KeyCode kc) { var kb = Keyboard.current; if (kb == null) return false; var k = KCtoKey(kc); return k.HasValue && kb[k.Value].wasPressedThisFrame; }
+        bool IsKeyDown(KeyCode kc) { var kb = Keyboard.current; if (kb == null) return false; var k = KCtoKey(kc); return k.HasValue && kb[k.Value]?.wasPressedThisFrame == true; }
 
         string _currentRebindTarget = "";
         public void StartLocalRebind(string t) { waitingRebind = true; _currentRebindTarget = t; }
 
         void HandleRebind()
         {
-            if (!waitingRebind || Keyboard.current == null) return;
-            foreach (var key in Keyboard.current.allKeys)
-                if (key.wasPressedThisFrame) { KeyCode kc = KeyToKC(key.keyCode); if (kc != KeyCode.None && kc != KeyCode.Escape) { SetKey(_currentRebindTarget, kc); waitingRebind = false; _currentRebindTarget = ""; return; } }
-            if (Keyboard.current.escapeKey.wasPressedThisFrame) { waitingRebind = false; _currentRebindTarget = ""; }
+            var keyboard = Keyboard.current;
+            if (!waitingRebind || keyboard == null) return;
+            if (keyboard.escapeKey?.wasPressedThisFrame != true)
+            {
+                foreach (var key in keyboard.allKeys)
+                {
+                    if (key?.wasPressedThisFrame != true) continue;
+                    KeyCode code = KeyToKC(key.keyCode);
+                    if (code == KeyCode.None || code == KeyCode.Escape) continue;
+                    SetKey(_currentRebindTarget, code);
+                    waitingRebind = false;
+                    _currentRebindTarget = "";
+                    return;
+                }
+                return;
+            }
+            waitingRebind = false;
+            _currentRebindTarget = "";
         }
 
         void Move(Keyboard kb)
@@ -303,14 +317,14 @@ namespace UltimateMenu
             Key fwd = KeyFor(MoveDir.Forward, layout), bck = KeyFor(MoveDir.Back, layout), lft = KeyFor(MoveDir.Left, layout);
             Key rgt = KeyFor(MoveDir.Right, layout), up = KeyFor(MoveDir.Up, layout), dwn = KeyFor(MoveDir.Down, layout);
 
-            if (fwd != Key.None && kb[fwd].isPressed) d += t.forward;
-            if (bck != Key.None && kb[bck].isPressed) d -= t.forward;
-            if (lft != Key.None && kb[lft].isPressed) d -= t.right;
-            if (rgt != Key.None && kb[rgt].isPressed) d += t.right;
-            if (up != Key.None && kb[up].isPressed) d += Vector3.up;
-            if (dwn != Key.None && kb[dwn].isPressed) d -= Vector3.up;
-            if (kb.leftShiftKey.isPressed) d *= 2f;
-            if (kb.leftCtrlKey.isPressed) d *= 0.5f;
+            if (fwd != Key.None && kb[fwd]?.isPressed == true) d += t.forward;
+            if (bck != Key.None && kb[bck]?.isPressed == true) d -= t.forward;
+            if (lft != Key.None && kb[lft]?.isPressed == true) d -= t.right;
+            if (rgt != Key.None && kb[rgt]?.isPressed == true) d += t.right;
+            if (up != Key.None && kb[up]?.isPressed == true) d += Vector3.up;
+            if (dwn != Key.None && kb[dwn]?.isPressed == true) d -= Vector3.up;
+            if (kb.leftShiftKey?.isPressed == true) d *= 2f;
+            if (kb.leftCtrlKey?.isPressed == true) d *= 0.5f;
             t.position += d * speed * Time.deltaTime;
         }
 
@@ -370,9 +384,21 @@ namespace UltimateMenu
 
         Vector3 Bezier(Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3, float t) { float u = 1f - t; return u * u * u * p0 + 3f * u * u * t * p1 + 3f * u * t * t * p2 + t * t * t * p3; }
 
+        bool _layoutHasCamera, _layoutWaitingRebind;
+        CamKF[] _layoutKeyframes = Array.Empty<CamKF>();
+        CamKF? _layoutSelected;
+
         void DrawPage(MenuUI ui)
         {
             if (Active && (lckCamera == null || !lckCamera.activeInHierarchy)) Disable();
+
+            if (Event.current.type == EventType.Layout)
+            {
+                _layoutHasCamera = lckCamera != null;
+                _layoutWaitingRebind = waitingRebind;
+                _layoutKeyframes = Keyframes.ToArray();
+                _layoutSelected = selectedKF >= 0 && selectedKF < Keyframes.Count ? Keyframes[selectedKF] : null;
+            }
 
             ui.Section(I18n.T("Camera.Title"));
             Layout layout = KeyLayout.Current;
@@ -380,7 +406,7 @@ namespace UltimateMenu
             ui.Space(6);
             ui.BeginCard();
             ui.Label(I18n.T("Camera.Prepare"),Theme.Text,11,true);
-            if(lckCamera==null)
+            if (!_layoutHasCamera)
             {
                 if(ui.Btn(I18n.T("Camera.Show"),ui.TB3,Theme.Text) && Enabled) SpawnCameraClone();
             }
@@ -401,7 +427,7 @@ namespace UltimateMenu
                 Theme.Dim, 9);
             ui.Space(4);
 
-            if (waitingRebind)
+            if (_layoutWaitingRebind)
             {
                 ui.Label(I18n.T("Camera.WaitingKey"), Theme.Accent, 10, true);
                 ui.Label(I18n.T("Camera.EscapeCancel"), Theme.Dim, 8);
@@ -409,19 +435,27 @@ namespace UltimateMenu
             else if (ui.RebindBtn(I18n.T("Camera.AddKF"), keyAddKF) && Enabled) StartLocalRebind("CamAddKF");
             ui.EndCard();
 
-            ui.Space(6); ui.Section(I18n.T("Camera.Keyframes") + " (" + Keyframes.Count + ")");
+            ui.Space(6); ui.Section(I18n.T("Camera.Keyframes") + " (" + _layoutKeyframes.Length + ")");
             ui.BeginCard();
-            if (Keyframes.Count == 0) ui.Label(I18n.T("Camera.NoKeyframes"), Theme.Dim, 9);
+            if (_layoutKeyframes.Length == 0) ui.Label(I18n.T("Camera.NoKeyframes"), Theme.Dim, 9);
             else
-                for (int i = 0; i < Keyframes.Count; i++)
+                foreach (var kf in _layoutKeyframes)
                 {
-                    var kf = Keyframes[i];
-                    bool sel = selectedKF == i;
+                    bool sel = ReferenceEquals(kf, _layoutSelected);
                     GUILayout.BeginHorizontal();
-                    if (ui.Btn((sel ? "> " : "   ") + kf.Label + " - " + kf.Duration.ToString("F1") + "s - " + I18n.T("Camera."+kf.Ease), sel ? ui.TA : ui.TB3, sel ? Color.white : Theme.Text) && Enabled) selectedKF = i;
+                    if (ui.Btn((sel ? "> " : "   ") + kf.Label + " - " + kf.Duration.ToString("F1") + "s - " + I18n.T("Camera."+kf.Ease), sel ? ui.TA : ui.TB3, sel ? Color.white : Theme.Text) && Enabled) selectedKF = Keyframes.IndexOf(kf);
                     GUILayout.Space(4);
                     if (ui.SmallBtn(I18n.T("Camera.Go"), ui.TB3, Theme.Accent) && Enabled) TeleportCamera(kf.Pos, kf.Rot);
-                    if (ui.SmallBtn("X", ui.TR, Color.white) && Enabled) { Keyframes.RemoveAt(i); if (selectedKF >= i) selectedKF--; break; }
+                    if (ui.SmallBtn("X", ui.TR, Color.white) && Enabled)
+                    {
+                        int actualIndex = Keyframes.IndexOf(kf);
+                        if (actualIndex >= 0)
+                        {
+                            Keyframes.RemoveAt(actualIndex);
+                            if (selectedKF == actualIndex) selectedKF = -1;
+                            else if (selectedKF > actualIndex) selectedKF--;
+                        }
+                    }
                     GUILayout.EndHorizontal();
 
                     if (sel)
