@@ -1,0 +1,53 @@
+name: UltimateMenu Maintenance
+on:
+  schedule:
+    - cron: "0 0 * * *"
+      timezone: "Europe/Paris"
+  workflow_dispatch:
+    inputs:
+      issue_optimizer:
+        description: IssueOptimizer
+        type: boolean
+        default: true
+      download_count:
+        description: DownloadCount
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency: ultimatemenu-maintenance
+
+jobs:
+  maintenance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with: {python-version: "3.12"}
+      - name: Verify Python
+        run: python --version
+      - parallel:
+          - name: IssueOptimizer
+            if: ${{ github.event_name == 'schedule' || inputs.issue_optimizer }}
+            run: python .github/workflows/scripts/clean_issues.py
+            env:
+              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              REPO: ${{ github.repository }}
+              REPORTER_LOGIN: ${{ vars.REPORTER_LOGIN }}
+              APPLY: ${{ vars.ISSUE_CLEANER_APPLY }}
+
+          - name: DownloadCount
+            if: ${{ github.event_name == 'schedule' || inputs.download_count }}
+            env:
+              NEXUS_API_KEY: ${{ secrets.NEXUS_API_KEY }}
+            run: |
+              python .github/workflows/scripts/downloads.py
+              git add scripts/downloads.json
+              if git diff --cached --quiet; then exit 0; fi
+              git -c user.name="github-actions[bot]" \
+                  -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+                  commit -m "Update download statistics"
+              git push
