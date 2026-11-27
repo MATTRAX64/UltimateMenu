@@ -52,7 +52,7 @@
 </p>
 
 [![Release](https://img.shields.io/github/v/release/MATTRAX64/UltimateMenu?style=flat-square&color=6c5ce7)](https://github.com/MATTRAX64/UltimateMenu/releases)
-[![Downloads](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/MATTRAX64/UltimateMenu/main/scripts/downloads.json&query=$.total_affiche&label=downloads&color=6c5ce7&style=flat-square)](https://github.com/MATTRAX64/UltimateMenu/releases)
+[![Downloads](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2FMATTRAX64%2FUltimateMenu%2Fmain%2F.github%2Fscripts%2Fdownloads.json&query=%24.total_affiche&label=downloads&color=6c5ce7&style=flat-square)](https://github.com/MATTRAX64/UltimateMenu/releases)
 
 ### [Download](https://github.com/MATTRAX64/UltimateMenu/releases) · [Report a bug](https://github.com/MATTRAX64/UltimateMenu/issues) · [Contact](https://mattraxer64xp.page.gd)
 
