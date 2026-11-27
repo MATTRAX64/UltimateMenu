@@ -2,49 +2,39 @@ import json, os
 from pathlib import Path
 import requests
 
-GITHUB_REPO = "MATTRAX64/UltimateMenu"
-GAMEBANANA_ID = "716098"
-NEXUS_MOD_ID = "1330"
-OUTPUT_FILE = Path(__file__).parent / "downloads.json"
-Thunderstore_Excalibur = 2500
+GITHUB_REPO, GAMEBANANA_ID, NEXUS_MOD_ID = "MATTRAX64/UltimateMenu", "716098", "1330"
+
+def get(url, **kwargs):
+    response = requests.get(url, timeout=30, **kwargs)
+    response.raise_for_status()
+    return response
 
 def github_downloads():
-    r = requests.get(f"https://api.github.com/repos/{GITHUB_REPO}/releases", headers={"Accept": "application/vnd.github+json"}, timeout=30)
-    r.raise_for_status()
-    return sum(a.get("download_count", 0) for rel in r.json() for a in rel.get("assets", []))
-
-
-def gamebanana_downloads():
-    r = requests.get("https://api.gamebanana.com/Core/Item/Data", params={"itemtype": "Mod", "itemid": GAMEBANANA_ID, "fields": "downloads", "return_keys": "true", "format": "json"}, timeout=30)
-    r.raise_for_status()
-    d = r.json()
-    if isinstance(d, list) and d:
-        d = d[0]
-    if isinstance(d, dict) and d.get("downloads") is not None:
-        return int(d["downloads"])
-    raise RuntimeError(f"Impossible de récupérer les téléchargements GameBanana pour le mod {GAMEBANANA_ID}.")
-
-
-def nexus_downloads():
-    key = os.environ.get("NEXUS_API_KEY")
-    if not key:
-        raise RuntimeError("NEXUS_API_KEY est manquant dans GitHub Secrets.")
-    r = requests.get(f"https://api.nexusmods.com/v1/games/gorillatag/mods/{NEXUS_MOD_ID}.json", headers={"apikey": key, "accept": "application/json", "Application-Name": "UltimateMenu-DownloadCounter", "Application-Version": "1.0"}, timeout=30)
-    r.raise_for_status()
-    return int(r.json().get("mod_downloads", 0))
-
-
-def format_total(n):
-    return f"{n}+" if n < 1000 else f"{n // 100 / 10:.1f}k+".replace(".", ",")
-
+    url, total = f"https://api.github.com/repos/{GITHUB_REPO}/releases?per_page=100", 0
+    while url:
+        response = get(url)
+        total += sum(asset.get("download_count", 0) for release in response.json() for asset in release.get("assets", []))
+        url = response.links.get("next", {}).get("url")
+    return total
 
 def main():
-    github, gamebanana, nexus = github_downloads(), gamebanana_downloads(), nexus_downloads()
-    total = github + gamebanana + nexus + Thunderstore_Excalibur
-    downloads = {"github": github, "gamebanana": gamebanana, "nexus": nexus,"Thunderstore + Excalibur": Thunderstore_Excalibur, "total": total, "total_affiche": format_total(total)}
-    print(json.dumps(downloads, indent=2))
-    OUTPUT_FILE.write_text(json.dumps(downloads, indent=2), encoding="utf-8")
+    key = os.getenv("NEXUS_API_KEY")
+    if not key:
+        raise RuntimeError("NEXUS_API_KEY est manquant dans GitHub Secrets.")
 
+    params = dict(itemtype="Mod", itemid=GAMEBANANA_ID, fields="downloads", return_keys="true", format="json")
+    banana = get("https://api.gamebanana.com/Core/Item/Data", params=params).json()
+    banana = banana[0] if isinstance(banana, list) and banana else banana
+    headers = {"apikey": key, "Accept": "application/json", "Application-Name": "UltimateMenu-DownloadCounter", "Application-Version": "1.0"}
+    nexus = get(f"https://api.nexusmods.com/v1/games/gorillatag/mods/{NEXUS_MOD_ID}.json", headers=headers).json()
+
+    github, gamebanana, nexus, thunderstore_excalibur = github_downloads(), int(banana["downloads"]), int(nexus["mod_downloads"]), 2500
+    counts = {"github": github, "gamebanana": gamebanana, "nexus": nexus, "Thunderstore + Excalibur": thunderstore_excalibur}
+    total = sum(counts.values())
+    counts.update(total=total, total_affiche=f"{total}+" if total < 1000 else f"{total // 1000},{total // 100 % 10}k+")
+    output = json.dumps(counts, indent=2)
+    Path(__file__).with_name("downloads.json").write_text(output, encoding="utf-8")
+    print(output)
 
 if __name__ == "__main__":
     main()
