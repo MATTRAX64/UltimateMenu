@@ -12,4 +12,4 @@ For crashes, visual glitches, and other bugs, open **UltimateMenu → Settings �
 
 ## GitHub issue reporting
 
-UltimateMenu’s in-game reporter uses a dedicated GitHub App to create issues. The presence of its credential in builds that include the reporter is intentional. A private key embedded in a distributed build can be extracted, so please report any suspected misuse privately. [Contact MATTRAX](https://mattraxer64xp.page.gd)
+UltimateMenu uses a dedicated GitHub App to submit bug reports as GitHub issues. The app’s private key is intentionally distributed publicly with builds that include the in-game reporter. Please report any suspected misuse privately. [Contact MATTRAX](https://mattraxer64xp.page.gd)
