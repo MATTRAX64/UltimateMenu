@@ -1,76 +1,106 @@
 import os, re
+from collections import defaultdict
 from difflib import SequenceMatcher
 
 import requests
 
-TOKEN = os.environ["GITHUB_TOKEN"]
-REPO = os.environ["REPO"]
-API = f"https://api.github.com/repos/{REPO}"
-HEADERS = {"Authorization": f"Bearer {TOKEN}", "Accept": "application/vnd.github+json"}
+API = f"https://api.github.com/repos/{os.environ['REPO']}"
+BOT = os.environ["REPORTER_LOGIN"].strip().casefold()
+APPLY = os.getenv("APPLY", "").strip() == "1"
+SIMILARITY = 0.90
 
-COUNT_SUFFIX = re.compile(r"\s*x(\d+)$")
-SIMILARITY_THRESHOLD = 0.85
-
-
-def base_title(title):
-    return COUNT_SUFFIX.sub("", title).strip()
-
-
-def count_of(title):
-    m = COUNT_SUFFIX.search(title)
-    return int(m.group(1)) if m else 1
+REPORT_TYPE = re.compile(r"^Type:[ \t]*exception[ \t]*\r?$", re.I | re.M)
+ERROR_HEADER = re.compile(r"^Error:[ \t]*\r?$", re.I | re.M)
+EXCEPTION = re.compile(r"\b[\w.]+(?:Exception|Error):")
+FRAME = re.compile(r"^(?:at\s+|UnityEngine\.)", re.I)
+LOCATION = re.compile(r"\s+\[0x[0-9a-f]+\]|\s+\(at [^)]*\)|\s+in\s+<[^>]+>:\d+", re.I)
 
 
-def normalize(text):
-    return re.sub(r"\s+", " ", (text or "").lower()).strip()
+def signature(issue):
+    body = issue.get("body") or ""
+    header = ERROR_HEADER.search(body)
+    if not header or not REPORT_TYPE.search(body, 0, header.start()):
+        return None
+
+    lines = [line.strip(" `\\") for line in body[header.end():].splitlines()]
+    error = next((line for line in lines if EXCEPTION.search(line)), "")
+    frames = tuple(" ".join(LOCATION.sub("", line).split()) for line in lines if FRAME.match(line))
+    return (" ".join(error.split()), frames) if error and frames else None
 
 
-def is_same_issue(a, b):
-    if normalize(base_title(a["title"])) != normalize(base_title(b["title"])):
-        return False
-    return SequenceMatcher(None, normalize(a["body"]), normalize(b["body"])).ratio() >= SIMILARITY_THRESHOLD
+def github(session, method, url, **kwargs):
+    response = session.request(method, url, timeout=30, **kwargs)
+    response.raise_for_status()
+    return response
 
 
-def list_open_issues():
-    issues, page = [], 1
-    while True:
-        r = requests.get(f"{API}/issues", headers=HEADERS, params={"state": "open", "per_page": 100, "page": page})
-        r.raise_for_status()
-        data = r.json()
-        if not data:
-            return issues
-        issues += [i for i in data if "pull_request" not in i]
-        page += 1
+def pages(session, url, **params):
+    while url:
+        response = github(session, "GET", url, params=params)
+        yield from response.json()
+        url, params = response.links.get("next", {}).get("url"), {}
 
 
-def group_duplicates(issues):
-    groups = []
-    for issue in issues:
-        for group in groups:
-            if is_same_issue(group[0], issue):
-                group.append(issue)
-                break
-        else:
-            groups.append([issue])
-    return groups
+def is_bot_issue(issue):
+    return "pull_request" not in issue and (issue.get("user") or {}).get("login", "").casefold() == BOT
+
+
+def close_duplicate(session, original, duplicate, expected):
+    url = f"{API}/issues/{duplicate}"
+    current = github(session, "GET", url).json()
+    if not is_bot_issue(current) or current["state"] != "open" or signature(current) != expected:
+        print(f"Skipped #{duplicate}: issue changed")
+        return
+
+    comments_url, marker = f"{url}/comments", f"<!-- ultimatemenu-duplicate:{original} -->"
+    linked = any(
+        (comment.get("body") or "").rstrip().endswith(marker)
+        for comment in pages(session, comments_url, per_page=100)
+    )
+    if not linked:
+        body = f"Duplicate crash report. Tracking this in #{original}.\n\n{marker}"
+        github(session, "POST", comments_url, json={"body": body})
+    github(session, "PATCH", url, json={"state": "closed", "state_reason": "not_planned"})
 
 
 def main():
-    for items in group_duplicates(list_open_issues()):
-        if len(items) < 2:
-            continue
+    if not BOT.endswith("[bot]"):
+        raise SystemExit("Set REPORTER_LOGIN to the exact GitHub App bot login.")
 
-        items.sort(key=lambda i: i["created_at"])
-        keeper, duplicates = items[0], items[1:]
-        new_title = f"{base_title(keeper['title'])} x{sum(count_of(i['title']) for i in items)}"
+    groups, candidates = defaultdict(list), defaultdict(list)
+    with requests.Session() as session:
+        session.headers.update({
+            "Authorization": f"Bearer {os.environ['GITHUB_TOKEN']}",
+            "Accept": "application/vnd.github+json",
+        })
 
-        requests.patch(f"{API}/issues/{keeper['number']}", headers=HEADERS, json={"title": new_title}).raise_for_status()
+        for issue in pages(session, f"{API}/issues", state="open", per_page=100):
+            if not is_bot_issue(issue):
+                continue
+            key = signature(issue)
+            if key:
+                groups[key].append(issue["number"])
+            else:
+                print(f"Review #{issue['number']}: no usable crash signature")
 
-        for dup in duplicates:
-            requests.post(f"{API}/issues/{dup['number']}/comments", headers=HEADERS, json={"body": f"Regroupé dans #{keeper['number']}."}).raise_for_status()
-            requests.patch(f"{API}/issues/{dup['number']}", headers=HEADERS, json={"state": "closed", "state_reason": "not_planned"}).raise_for_status()
+        print("Mode:", "apply" if APPLY else "preview")
+        for key, numbers in groups.items():
+            original, *duplicates = sorted(numbers)
+            error, frames = key
+            candidates[error, frames[0]].append((original, frames))
+            for duplicate in duplicates:
+                print(f"Duplicate #{duplicate} → #{original}")
+                if APPLY:
+                    close_duplicate(session, original, duplicate, key)
 
-        print(f"#{keeper['number']} -> {new_title} ({len(duplicates)} fermées)")
+        for bucket in candidates.values():
+            for index, (number, frames) in enumerate(bucket):
+                for other, other_frames in bucket[index + 1:]:
+                    if 2 * min(len(frames), len(other_frames)) < SIMILARITY * (len(frames) + len(other_frames)):
+                        continue
+                    score = SequenceMatcher(None, frames, other_frames, autojunk=False).ratio()
+                    if score >= SIMILARITY:
+                        print(f"Review #{number} and #{other}: {score:.0%} stack similarity")
 
 
 if __name__ == "__main__":
