@@ -32,7 +32,7 @@ jobs:
       - parallel:
           - name: IssueOptimizer
             if: ${{ github.event_name == 'schedule' || inputs.issue_optimizer }}
-            run: python .github/workflows/scripts/clean_issues.py
+            run: python .github/scripts/clean_issues.py
             env:
               GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               REPO: ${{ github.repository }}
@@ -44,8 +44,8 @@ jobs:
             env:
               NEXUS_API_KEY: ${{ secrets.NEXUS_API_KEY }}
             run: |
-              python .github/workflows/scripts/downloads.py
-              git add .github/workflows/scripts/downloads.json
+              python .github/scripts/downloads.py
+              git add .github/scripts/downloads.json
               if git diff --cached --quiet; then exit 0; fi
               git -c user.name="github-actions[bot]" \
                   -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
