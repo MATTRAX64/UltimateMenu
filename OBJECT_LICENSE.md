@@ -1,13 +1,21 @@
-# 3D Object License and Credits
+# GorillaSpawners 3D Objects — License, Credits, and Safety
 
-This notice applies to the [GorillaSpawners_3D_Objects](https://github.com/MATTRAX64/UltimateMenu/tree/main/GorillaSpawners_3D_Objects) folder. It credits the UltimateMenu community for creating and preparing these objects and explains how rights holders can request removal.
+This notice covers the community assets in the [GorillaSpawners_3D_Objects folder](https://github.com/MATTRAX64/UltimateMenu/tree/main/GorillaSpawners_3D_Objects). Thanks to the UltimateMenu community members who created, adapted, or prepared these objects.
 
-Any material from other games remains subject to the rights of its respective owners. This notice grants no permission to reuse or redistribute that material.
+## Permissions and third-party assets
 
-Rights holders can request removal of specific material within an object, such as a texture or model, an entire object and all its contents, or multiple objects. To request removal or a credit correction, [contact MATTRAX](https://mattraxer64xp.page.gd) with links to the affected files and identify what you want removed or corrected. Requests are reviewed individually.
+Check the license and credits provided with each object before reusing or redistributing it. If an object has no clear reuse terms, ask its creator or rights holder for permission.
 
-## Security Warning
+Models, textures, logos, and other material from third parties remain subject to their respective rights and licenses. This notice grants no permission to reuse or redistribute third-party material.
 
-Unity AssetBundles (`.bundle` files) may reference scripts or components already available in the game or its installed mods. Those scripts may run when an object is loaded, activated, or used.
+## Removal and credit corrections
 
-Only import bundles from sources you trust. If someone sends you a bundle and you are unsure where it came from or what it contains, do not load it into the game.
+Rights holders and their authorized representatives can request the removal of a specific asset within a bundle, an entire bundle, or multiple bundles. They can also request a credit correction.
+
+Please include links to the affected files, identify the material in question, and tell us what you’d like removed or corrected. Requests are reviewed individually. [Contact MATTRAX](https://mattraxer64xp.page.gd)
+
+## Importing bundles safely
+
+Unity AssetBundles (`.bundle` files) can reference scripts and components already available in the game or its installed mods. Loading, activating, or interacting with an object may trigger those components.
+
+Only import bundles from sources you trust. If you’re unsure who provided a bundle or what it contains, leave it out of your game.
