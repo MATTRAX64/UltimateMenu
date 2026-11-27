@@ -1,27 +1,23 @@
-name: Downloads Updater
+name: Issues Cleaner
 on:
   workflow_dispatch:
   schedule:
     - cron: "0 0 * * *"
 permissions:
-  contents: write
-concurrency: downloads-updater
+  contents: read
+  issues: write
+concurrency: issues-cleaner
 jobs:
-  update-downloads:
+  clean:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-python@v6
         with: {python-version: "3.12"}
       - run: python -m pip install --disable-pip-version-check requests
-      - run: python scripts/downloads.py
+      - run: python scripts/clean_issues.py
         env:
-          NEXUS_API_KEY: ${{ secrets.NEXUS_API_KEY }}
-      - name: Publish download statistics
-        run: |
-          git add scripts/downloads.json
-          if git diff --cached --quiet; then exit 0; fi
-          git -c user.name='github-actions[bot]' \
-              -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
-              commit -m "Update download statistics"
-          git push
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          REPORTER_LOGIN: ${{ vars.REPORTER_LOGIN }}
+          APPLY: ${{ vars.ISSUE_CLEANER_APPLY }}
