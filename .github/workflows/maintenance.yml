@@ -36,7 +36,7 @@ jobs:
             env:
               GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               REPO: ${{ github.repository }}
-              REPORTER_LOGIN: ${{ vars.REPORTER_LOGIN }}
+              REPORTER_LOGIN: "ultimatemenu-crash-reporter[bot]"
               APPLY: ${{ vars.ISSUE_CLEANER_APPLY }}
 
           - name: DownloadCount
